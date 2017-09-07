@@ -20,7 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.boot.version>1.4.7.RELEASE</spring.boot.version>
         <java.version>1.8</java.version>
-        <nexus.url>47.94.207.193</nexus.url>
+        <nexus.url>47.94.207.192</nexus.url>
         <nexus.port>8081</nexus.port>
     </properties>
 
