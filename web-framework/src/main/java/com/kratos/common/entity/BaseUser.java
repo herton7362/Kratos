@@ -11,6 +11,7 @@ import javax.persistence.MappedSuperclass;
 public abstract class BaseUser extends BaseEntity {
     private String loginName;
     private String password;
+    private String mobile;
     private String userType;
 
     public String getLoginName() {
@@ -27,6 +28,14 @@ public abstract class BaseUser extends BaseEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getUserType() {
