@@ -8,12 +8,15 @@ public enum NotificationMessageType {
     VOICE_VERIFY_CODE(VoiceVerifyCodeConfigurer.class),
     SMS_BROADCAST(SmsBroadcastConfigurer.class),
     MOBILE_APP_BROADCAST(MobileAppBroadcastConfigurer.class);
+
     private Class<? extends NotificationConfigurer> configurerClass;
-    <C extends NotificationProviderConfigurer> NotificationMessageType(Class<C> clazz) {
+
+    <C extends NotificationTypeConfigurer> NotificationMessageType(Class<C> clazz) {
         this.configurerClass = clazz;
     }
 
-    public Class<? extends NotificationConfigurer> getConfigurerClass() {
-        return configurerClass;
+    @SuppressWarnings("unchecked")
+    public <C extends NotificationConfigurer> Class<C> getConfigurerClass() {
+        return (Class<C>) configurerClass;
     }
 }

@@ -1,20 +1,20 @@
 package com.kratos.kits.notification.config.annotation;
 
-public abstract class NotificationConfigurerAdapter implements NotificationConfigurer {
-    private NotificationBuilder notificationBuilder;
+public abstract class NotificationConfigurerAdapter<B extends NotificationBuilder> implements NotificationConfigurer {
+    private B notificationBuilder;
 
-    public void setBuilder(NotificationBuilder builder) {
+    void setBuilder(B builder) {
         this.notificationBuilder = builder;
     }
 
-    public NotificationBuilder getBuilder() {
+    private B getBuilder() {
         if (notificationBuilder == null) {
             throw new IllegalStateException("notificationBuilder cannot be null");
         }
         return notificationBuilder;
     }
 
-    public NotificationBuilder and() {
+    public B and() {
         return getBuilder();
     }
 }

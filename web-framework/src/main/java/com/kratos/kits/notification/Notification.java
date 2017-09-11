@@ -1,11 +1,12 @@
 package com.kratos.kits.notification;
 
+import com.kratos.kits.notification.config.annotation.NotificationBuilder;
 import com.kratos.kits.notification.config.annotation.builder.NotificationProviders;
+import com.kratos.kits.notification.config.annotation.builder.NotificationTypes;
 import com.kratos.kits.notification.config.annotation.configuration.NotificationKitConfigurer;
-import com.kratos.kits.notification.config.annotation.configurer.NotificationProviderConfigurer;
+import com.kratos.kits.notification.config.annotation.configurer.NotificationTypeConfigurer;
 import com.kratos.kits.notification.config.annotation.configurer.SendConfigurer;
 import com.kratos.kits.notification.message.NotificationMessage;
-import com.kratos.kits.notification.message.NotificationMessageType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 public final class Notification {
     private final NotificationKitConfigurer notificationConfigurer;
     private final NotificationProviders providerConfigurer = new NotificationProviders();
+    private final NotificationTypes notificationTypes = new NotificationTypes(providerConfigurer);
     private final SendConfigurer sendConfigurer = new SendConfigurer();
     /**
      * 发送短信验证码
@@ -23,14 +25,13 @@ public final class Notification {
      * @return 是否发送成功 true 成功/false不成功
      * @throws Exception 处理过程中异常
      */
-    public boolean send(NotificationMessage message) throws Exception {
-        // TODO 改为从@Configuration中获取，而非实例化NotificationConfigurerAdaptor
-        NotificationProvider provider = getProvider(message.getMessageType());
+    public <T extends NotificationMessage> boolean send(T message) throws Exception {
+        NotificationProvider<T> provider = getProvider(message);
         return !doFilter(message) || provider.send(message);
     }
 
-    private NotificationProvider getProvider(NotificationMessageType messageType) throws Exception {
-        NotificationProviderConfigurer configurer = (NotificationProviderConfigurer) providerConfigurer.getConfigurer(messageType.getConfigurerClass());
+    private <T extends NotificationMessage> NotificationProvider<T> getProvider(T message) throws Exception {
+        NotificationTypeConfigurer<NotificationBuilder, T> configurer = notificationTypes.getConfigurer(message.getMessageType().getConfigurerClass());
         return configurer.getProvider();
     }
 
@@ -40,6 +41,7 @@ public final class Notification {
 
     private void configure() throws Exception {
         notificationConfigurer.configure(providerConfigurer);
+        notificationConfigurer.configure(notificationTypes);
         notificationConfigurer.configure(sendConfigurer);
     }
 

@@ -1,5 +1,5 @@
 package com.kratos.kits.notification.config.annotation;
 
-interface NotificationBuilder {
+public interface NotificationBuilder<B extends NotificationBuilder> {
 
 }

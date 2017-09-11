@@ -1,6 +1,7 @@
 package com.kratos.kits.notification.config.annotation.configuration;
 
 import com.kratos.kits.notification.config.annotation.builder.NotificationProviders;
+import com.kratos.kits.notification.config.annotation.builder.NotificationTypes;
 import com.kratos.kits.notification.config.annotation.configurer.SendConfigurer;
 import com.kratos.kits.notification.config.annotation.filter.SendFilter;
 
@@ -16,6 +17,13 @@ public interface NotificationKitConfigurer {
      * @throws Exception 异常
      */
     void configure(NotificationProviders notificationProvider) throws Exception;
+
+    /**
+     * 消息类型配置
+     * @param notificationTypes 消息类型配置类
+     * @throws Exception 异常
+     */
+    void configure(NotificationTypes notificationTypes) throws Exception;
 
     /**
      * 有关发送方面的配置
