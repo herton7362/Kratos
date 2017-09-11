@@ -2,6 +2,12 @@ package com.kratos.kits.notification.config.annotation.configurer;
 
 import com.kratos.kits.notification.config.annotation.NotificationBuilder;
 
+/**
+ * 阿里大鱼短信平台配置
+ * @author tang he
+ * @since 1.0.0
+ * @param <B>
+ */
 public class AlidayuProviderConfigurer<B extends NotificationBuilder> extends NotificationProviderConfigurer<B> {
     private String smsType;
     private String smsFreeSignName;

@@ -4,6 +4,11 @@ import com.kratos.kits.notification.NotificationProvider;
 import com.kratos.kits.notification.config.annotation.configurer.AlidayuProviderConfigurer;
 import com.kratos.kits.notification.message.SmsVerifyCodeMessage;
 
+/**
+ *
+ * @author tang he
+ * @param <B>
+ */
 public class SmsVerifyCodeAlidayuProvider<B extends SmsVerifyCodeMessage> implements NotificationProvider<B> {
     private AlidayuProviderConfigurer configurer;
     public SmsVerifyCodeAlidayuProvider(AlidayuProviderConfigurer configurer) {

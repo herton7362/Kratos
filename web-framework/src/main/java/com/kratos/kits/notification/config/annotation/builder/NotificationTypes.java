@@ -10,6 +10,40 @@ import com.kratos.kits.notification.message.SmsBroadcastMessage;
 import com.kratos.kits.notification.message.SmsVerifyCodeMessage;
 import com.kratos.kits.notification.message.VoiceVerifyCodeMessage;
 
+/**
+ * 消息类型构建
+ *
+ *  * <pre>
+ * &#064;Configuration
+ * &#064;EnableWebSecurity
+ * public class NotificationConfig extends NotificationKitConfigurerAdaptor {
+ *
+ * 	&#064;Override
+ * 	public void configure(NotificationProviders notificationProvider) throws Exception {
+ * 		notificationProvider
+ *           .alidayuProvider()
+ *           .setAppId("24495956")
+ *           .setAppSecret("895912d66f8740c478c967b2167019fb")
+ *           .setServerUrl("http://gw.api.taobao.com/router/rest")
+ *           .setSmsFreeSignName("威廉小院")
+ *           .setSmsTemplateCode("SMS_71820364")
+ *           .setSmsType("normal");
+ * 	}
+ *
+ * 	&#064;Override
+ * 	public void configure(NotificationTypes notificationTypes) throws Exception {
+ * 		notificationTypes
+ *           .smsVerifyCode().alidayuProvider()
+ *           .and()
+ *           .smsBroadcast().alidayuProvider()
+ *           .and()
+ *           .voiceVerifyCode().alidayuProvider();
+ * 	}
+ * }
+ * </pre>
+ * @author tang he
+ * @since 1.0.0
+ */
 public class NotificationTypes extends AbstractNotificationBuilder<NotificationTypes> {
     private NotificationProviders providerConfigurer;
     public NotificationTypes(NotificationProviders providerConfigurer) {

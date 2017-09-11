@@ -4,6 +4,11 @@ import com.kratos.kits.notification.NotificationProvider;
 import com.kratos.kits.notification.config.annotation.configurer.AlidayuProviderConfigurer;
 import com.kratos.kits.notification.message.VoiceVerifyCodeMessage;
 
+/**
+ *
+ * @author tang he
+ * @param <B>
+ */
 public class VoiceVerifyCodeAlidayuProvider<B extends VoiceVerifyCodeMessage> implements NotificationProvider<B> {
     private AlidayuProviderConfigurer configurer;
     public VoiceVerifyCodeAlidayuProvider(AlidayuProviderConfigurer configurer) {
