@@ -46,6 +46,7 @@ import com.kratos.kits.notification.message.VoiceVerifyCodeMessage;
  */
 public class NotificationTypes extends AbstractNotificationBuilder<NotificationTypes> {
     private NotificationProviders providerConfigurer;
+    private NotificationTypes() {}
     public NotificationTypes(NotificationProviders providerConfigurer) {
         this.providerConfigurer = providerConfigurer;
     }
