@@ -26,11 +26,12 @@ abstract class ExceptionMessage  {
             message = e.getMessage();
             status = HttpStatus.NOT_ACCEPTABLE.value();
             error = "Business Error";
+        } else {
+            message = "系统内部错误！";
+            status = HttpStatus.INTERNAL_SERVER_ERROR.value();
+            error = "Internal Server Error";
+            LOG.error("Exception throws:", e);
         }
-        message = "系统内部错误！";
-        status = HttpStatus.INTERNAL_SERVER_ERROR.value();
-        error = "Internal Server Error";
-        LOG.error("Exception throws:", e);
         return toMap();
     }
 
