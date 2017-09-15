@@ -18,6 +18,10 @@ public class CacheUtils {
         return cacheUtils;
     }
 
+    public void add(String key, Object value) {
+        hashMap.put(key, value);
+    }
+
     public void add(String key, Object value, Date expireIn) {
         hashMap.put(key, value);
     }

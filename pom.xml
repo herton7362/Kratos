@@ -26,7 +26,6 @@
 
     <modules>
         <module>common-utils</module>
-        <module>common-service</module>
         <module>web-framework</module>
         <module>demo-service</module>
     </modules>

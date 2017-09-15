@@ -11,13 +11,13 @@ import javax.persistence.MappedSuperclass;
  */
 @MappedSuperclass
 public abstract class BaseUser extends BaseEntity {
-    @ApiModelProperty(required = true, value = "登录名称")
+    @ApiModelProperty(value = "登录名称")
     private String loginName;
-    @ApiModelProperty(required = true, value = "密码")
+    @ApiModelProperty(value = "密码")
     private String password;
-    @ApiModelProperty(required = true, value = "手机")
+    @ApiModelProperty(value = "手机")
     private String mobile;
-    @ApiModelProperty(required = true, value = "用户类型", notes="MEMBER,ADMIN")
+    @ApiModelProperty(value = "用户类型", notes="MEMBER,ADMIN")
     private String userType;
 
     public String getLoginName() {
