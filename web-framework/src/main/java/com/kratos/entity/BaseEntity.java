@@ -1,6 +1,5 @@
 package com.kratos.entity;
 
-import com.kratos.common.CrudService;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -9,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
-import java.util.Date;
 
 @MappedSuperclass
 public abstract class BaseEntity implements Cloneable, Serializable {
@@ -50,7 +48,7 @@ public abstract class BaseEntity implements Cloneable, Serializable {
         this.updatedDate = updatedDate;
     }
 
-    public Boolean isLogicallyDeleted() {
+    public Boolean getLogicallyDeleted() {
         return logicallyDeleted;
     }
 
