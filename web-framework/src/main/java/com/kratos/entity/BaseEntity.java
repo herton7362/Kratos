@@ -1,5 +1,6 @@
 package com.kratos.entity;
 
+import com.kratos.common.CrudService;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -23,7 +24,7 @@ public abstract class BaseEntity implements Cloneable, Serializable {
     @ApiModelProperty(value = "数据修改时间", notes = "自动生成，系统默认字段")
     private Long updatedDate;
     @ApiModelProperty(value = "是否逻辑删除", notes = "自动生成，系统默认字段")
-    private boolean logicallyDeleted = false;
+    private Boolean logicallyDeleted = false;
 
     public String getId() {
         return id;
@@ -49,11 +50,11 @@ public abstract class BaseEntity implements Cloneable, Serializable {
         this.updatedDate = updatedDate;
     }
 
-    public boolean isLogicallyDeleted() {
+    public Boolean isLogicallyDeleted() {
         return logicallyDeleted;
     }
 
-    public void setLogicallyDeleted(boolean logicallyDeleted) {
+    public void setLogicallyDeleted(Boolean logicallyDeleted) {
         this.logicallyDeleted = logicallyDeleted;
     }
 }
