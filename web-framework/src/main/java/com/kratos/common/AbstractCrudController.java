@@ -73,19 +73,9 @@ public abstract class AbstractCrudController<T extends BaseEntity> {
     @ApiOperation(value="逻辑删除")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<T> logicallyDelete(@PathVariable String id) throws Exception {
-        getService().logicallyDelete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    /**
-     * 批量逻辑删除
-     */
-    @ApiOperation(value="批量逻辑删除")
-    @RequestMapping(value = "/batchDelete", method = RequestMethod.DELETE)
-    public ResponseEntity<T> batchDelete(@RequestBody Map<String , List<String>> param) throws Exception {
-        List<String> ids = param.get("ids");
-        for (String id : ids) {
-            getService().logicallyDelete(id);
+        String[] ids = id.split(",");
+        for (String s : ids) {
+            getService().logicallyDelete(s);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
