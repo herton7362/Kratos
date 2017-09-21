@@ -143,10 +143,8 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
                     e.printStackTrace();
                 }
             }
-            if(predicate.isEmpty()) {
-                return null;
-            }
-            return criteriaBuilder.or(predicate.toArray(new Predicate[]{}));
+            predicate.add(criteriaBuilder.equal(root.get("logicallyDeleted"), false));
+            return criteriaBuilder.and(predicate.toArray(new Predicate[]{}));
         }
 
         private Boolean containsKey(Map<String, String[]> param, String key) {

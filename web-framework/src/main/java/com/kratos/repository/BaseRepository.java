@@ -12,5 +12,5 @@ import org.springframework.data.repository.Repository;
  */
 @NoRepositoryBean
 interface BaseRepository<T extends BaseEntity> extends Repository<T, String> {
-    <S extends T> S save(S s);
+    T save(T s);
 }

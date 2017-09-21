@@ -3,10 +3,7 @@ package com.kratos.entity;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @MappedSuperclass
@@ -23,6 +20,8 @@ public abstract class BaseEntity implements Cloneable, Serializable {
     private Long updatedDate;
     @ApiModelProperty(value = "是否逻辑删除", notes = "自动生成，系统默认字段")
     private Boolean logicallyDeleted = false;
+    @ApiModelProperty(value = "排序号", notes = "自动生成，系统默认字段")
+    private Integer orderNumber;
 
     public String getId() {
         return id;
@@ -54,5 +53,13 @@ public abstract class BaseEntity implements Cloneable, Serializable {
 
     public void setLogicallyDeleted(Boolean logicallyDeleted) {
         this.logicallyDeleted = logicallyDeleted;
+    }
+
+    public Integer getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(Integer orderNumber) {
+        this.orderNumber = orderNumber;
     }
 }

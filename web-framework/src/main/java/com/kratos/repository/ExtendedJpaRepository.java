@@ -19,12 +19,11 @@ public class ExtendedJpaRepository<T extends BaseEntity> extends SimpleJpaReposi
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public BaseEntity save(BaseEntity entity) {
+    public T save(T entity) {
         if (entity.getId() == null) {
             entity.setCreatedDate(new Date().getTime());
         }
         entity.setUpdatedDate(new Date().getTime());
-        return super.save((T) entity);
+        return super.save(entity);
     }
 }
