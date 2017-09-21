@@ -24,7 +24,7 @@ public abstract class AbstractCrudController<T extends BaseEntity> {
      * 获取实体的service
      * @return {@link CrudService} 实现类
      */
-    protected abstract CrudService<T> getService();
+    abstract CrudService<T> getService();
 
     /**
      * 查询

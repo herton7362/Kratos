@@ -1,10 +1,8 @@
 package com.kratos.common;
 
-import com.kratos.common.utils.ReflectionUtils;
 import com.kratos.common.utils.SpringUtils;
 import com.kratos.common.utils.StringUtils;
 import com.kratos.entity.BaseEntity;
-import org.hibernate.jpa.criteria.CriteriaQueryImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,7 +15,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Attribute;
-import java.lang.reflect.Field;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -36,7 +33,7 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
      * 获取实体Repository
      * @return {@link PageRepository} 实现类
      */
-    protected abstract PageRepository<T> getRepository();
+    abstract PageRepository<T> getRepository();
 
     @Override
     public Page<T> findAll(PageRequest pageRequest, Map<String, String[]> param) {
