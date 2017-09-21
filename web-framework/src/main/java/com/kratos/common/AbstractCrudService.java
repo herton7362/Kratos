@@ -33,7 +33,7 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
      * 获取实体Repository
      * @return {@link PageRepository} 实现类
      */
-    abstract PageRepository<T> getRepository();
+    protected abstract PageRepository<T> getRepository();
 
     @Override
     public Page<T> findAll(PageRequest pageRequest, Map<String, String[]> param) {
