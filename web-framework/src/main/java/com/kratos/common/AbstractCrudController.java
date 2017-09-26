@@ -1,5 +1,7 @@
 package com.kratos.common;
 
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.kratos.entity.BaseEntity;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -7,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,10 +44,16 @@ public abstract class AbstractCrudController<T extends BaseEntity> {
         Map<String, String[]> param = request.getParameterMap();
         if(pageParam.isPageAble()) {
             Page<T> page = getService().findAll(pageParam.getPageRequest(), param);
-            return new ResponseEntity<>(page, HttpStatus.OK);
+            MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(page);
+            mappingJacksonValue.setFilters(new SimpleFilterProvider().addFilter(CustomerJsonFilter.CUSTOMER_FILTER,
+                    SimpleBeanPropertyFilter.serializeAllExcept("parent")));
+            return new ResponseEntity<>(mappingJacksonValue, HttpStatus.OK);
         }
         List<T> list = getService().findAll(param);
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(list);
+        mappingJacksonValue.setFilters(new SimpleFilterProvider().addFilter(CustomerJsonFilter.CUSTOMER_FILTER,
+                SimpleBeanPropertyFilter.serializeAllExcept("parent")));
+        return new ResponseEntity<>(mappingJacksonValue, HttpStatus.OK);
     }
 
     /**
@@ -52,9 +61,12 @@ public abstract class AbstractCrudController<T extends BaseEntity> {
      */
     @ApiOperation(value="查询一个")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<T> getOne(@PathVariable String id) throws Exception {
+    public ResponseEntity<MappingJacksonValue> getOne(@PathVariable String id) throws Exception {
         T t = getService().findOne(id);
-        return new ResponseEntity<>(t, HttpStatus.OK);
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(t);
+        mappingJacksonValue.setFilters(new SimpleFilterProvider().addFilter(CustomerJsonFilter.CUSTOMER_FILTER,
+                SimpleBeanPropertyFilter.serializeAllExcept("children")));
+        return new ResponseEntity<>(mappingJacksonValue, HttpStatus.OK);
     }
 
     /**
