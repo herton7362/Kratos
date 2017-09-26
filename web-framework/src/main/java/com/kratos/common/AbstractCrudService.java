@@ -3,6 +3,7 @@ package com.kratos.common;
 import com.kratos.common.utils.SpringUtils;
 import com.kratos.common.utils.StringUtils;
 import com.kratos.entity.BaseEntity;
+import com.kratos.entity.TreeEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -123,28 +124,40 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
                             throw new RuntimeException(e);
                         }
                     }
-                } else try {
-                    Object entity = attribute.getJavaType().newInstance();
-                    if(entity instanceof BaseEntity) {
-                        if(StringUtils.isBlank(values[0])) {
-                            predicate.add(criteriaBuilder.isNull(root.get(key)));
-                        }
-                        String field = this.currentKey.split("\\.")[1];
-                        EntityManager entityManager = SpringUtils.getBean(EntityManager.class);
-                        Query query = entityManager.createQuery("from "+
-                                attribute.getJavaType().getSimpleName()+" where "+field+"=:" + field);
-                        query.setParameter(field, values[0]);
-                        List list = query.getResultList();
-                        if(!list.isEmpty()) {
-                            predicate.add(criteriaBuilder.equal(root.get(key), list));
-                        }
+                } else if(isBaseEntity(attribute.getJavaType())) {
+                    if(StringUtils.isBlank(values[0])) {
+                        predicate.add(criteriaBuilder.isNull(root.get(key)));
                     }
-                } catch (InstantiationException | IllegalAccessException e) {
-                    e.printStackTrace();
+                    String field = this.currentKey.split("\\.")[1];
+                    EntityManager entityManager = SpringUtils.getBean(EntityManager.class);
+                    Query query = entityManager.createQuery("from "+
+                            getEntityName(attribute.getJavaType(), root)+" where "+field+"=:" + field);
+                    query.setParameter(field, values[0]);
+                    List list = query.getResultList();
+                    if(!list.isEmpty()) {
+                        predicate.add(criteriaBuilder.equal(root.get(key), list));
+                    }
                 }
             }
             predicate.add(criteriaBuilder.equal(root.get("logicallyDeleted"), false));
             return criteriaBuilder.and(predicate.toArray(new Predicate[]{}));
+        }
+
+        private Boolean isBaseEntity(Class<?> clazz) {
+            if(clazz == Object.class) {
+                return false;
+            }
+            if(clazz == BaseEntity.class) {
+                return true;
+            }
+            return isBaseEntity(clazz.getSuperclass());
+        }
+
+        private String getEntityName(Class<?> clazz, Root<T> root) {
+            if(clazz == TreeEntity.class) {
+                return root.getJavaType().getSimpleName();
+            }
+            return clazz.getSimpleName();
         }
 
         private Boolean containsKey(Map<String, String[]> param, String key) {
