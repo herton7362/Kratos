@@ -52,7 +52,7 @@ public abstract class AbstractCrudController<T extends BaseEntity> {
      */
     @ApiOperation(value="查询一个")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getOne(@PathVariable String id) throws Exception {
+    public ResponseEntity<T> getOne(@PathVariable String id) throws Exception {
         return new ResponseEntity<>(getService().findOne(id), HttpStatus.OK);
     }
 
