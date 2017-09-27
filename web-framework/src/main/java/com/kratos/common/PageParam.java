@@ -14,7 +14,7 @@ public class PageParam {
     @ApiModelProperty(value = "当前页")
     private Integer currentPage;
     @ApiModelProperty(value = "每页页数")
-    private Integer pageSize = 15;
+    private Integer pageSize = Integer.MAX_VALUE;
     @ApiModelProperty(value = "排序方向")
     private String order;
     @ApiModelProperty(value = "排序属性")
@@ -49,7 +49,7 @@ public class PageParam {
     }
 
     boolean isPageAble() {
-        return currentPage != null && currentPage > 0;
+        return (currentPage != null && currentPage > 0) || isSortAble();
     }
 
     private boolean isSortAble() {
@@ -58,6 +58,9 @@ public class PageParam {
 
     PageRequest getPageRequest() {
         if(isSortAble()) {
+            if(currentPage == null) {
+                currentPage = 1;
+            }
             return new PageRequest(currentPage - 1, pageSize, getPageSort());
         }
         return new PageRequest(currentPage - 1, pageSize);

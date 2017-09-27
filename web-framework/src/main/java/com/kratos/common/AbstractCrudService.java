@@ -3,7 +3,6 @@ package com.kratos.common;
 import com.kratos.common.utils.SpringUtils;
 import com.kratos.common.utils.StringUtils;
 import com.kratos.entity.BaseEntity;
-import com.kratos.entity.TreeEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -124,14 +123,14 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
                             throw new RuntimeException(e);
                         }
                     }
-                } else if(isBaseEntity(attribute.getJavaType())) {
+                } else if(BaseEntity.class.isAssignableFrom(attribute.getJavaType())) {
                     if(StringUtils.isBlank(values[0])) {
                         predicate.add(criteriaBuilder.isNull(root.get(key)));
                     }
                     String field = this.currentKey.split("\\.")[1];
                     EntityManager entityManager = SpringUtils.getBean(EntityManager.class);
                     Query query = entityManager.createQuery("from "+
-                            getEntityName(attribute.getJavaType(), root)+" where "+field+"=:" + field);
+                            getEntityName(attribute.getJavaType(), root, key)+" where "+field+"=:" + field);
                     query.setParameter(field, values[0]);
                     List list = query.getResultList();
                     if(!list.isEmpty()) {
@@ -143,18 +142,8 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
             return criteriaBuilder.and(predicate.toArray(new Predicate[]{}));
         }
 
-        private Boolean isBaseEntity(Class<?> clazz) {
-            if(clazz == Object.class) {
-                return false;
-            }
-            if(clazz == BaseEntity.class) {
-                return true;
-            }
-            return isBaseEntity(clazz.getSuperclass());
-        }
-
-        private String getEntityName(Class<?> clazz, Root<T> root) {
-            if(clazz == TreeEntity.class) {
+        private String getEntityName(Class<?> clazz, Root<T> root, String key) {
+            if("parent".equals(key)) {
                 return root.getJavaType().getSimpleName();
             }
             return clazz.getSimpleName();
