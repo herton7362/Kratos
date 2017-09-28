@@ -56,7 +56,7 @@ public class PageParam {
         return StringUtils.isNotBlank(sort);
     }
 
-    PageRequest getPageRequest() {
+    public PageRequest getPageRequest() {
         if(isSortAble()) {
             if(currentPage == null) {
                 currentPage = 1;
