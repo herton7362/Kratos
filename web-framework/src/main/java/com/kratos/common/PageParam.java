@@ -48,7 +48,7 @@ public class PageParam {
         this.sort = sort;
     }
 
-    boolean isPageAble() {
+    public boolean isPageAble() {
         return (currentPage != null && currentPage > 0) || isSortAble();
     }
 
