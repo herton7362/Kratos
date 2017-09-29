@@ -1,5 +1,6 @@
 package com.kratos.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.MappedSuperclass;
@@ -14,6 +15,7 @@ public abstract class BaseUser extends BaseEntity {
     @ApiModelProperty(value = "登录名称")
     private String loginName;
     @ApiModelProperty(value = "密码")
+    @JsonIgnore
     private String password;
     @ApiModelProperty(value = "手机")
     private String mobile;
