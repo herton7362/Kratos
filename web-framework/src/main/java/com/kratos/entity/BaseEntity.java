@@ -24,7 +24,7 @@ public abstract class BaseEntity implements Cloneable, Serializable {
     @ApiModelProperty(value = "是否逻辑删除", notes = "自动生成，系统默认字段")
     private Boolean logicallyDeleted = false;
     @ApiModelProperty(value = "排序号", notes = "自动生成，系统默认字段")
-    private Integer orderNumber;
+    private Integer sortNumber;
 
     public String getId() {
         return id;
@@ -58,11 +58,11 @@ public abstract class BaseEntity implements Cloneable, Serializable {
         this.logicallyDeleted = logicallyDeleted;
     }
 
-    public Integer getOrderNumber() {
-        return orderNumber;
+    public Integer getSortNumber() {
+        return sortNumber;
     }
 
-    public void setOrderNumber(Integer orderNumber) {
-        this.orderNumber = orderNumber;
+    public void setSortNumber(Integer sortNumber) {
+        this.sortNumber = sortNumber;
     }
 }
