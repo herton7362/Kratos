@@ -26,6 +26,7 @@ public class ExtendedJpaRepository<T extends BaseEntity> extends SimpleJpaReposi
         if (entity.getId() == null) {
             entity.setCreatedDate(new Date().getTime());
         }
+        entity.setSortNumber(entity.getSortNumber() == null?0: entity.getSortNumber());
         if(entity.getLogicallyDeleted() == null) {
             entity.setLogicallyDeleted(false);
         }
