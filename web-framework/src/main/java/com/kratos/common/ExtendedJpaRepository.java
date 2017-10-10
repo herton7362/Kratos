@@ -3,8 +3,8 @@ package com.kratos.common;
 import com.kratos.entity.BaseEntity;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import javax.persistence.EntityManager;
 import java.util.Date;
@@ -23,6 +23,7 @@ public class ExtendedJpaRepository<T extends BaseEntity> extends SimpleJpaReposi
     @Override
     @Transactional
     public <S extends T> S save(S entity) {
+        Assert.notNull(entity, "entity need be initialized");
         if (entity.getId() == null) {
             entity.setCreatedDate(new Date().getTime());
         }
