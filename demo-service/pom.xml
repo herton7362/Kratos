@@ -55,7 +55,7 @@
                                     <type>jar</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-                                    <includes>**/*.html,**/*.js</includes>
+                                    <includes>**/*.html,**/static/js/modules/**/*.js</includes>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
