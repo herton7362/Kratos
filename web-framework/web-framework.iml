@@ -54,9 +54,10 @@
     <orderEntry type="library" name="Maven: net.spy:spymemcached:2.11.3" level="project" />
     <orderEntry type="library" name="Maven: com.whalin:Memcached-Java-Client:3.0.2" level="project" />
     <orderEntry type="library" name="Maven: commons-pool:commons-pool:1.6" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-core:8.5.16" level="project" />
+    <orderEntry type="library" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:1.5.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-tomcat:1.5.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-core:8.5.16" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-el:8.5.16" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-websocket:8.5.16" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-validator:5.3.5.Final" level="project" />
@@ -100,7 +101,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.alibaba:jconsole:1.8.0">
         <CLASSES>
-          <root url="jar://G:/tools/Java/jdk1.8.0_05/lib/jconsole.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../tools/Java/jdk1.8.0_05/lib/jconsole.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -109,7 +110,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.alibaba:tools:1.8.0">
         <CLASSES>
-          <root url="jar://G:/tools/Java/jdk1.8.0_05/lib/tools.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../tools/Java/jdk1.8.0_05/lib/tools.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

@@ -1,5 +1,5 @@
 <footer xmlns:th="http://www.thymeleaf.org">
-<script th:src="@{/static/js/require.js}" data-main="main"></script>
+<script th:src="@{/webjars/require.js}" data-main="main"></script>
 <script>
     window._appConf = {
         ctx: '',
@@ -8,7 +8,7 @@
         appSecret: 'secret'
     };
     requirejs.config({
-        baseUrl: _appConf.ctx + '/webjars',
+        baseUrl: _appConf.ctx + '/webjars/plugins/',
         paths: {
             'base-jquery': 'jquery/js/jquery-2.1.4.min',
             'jquery': 'jquery/jquery',
@@ -38,7 +38,6 @@
             'base-select2': 'select2/js/select2.full',
             'combobox': 'combobox/combobox',
             'combooption': 'combobox/combooption',
-            'consume': '../static/js/modules/member/consume/consume',
             'jstree': 'jstree/jstree',
             'tree': 'tree/tree'
         },
@@ -46,23 +45,23 @@
             'vuedraggable':['sortablejs', 'base-vue'],
             'jquery': ['base-jquery'],
             'vue': ['base-vue'],
-            'messager': ['jquery', 'vue', 'css!../webjars/messager/css/messager.css'],
+            'messager': ['jquery', 'vue', 'css!../plugins/messager/css/messager.css'],
             'bootstrap': ['jquery'],
             'base-datepicker': ['bootstrap'],
-            'datepicker-cn': ['base-datepicker', 'css!../webjars/datepicker/css/bootstrap-datepicker.css'],
+            'datepicker-cn': ['base-datepicker', 'css!../plugins/datepicker/css/bootstrap-datepicker.css'],
             'base-adminlte': ['bootstrap'],
             'adminlte': [
                 'base-adminlte',
-                'css!../webjars/AdminLTE/css/Ionicons/css/ionicons.min.css',
-                'css!../webjars/AdminLTE/css/font-awesome/css/font-awesome.min.css',
-                'css!../webjars/AdminLTE/css/datatables.net-bs/dataTables.bootstrap.min.css'
+                'css!../plugins/AdminLTE/css/Ionicons/css/ionicons.min.css',
+                'css!../plugins/AdminLTE/css/font-awesome/css/font-awesome.min.css',
+                'css!../plugins/AdminLTE/css/datatables.net-bs/dataTables.bootstrap.min.css'
             ],
-            'sidebar': ['css!../webjars/sidebar/css/sidebar.css'],
-            'pagination': ['css!../webjars/pagination/css/pagination.css'],
-            'icheck': ['bootstrap', 'css!../webjars/iCheck/all.css'],
+            'sidebar': ['css!../plugins/sidebar/css/sidebar.css'],
+            'pagination': ['css!../plugins/pagination/css/pagination.css'],
+            'icheck': ['bootstrap', 'css!../plugins/iCheck/all.css'],
             'base-select2': ['bootstrap'],
-            'modal': ['css!../webjars/modal/css/modal.css'],
-            'jstree': ['css!../webjars/jstree/themes/default/style.min.css']
+            'modal': ['css!../plugins/modal/css/modal.css'],
+            'jstree': ['css!../plugins/jstree/themes/default/style.min.css']
         },
         map: {
             '*': {

@@ -1,0 +1,73 @@
+.pagination>.active>a,
+.pagination>.active>a:focus,
+.pagination>.active>a:hover,
+.pagination>.active>span,
+.pagination>.active>span:focus,
+.pagination>.active>span:hover {
+    background-color: #f39c12;
+    border-color: #f39c12;
+}
+
+[v-cloak] {
+    display: none;
+}
+
+.padding-lr-15 {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.sidebar-menu .treeview-menu > li > a {
+    padding: 10px 5px 10px 15px;
+}
+
+.login-footer {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    margin-left: -60px;
+    text-align: center;
+    line-height: 25px;
+}
+
+.login-footer a {
+    color: #999;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+.login-box-msg.error {
+    color: #ff3b30;
+}
+
+.login-footer p {
+    color: #93cbf9;
+}
+
+body.login-page .login-logo a {
+    color: #fff;
+}
+
+/* ==========================================================================
+   Component: form
+ ============================================================================ */
+@media (max-width: 768px) {
+    .search {
+        margin-top: 20px;
+        width: 100%;
+    }
+}
+
+.form-control-feedback.fa-times-circle-o {
+    z-index: 4;
+    cursor: pointer;
+    pointer-events:all;
+}
+
+.search .form-control-feedback {
+    color: #555;
+    line-height: 30px;
+    height: 30px;
+}
