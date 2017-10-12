@@ -1,0 +1,37 @@
+package com.kratos.demo.module.auth;
+
+import com.kratos.demo.module.member.domain.MemberRepository;
+import com.kratos.entity.BaseUser;
+import com.kratos.module.auth.JdbcUserDetailService;
+import com.kratos.module.auth.domain.AdminRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
+
+import java.util.Collections;
+
+@Component
+public class ExtendedJdbcUserDetailService extends JdbcUserDetailService implements UserDetailsService {
+    private final MemberRepository memberRepository;
+
+    @Autowired
+    public ExtendedJdbcUserDetailService(AdminRepository adminRepository, MemberRepository memberRepository) {
+        super(adminRepository);
+        this.memberRepository = memberRepository;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserDetails userDetails = super.loadUserByUsername(username);
+        if(userDetails == null) {
+            BaseUser user = memberRepository.findOneByLoginName(username);
+            return new User(username, user.getPassword(), Collections.singletonList(new SimpleGrantedAuthority(user.getUserType())));
+        } else {
+            return userDetails;
+        }
+    }
+}
