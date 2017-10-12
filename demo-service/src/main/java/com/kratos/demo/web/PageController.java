@@ -23,7 +23,7 @@ public class PageController {
     @RequestMapping(value = "/admin/**",method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request) throws Exception {
         Map<String, Object> map = new HashMap<>();
-        return new ModelAndView(request.getRequestURI(), map);
+        return new ModelAndView(request.getRequestURI().replaceFirst("/", ""), map);
     }
 
     /**
