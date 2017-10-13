@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="admin/common/header_statics :: header('首页')"></head>
 <head>
+    <template th:include="admin/common/header_statics :: header('首页')" th:remove="tag"></template>
     <style>
         .jstree-default .jstree-leaf > .jstree-icon, .jstree-default .jstree-leaf .jstree-themeicon {
             display: none;
