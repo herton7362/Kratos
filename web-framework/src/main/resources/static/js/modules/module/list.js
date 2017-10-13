@@ -48,22 +48,28 @@ require(['jquery', 'vue', 'messager', 'utils'], function($, Vue, messager, utils
             }
         },
         methods: {
+            refresh: function () {
+                this.loadCombobox();
+            },
+            loadCombobox: function () {
+                var self = this;
+                $.ajax({
+                    url: utils.patchUrl('/api/module'),
+                    data: {
+                        sort: 'sortNumber',
+                        order: 'asc'
+                    },
+                    success: function(data) {
+                        self.parent.data = data.content;
+                    }
+                })
+            },
             modalOpen: function(form) {
                 form.type = form.type || 'MENU';
             }
         },
         mounted: function() {
-            var self = this;
-            $.ajax({
-                url: utils.patchUrl('/api/module'),
-                data: {
-                    sort: 'sortNumber',
-                    order: 'asc'
-                },
-                success: function(data) {
-                    self.parent.data = data.content;
-                }
-            })
+            this.loadCombobox();
         }
     });
 });

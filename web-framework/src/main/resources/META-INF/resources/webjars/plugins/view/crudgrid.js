@@ -162,7 +162,7 @@ define(['jquery', 'utils'], function($, utils) {
                             messager.bubble('保存成功！');
                         });
                         self.$emit('save', data);
-                        self.datagrid.$instance.reload();
+                        self.refresh();
                     }
                 })
             },
@@ -181,7 +181,7 @@ define(['jquery', 'utils'], function($, utils) {
                             success: function() {
                                 messager.bubble('删除成功');
                                 self.$emit('remove', ids);
-                                self.datagrid.$instance.reload();
+                                self.refresh();
                             }
                         });
                     });

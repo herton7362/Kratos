@@ -2,7 +2,6 @@ define(['jquery', 'utils', 'base-select2'], function($, utils) {
     return {
         props: {
             value: [String, Number, Array],
-            root: Object,
             multiple: {
                 type: Boolean,
                 default: false
@@ -14,6 +13,18 @@ define(['jquery', 'utils', 'base-select2'], function($, utils) {
             textKey: {
                 type: String,
                 default: 'name'
+            },
+            root: {
+                type: Object,
+                default: function() {
+                    if(!this.multiple) {
+                        var node = {};
+                        node[this.textKey] = "请选择...";
+                        node[this.valueKey] = null;
+                        return node;
+                    }
+                    return null;
+                }
             },
             options: {
                 type: [Array],
@@ -77,6 +88,7 @@ define(['jquery', 'utils', 'base-select2'], function($, utils) {
                     return $.trim(val.text);
                 }
             });
+
             $(this.$el).on('change', function() {
                 if(self.muteEvent) {
                     self.muteEvent = false;
@@ -92,6 +104,7 @@ define(['jquery', 'utils', 'base-select2'], function($, utils) {
                 }
                 self.$emit('input', val);
             });
+
             this.$emit('mounted', this);
         }
     };

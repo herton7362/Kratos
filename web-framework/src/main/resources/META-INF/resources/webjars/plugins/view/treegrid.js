@@ -42,9 +42,7 @@ define(['jquery', 'utils'], function($, utils) {
         '                            :form-data="formData"\n' +
         '                            :query-params="queryParams"\n' +
         '                            :instance="crudgrid"\n' +
-        '                            @refresh="loadSidebar"\n' +
-        '                            @save="loadSidebar"\n' +
-        '                            @remove="loadSidebar"\n' +
+        '                            @refresh="refresh"\n' +
         '                            @open="modalOpen"\n' +
         '                    >\n' +
         '                        <template slot="form-body" scope="props">\n' +
@@ -80,6 +78,11 @@ define(['jquery', 'utils'], function($, utils) {
                     $form.parent = {};
                 }
             },
+            refresh: function() {
+                this.loadSidebar(function(data) {
+                    this.$emit('refresh', data);
+                });
+            },
             loadSidebar: function(callback) {
                 var self = this;
                 $.ajax({
@@ -89,7 +92,7 @@ define(['jquery', 'utils'], function($, utils) {
                         self.sidebar.data = data.content;
 
                         if(callback instanceof Function) {
-                            callback.call(self);
+                            callback.call(self, data.content);
                         }
                     }
                 });
