@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="admin/common/header_statics :: header('登录')"></head>
 <head>
+    <template th:include="admin/common/header_statics :: header('登录')" th:remove="tag"></template>
     <link rel="stylesheet" th:href="@{/static/css/admin.css}"/>
 </head>
 <body class="hold-transition login-page">
