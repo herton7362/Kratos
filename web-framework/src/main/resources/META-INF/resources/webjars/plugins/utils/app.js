@@ -132,7 +132,9 @@ define(['jquery'], function($) {
                 continue;
             }
             parent.children = parent.children || [];
-            parent.children.push(node);
+            if($.inArray(node, parent.children) < 0){
+                parent.children.push(node);
+            }
         }
         return roots;
     };
