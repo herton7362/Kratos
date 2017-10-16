@@ -2,6 +2,7 @@ package com.kratos.module.auth;
 
 import com.kratos.entity.BaseUser;
 import com.kratos.module.auth.domain.AdminRepository;
+import com.kratos.module.auth.service.UserService;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,11 +12,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.Collections;
 
 public abstract class JdbcUserDetailService implements UserDetailsService {
-    private final AdminRepository adminRepository;
+    private final UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        BaseUser user = adminRepository.findOneByLoginName(username);
+        BaseUser user;
+        try {
+            user = userService.findOneByLoginName(username);
+        } catch (Exception e) {
+            throw new UsernameNotFoundException(String.format("username: %s not found", username));
+        }
         if(user == null) {
             return null;
         }
@@ -23,8 +29,8 @@ public abstract class JdbcUserDetailService implements UserDetailsService {
     }
 
     public JdbcUserDetailService(
-            AdminRepository adminRepository
+            UserService userService
     ) {
-        this.adminRepository = adminRepository;
+        this.userService = userService;
     }
 }

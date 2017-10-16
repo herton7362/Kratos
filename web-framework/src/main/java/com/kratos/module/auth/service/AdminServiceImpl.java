@@ -1,6 +1,7 @@
 package com.kratos.module.auth.service;
 
 import com.kratos.common.AbstractCrudService;
+import com.kratos.entity.BaseUser;
 import com.kratos.module.auth.domain.Admin;
 import com.kratos.module.auth.domain.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Transactional
-public class AdminServiceImpl extends AbstractCrudService<Admin> implements AdminService {
+public class AdminServiceImpl extends AbstractCrudService<Admin> implements AdminService, UserService {
     private final AdminRepository adminRepository;
 
     @Autowired
@@ -37,7 +38,13 @@ public class AdminServiceImpl extends AbstractCrudService<Admin> implements Admi
     }
 
     @Override
+    public BaseUser findOneByLoginName(String account) throws Exception {
+        return adminRepository.findOneByLoginName(account);
+    }
+
+    @Override
     protected AdminRepository getRepository() {
         return adminRepository;
     }
+
 }
