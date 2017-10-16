@@ -2,9 +2,9 @@ define(['jquery','icheck', 'utils'], function($) {
     return {
         props: {
             value: null,
-            checked: [Array, Boolean]
+            checked: null
         },
-        template: '<input type="checkbox" :checked="isChecked()">',
+        template: '<input type="radio" :value="innerValue" :checked="isChecked()">',
         data: function() {
             return {
                 innerValue: this.value,
@@ -36,32 +36,7 @@ define(['jquery','icheck', 'utils'], function($) {
                 }
             },
             isChecked: function() {
-                if(this.innerChecked instanceof Array) {
-                    return $.inArray(this.value, this.innerChecked) >= 0;
-                } else if(typeof this.innerChecked === 'boolean') {
-                    return this.innerChecked;
-                }
-            },
-            onArrayCheck: function(event) {
-                if(!this.innerChecked) {
-                    return;
-                }
-                if(event.target.checked) {
-                    if(!this.isChecked()){
-                        this.innerChecked.push(this.value);
-                    }
-                } else if($.inArray(this.value, this.innerChecked) >= 0) {
-                    this.innerChecked.splice($.inArray(this.value, this.innerChecked), 1);
-                }
-            },
-            onSingleCheck: function(event) {
-                if(event.target.checked) {
-                    if(!this.isChecked()){
-                        this.innerChecked = true;
-                    }
-                } else if(this.innerChecked) {
-                    this.innerChecked = false;
-                }
+                return this.innerChecked === this.innerValue;
             }
         },
         model: {
@@ -71,16 +46,17 @@ define(['jquery','icheck', 'utils'], function($) {
         mounted: function () {
             var self = this;
             $(this.$el).iCheck({
-                checkboxClass: 'icheckbox_minimal-blue'
+                radioClass: 'iradio_minimal-blue'
             });
             this.init();
+
             $(this.$el).on('ifChanged', function(event){
-                self.$emit('change', event);
-                if(self.innerChecked instanceof Array) {
-                    self.onArrayCheck(event);
-                } else if(typeof self.innerChecked === 'boolean') {
-                    self.onSingleCheck(event);
+                if(event.target.checked) {
+                    if(!self.isChecked()){
+                        self.innerChecked = self.innerValue;
+                    }
                 }
+                self.$emit('change', event);
                 self.$emit('check', self.innerChecked);
             });
             $(this.$el).on('ifClicked', function(event){

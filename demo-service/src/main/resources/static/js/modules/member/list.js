@@ -3,6 +3,7 @@ require(['jquery', 'vue', 'messager', 'utils'], function($, Vue, messager, utils
         el: '#content',
         data: {
             crudgrid: {
+                $instance: {},
                 queryParams: {
                     name: ''
                 },

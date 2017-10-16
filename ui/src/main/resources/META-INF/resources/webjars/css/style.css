@@ -71,3 +71,10 @@ body.login-page .login-logo a {
     line-height: 30px;
     height: 30px;
 }
+
+/* ==========================================================================
+   Component: checkbox,radio
+ ============================================================================ */
+.checkbox label:first-child, .radio label:first-child {
+    padding-left: 0;
+}
