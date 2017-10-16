@@ -28,6 +28,7 @@
         <module>common-utils</module>
         <module>web-framework</module>
         <module>demo-service</module>
+        <module>ui</module>
     </modules>
 
     <!-- nexus config -->

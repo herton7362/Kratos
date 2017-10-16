@@ -20,8 +20,8 @@ public class ExtendedJdbcUserDetailService extends JdbcUserDetailService impleme
     private final MemberRepository memberRepository;
 
     @Autowired
-    public ExtendedJdbcUserDetailService(UserService adminRepository, MemberRepository memberRepository) {
-        super(adminRepository);
+    public ExtendedJdbcUserDetailService(UserService adminService, MemberRepository memberRepository) {
+        super(adminService);
         this.memberRepository = memberRepository;
     }
 
