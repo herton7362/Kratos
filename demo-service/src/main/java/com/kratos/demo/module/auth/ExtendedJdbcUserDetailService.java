@@ -4,6 +4,7 @@ import com.kratos.demo.module.member.domain.MemberRepository;
 import com.kratos.entity.BaseUser;
 import com.kratos.module.auth.JdbcUserDetailService;
 import com.kratos.module.auth.domain.AdminRepository;
+import com.kratos.module.auth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -19,7 +20,7 @@ public class ExtendedJdbcUserDetailService extends JdbcUserDetailService impleme
     private final MemberRepository memberRepository;
 
     @Autowired
-    public ExtendedJdbcUserDetailService(AdminRepository adminRepository, MemberRepository memberRepository) {
+    public ExtendedJdbcUserDetailService(UserService adminRepository, MemberRepository memberRepository) {
         super(adminRepository);
         this.memberRepository = memberRepository;
     }
