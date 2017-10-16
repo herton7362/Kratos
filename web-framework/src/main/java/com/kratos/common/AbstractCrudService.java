@@ -135,6 +135,8 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
                     List list = query.getResultList();
                     if(!list.isEmpty()) {
                         predicate.add(criteriaBuilder.equal(root.get(key), list));
+                    } else {
+                        predicate.add(criteriaBuilder.isNull(root.get(key)));
                     }
                 }
             }
