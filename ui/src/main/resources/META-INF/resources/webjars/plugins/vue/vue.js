@@ -12,6 +12,7 @@ define([
     'datepicker',
     'checkbox',
     'combobox',
+    'radio',
     'combooption',
     'tree'
 ],function() {
@@ -29,6 +30,7 @@ define([
     registerComponent('treegrid');
     registerComponent('datepicker');
     registerComponent('checkbox');
+    registerComponent('radio');
     registerComponent('combobox');
     registerComponent('combooption');
     registerComponent('tree');
