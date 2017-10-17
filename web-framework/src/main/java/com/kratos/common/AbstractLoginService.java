@@ -19,7 +19,7 @@ import java.util.Random;
 /**
  * 提供登录、注册、找回密码、发送验证码等功能
  */
-public abstract class LoginService {
+public abstract class AbstractLoginService {
     private final Kits kits;
     private final OAuth2ClientContext clientContext;
 
@@ -43,7 +43,7 @@ public abstract class LoginService {
      * @param password 密码
      * @param repassword 确认密码
      */
-    abstract void editPwd(String mobile, String code, String password, String repassword) throws Exception;
+    public abstract void editPwd(String mobile, String code, String password, String repassword) throws Exception;
 
     /**
      * 登录
@@ -74,7 +74,7 @@ public abstract class LoginService {
      * 返回请求accessToken的链接地址
      * @return 链接地址
      */
-    abstract String getAccessTokenUri();
+    public abstract String getAccessTokenUri();
 
     /**
      * 注册
@@ -83,14 +83,14 @@ public abstract class LoginService {
      * @param password 密码
      * @param repassword 确认密码
      */
-    abstract void register(String mobile, String code, String password, String repassword) throws Exception;
+    public abstract void register(String mobile, String code, String password, String repassword) throws Exception;
 
     /**
      * 根据手机号获取用户
      * @param mobile 手机号
      * @return {@link BaseUser} 继承了此实体的用户
      */
-    abstract BaseUser findUserByMobile(String mobile) throws Exception;
+    public abstract BaseUser findUserByMobile(String mobile) throws Exception;
 
     /**
      * 生成短信验证码
@@ -115,7 +115,7 @@ public abstract class LoginService {
         return  verifyCode.equals(CacheUtils.getInstance().get(mobile));
     }
 
-    public LoginService(
+    public AbstractLoginService(
             Kits kits,
             OAuth2ClientContext clientContext
     ) {

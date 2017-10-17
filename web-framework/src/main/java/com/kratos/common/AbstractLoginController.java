@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * 提供登录注册等服务
  */
 public abstract class AbstractLoginController {
-    private final LoginService loginService;
+    private final AbstractLoginService loginService;
     /**
      * 发送短信验证码
      */
@@ -23,7 +23,7 @@ public abstract class AbstractLoginController {
             @ApiImplicitParam(name = "mobile", value = "手机号码", dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/api/verifyCode", method = RequestMethod.GET)
-    public ResponseEntity sendVerifyCode(@RequestParam(value = "mobile") String mobile) throws Exception {
+    public ResponseEntity<?> sendVerifyCode(@RequestParam(value = "mobile") String mobile) throws Exception {
         loginService.sendVerifyCode(mobile);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -38,8 +38,8 @@ public abstract class AbstractLoginController {
             @ApiImplicitParam(name = "password", value = "密码", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "repassword", value = "确认密码", dataType = "String", paramType = "query")
     })
-    @RequestMapping(value = "/api/editPwd", method = RequestMethod.GET)
-    public ResponseEntity editPwd(
+    @RequestMapping(value = "/api/editPwd", method = RequestMethod.POST)
+    public ResponseEntity<?> editPwd(
             @RequestParam(value = "mobile") String mobile,
             @RequestParam(value = "code") String code,
             @RequestParam(value = "password") String password,
@@ -81,7 +81,7 @@ public abstract class AbstractLoginController {
             @ApiImplicitParam(name = "repassword", value = "确认密码", dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/api/register", method = RequestMethod.POST)
-    public ResponseEntity register(
+    public ResponseEntity<?> register(
             @RequestParam(value = "mobile") String mobile,
             @RequestParam(value = "code") String code,
             @RequestParam(value = "password") String password,
@@ -91,7 +91,7 @@ public abstract class AbstractLoginController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public AbstractLoginController(LoginService loginService) {
+    public AbstractLoginController(AbstractLoginService loginService) {
         this.loginService = loginService;
     }
 }
