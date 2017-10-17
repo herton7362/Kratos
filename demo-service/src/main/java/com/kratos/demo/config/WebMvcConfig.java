@@ -78,7 +78,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 			MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
 			converter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON,
 					MediaType.valueOf("text/javascript")));
-			template.setMessageConverters(Arrays.<HttpMessageConverter<?>> asList(converter));
+			template.setMessageConverters(Collections.singletonList(converter));
 			return template;
 		}
 
