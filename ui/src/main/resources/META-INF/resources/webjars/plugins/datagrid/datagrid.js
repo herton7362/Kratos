@@ -47,7 +47,7 @@ define(['jquery', 'utils'], function($, utils) {
         '                  <div class="col-sm-12">\n' +
         '                      <table class="table table-bordered table-hover dataTable" role="grid"\n' +
         '                             aria-describedby="example2_info">\n' +
-        '                          <thead>\n' +
+        '                          <thead class="table-header">\n' +
         '                              <tr>\n' +
         '                                  <th v-if="checkbox && checkbox !== \'false\'" style="text-align: center;width: 40px;">' +
         '                                    <checkbox :value="checkAll" v-model="checkAll" @change="selectAll"/>' +
@@ -64,6 +64,7 @@ define(['jquery', 'utils'], function($, utils) {
         '                              <td v-if="checkbox && checkbox !== \'false\'" align="center"><checkbox :value="row" v-model="selectedRows"/></td>\n' +
         '                              <datagrid-cell v-for="column in columns" :key="row.id" :column="column" :row="row" @click-cell="_clickCell"></datagrid-cell>\n' +
         '                              <td v-if="operator && operator !== \'false\'" style="text-align: center">' +
+        '                                   <div class="col-xs-4 cell-title">操作</div>\n' +
         '                                   <a v-if="draggable" class="btn btn-xs bg-purple draggable-handler" title="拖拽移动"><i class="fa fa-arrows"></i></a>' +
         '                                   <slot name="operator" v-bind:row="row"></slot>' +
         '                              </td>\n' +
