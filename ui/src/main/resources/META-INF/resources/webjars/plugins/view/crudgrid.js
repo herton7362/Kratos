@@ -208,9 +208,6 @@ define(['jquery', 'utils'], function($, utils) {
             },
             getSelectedRows: function () {
                 return this.datagrid.$instance.selectedRows;
-            },
-            getFormData: function() {
-                return this.form
             }
         },
         mounted: function() {

@@ -99,6 +99,9 @@ define(['jquery', 'utils'], function($, utils) {
             },
             sidebarClick: function(row) {
                 this.crudgrid.$instance.load({'parent.id': row.id});
+            },
+            getForm: function() {
+                return this.crudgrid.$instance.getForm();
             }
         },
         mounted: function() {

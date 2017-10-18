@@ -1,8 +1,9 @@
-require(['jquery', 'vue', 'messager', 'utils'], function($, Vue, messager, utils) {
+require(['jquery', 'vue', 'messager', 'utils', _appConf.ctx + '/static/js/modules/icon/iconSelector.js'], function($, Vue, messager, utils, iconSelector) {
     new Vue({
         el: '#content',
         data: {
             crudgrid: {
+                $instance: {},
                 columns: [
                     {field:'name', title:'名称'},
                     {field:'type', title:'类型', align: 'center', formatter: function(value){
@@ -42,14 +43,15 @@ require(['jquery', 'vue', 'messager', 'utils'], function($, Vue, messager, utils
                 type: 'MENU',
                 naviNamePath: '',
                 naviIdPath: '',
-                icon: '',
                 disabled: false
-
             }
         },
         methods: {
             refresh: function () {
                 this.loadCombobox();
+            },
+            selectIcon: function () {
+                iconSelector.open();
             },
             loadCombobox: function () {
                 var self = this;
@@ -69,7 +71,11 @@ require(['jquery', 'vue', 'messager', 'utils'], function($, Vue, messager, utils
             }
         },
         mounted: function() {
+            var self = this;
             this.loadCombobox();
+            iconSelector.onSelect = function (icon) {
+                self.crudgrid.$instance.getForm().icon = icon;
+            }
         }
     });
 });
