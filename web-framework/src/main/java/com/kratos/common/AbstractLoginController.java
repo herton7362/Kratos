@@ -1,5 +1,6 @@
 package com.kratos.common;
 
+import com.kratos.exceptions.BusinessException;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -22,7 +23,7 @@ public abstract class AbstractLoginController {
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "mobile", value = "手机号码", dataType = "String", paramType = "query")
     })
-    @RequestMapping(value = "/api/verifyCode", method = RequestMethod.GET)
+    @RequestMapping(value = "/verifyCode", method = RequestMethod.GET)
     public ResponseEntity<?> sendVerifyCode(@RequestParam(value = "mobile") String mobile) throws Exception {
         loginService.sendVerifyCode(mobile);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -38,7 +39,7 @@ public abstract class AbstractLoginController {
             @ApiImplicitParam(name = "password", value = "密码", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "repassword", value = "确认密码", dataType = "String", paramType = "query")
     })
-    @RequestMapping(value = "/api/editPwd", method = RequestMethod.POST)
+    @RequestMapping(value = "/editPwd", method = RequestMethod.POST)
     public ResponseEntity<?> editPwd(
             @RequestParam(value = "mobile") String mobile,
             @RequestParam(value = "code") String code,
@@ -56,18 +57,23 @@ public abstract class AbstractLoginController {
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "appId", value = "app_id", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "appSecret", value = "app_secret", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "mobile", value = "手机号码", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "username", value = "手机号码", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "密码", dataType = "String", paramType = "query")
     })
-    @RequestMapping(value = "/api/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<OAuth2AccessToken> login(
             @RequestParam(value = "appId") String appId,
             @RequestParam(value = "appSecret") String appSecret,
-            @RequestParam(value = "mobile") String mobile,
+            @RequestParam(value = "username") String username,
             @RequestParam(value = "password") String password
     ) throws Exception {
-        OAuth2AccessToken oAuth2AccessToken = loginService.login(appId, appSecret, mobile, password);
-        return new ResponseEntity<>(oAuth2AccessToken, HttpStatus.OK);
+        ResponseEntity<OAuth2AccessToken> responseEntity;
+        try {
+            responseEntity = loginService.login(appId, appSecret, username, password);
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage());
+        }
+        return responseEntity;
     }
 
     /**
@@ -80,7 +86,7 @@ public abstract class AbstractLoginController {
             @ApiImplicitParam(name = "password", value = "密码", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "repassword", value = "确认密码", dataType = "String", paramType = "query")
     })
-    @RequestMapping(value = "/api/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> register(
             @RequestParam(value = "mobile") String mobile,
             @RequestParam(value = "code") String code,

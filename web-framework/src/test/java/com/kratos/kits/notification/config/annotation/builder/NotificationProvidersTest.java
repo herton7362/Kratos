@@ -2,7 +2,7 @@ package com.kratos.kits.notification.config.annotation.builder;
 
 import org.junit.Assert;
 import org.junit.Test;
-import com.kratos.kits.notification.config.annotation.configurer.AlidayuProviderConfigurer;
+import com.kratos.kits.notification.config.annotation.configurer.provider.AlidayuProviderConfigurer;
 
 public class NotificationProvidersTest {
     private NotificationProviders notificationProviders = new NotificationProviders();

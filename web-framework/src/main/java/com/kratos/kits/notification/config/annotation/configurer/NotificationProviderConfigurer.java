@@ -8,5 +8,5 @@ import com.kratos.kits.notification.config.annotation.NotificationConfigurerAdap
  * @since 1.0.0
  * @param <B>
  */
-abstract class NotificationProviderConfigurer<B extends NotificationBuilder> extends NotificationConfigurerAdapter<B> {
+public abstract class NotificationProviderConfigurer<B extends NotificationBuilder> extends NotificationConfigurerAdapter<B> {
 }

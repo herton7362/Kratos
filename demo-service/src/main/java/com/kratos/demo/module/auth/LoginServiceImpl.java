@@ -1,45 +1,82 @@
 package com.kratos.demo.module.auth;
 
 import com.kratos.common.AbstractLoginService;
-import com.kratos.demo.config.OAuth2Properties;
+import com.kratos.demo.module.member.domain.Member;
+import com.kratos.demo.module.member.service.MemberService;
 import com.kratos.entity.BaseUser;
+import com.kratos.exceptions.BusinessException;
 import com.kratos.kits.Kits;
+import com.kratos.kits.notification.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.client.OAuth2ClientContext;
+import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Transactional
 public class LoginServiceImpl extends AbstractLoginService {
-    private final OAuth2Properties oAuth2Properties;
-    @Override
-    public void editPwd(String mobile, String code, String password, String repassword) throws Exception {
+    private final Kits kits;
+    private final TokenEndpoint tokenEndpoint;
+    private final MemberService memberService;
 
+    @Override
+    protected Notification getNotification() {
+        return kits.notification();
     }
 
     @Override
-    public String getAccessTokenUri() {
-        return oAuth2Properties.getAccessTokenUri();
+    protected TokenEndpoint getTokenEndpoint() {
+        return tokenEndpoint;
+    }
+
+    @Override
+    public void editPwd(String mobile, String code, String password, String repassword) throws Exception {
+        if(!verifyVerifyCode(mobile, code)) {
+            throw new BusinessException(String.format("验证码%s不正确", code));
+        }
+        if(!password.equals(repassword)) {
+            throw new BusinessException("两次密码输入不一致");
+        }
+        Member member = memberService.findOneByLoginName(mobile);
+        if(member == null) {
+            throw new BusinessException("当前号码未注册");
+        }
+        member.setPassword(password);
+        memberService.save(member);
     }
 
     @Override
     public void register(String mobile, String code, String password, String repassword) throws Exception {
-
+        if(!verifyVerifyCode(mobile, code)) {
+            throw new BusinessException(String.format("验证码%s不正确", code));
+        }
+        if(!password.equals(repassword)) {
+            throw new BusinessException("两次密码输入不一致");
+        }
+        if(findUserByMobile(mobile) != null) {
+            throw new BusinessException("该手机号已被注册，请选择找回密码或者直接登录");
+        }
+        Member member = new Member();
+        member.setMobile(mobile);
+        member.setLoginName(mobile);
+        member.setPassword(password);
+        memberService.save(member);
+        clearVerifyCode(mobile);
     }
 
     @Override
     public BaseUser findUserByMobile(String mobile) throws Exception {
-        return null;
+        return memberService.findOneByLoginName(mobile);
     }
 
     @Autowired
     public LoginServiceImpl(
             Kits kits,
-            OAuth2ClientContext clientContext,
-            OAuth2Properties oAuth2Properties
+            TokenEndpoint tokenEndpoint,
+            MemberService memberService
     ) {
-        super(kits, clientContext);
-        this.oAuth2Properties = oAuth2Properties;
+        this.kits = kits;
+        this.tokenEndpoint = tokenEndpoint;
+        this.memberService = memberService;
     }
 }

@@ -3,6 +3,7 @@ package com.kratos.kits.notification.config.annotation.configurer;
 import com.kratos.kits.notification.NotificationProvider;
 import com.kratos.kits.notification.config.annotation.NotificationBuilder;
 import com.kratos.kits.notification.config.annotation.builder.NotificationProviders;
+import com.kratos.kits.notification.config.annotation.configurer.provider.AlidayuProviderConfigurer;
 import com.kratos.kits.notification.message.VoiceVerifyCodeMessage;
 import com.kratos.kits.notification.provider.VoiceVerifyCodeAlidayuProvider;
 

@@ -2,38 +2,53 @@ package com.kratos.common;
 
 import com.kratos.common.utils.CacheUtils;
 import com.kratos.entity.BaseUser;
-import com.kratos.kits.Kits;
+import com.kratos.exceptions.BusinessException;
+import com.kratos.kits.notification.Notification;
 import com.kratos.kits.notification.message.SmsVerifyCodeMessage;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.security.oauth2.client.OAuth2ClientContext;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
+import com.kratos.module.auth.domain.Admin;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 
-import java.util.Arrays;
+import java.security.Principal;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 /**
  * 提供登录、注册、找回密码、发送验证码等功能
  */
 public abstract class AbstractLoginService {
-    private final Kits kits;
-    private final OAuth2ClientContext clientContext;
+    /**
+     * 正则表达式：验证手机号
+     */
+    private static final String REGEX_MOBILE = "^((17[0-9])|(14[0-9])|(13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+
+    protected abstract Notification getNotification();
+
+    protected abstract TokenEndpoint getTokenEndpoint();
 
     /**
      * 发送短信验证码
      * @param mobile 手机号码
      */
     void sendVerifyCode(String mobile) throws Exception {
+        if(!Pattern.matches(REGEX_MOBILE, mobile)) {
+            throw new BusinessException(String.format("%s无效的手机号码", mobile));
+        }
+        BaseUser admin = new Admin();
+        admin.setLoginName(mobile);
+        admin.setMobile(mobile);
         String code = generateVerifyCode();
         CacheUtils.getInstance().add(mobile, code);
         SmsVerifyCodeMessage message = new SmsVerifyCodeMessage();
-        message.setDestUser(findUserByMobile(mobile));
-        message.setVerifyCode(String.format("您的手机验证码：%s，5分钟内有效，请勿泄露。如非本人操作，请忽略此短信，谢谢。", code));
-        kits.notification().send(message);
+        message.setDestUser(admin);
+        message.setVerifyCode(code);
+        getNotification().send(message);
     }
 
     /**
@@ -49,32 +64,20 @@ public abstract class AbstractLoginService {
      * 登录
      * @param appId app_id
      * @param appSecret app_secret
-     * @param mobile 手机号码
+     * @param username 手机号码
      * @param password 密码
      * @return {@link OAuth2AccessToken} token
      */
-    OAuth2AccessToken login(String appId, String appSecret, String mobile, String password) throws Exception {
-        ResourceOwnerPasswordResourceDetails details = new ResourceOwnerPasswordResourceDetails();
-        details.setId("framework/tonr");
-        details.setClientId(appId);
-        details.setClientSecret(appSecret);
-        details.setUsername(mobile);
-        details.setPassword(password);
-        details.setAccessTokenUri(getAccessTokenUri());
-        details.setScope(Arrays.asList("read", "write", "trust"));
-        OAuth2RestTemplate template = new OAuth2RestTemplate(details, clientContext);
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON,
-                MediaType.valueOf("text/javascript")));
-        template.setMessageConverters(Collections.singletonList(converter));
-        return template.getAccessToken();
+    ResponseEntity<OAuth2AccessToken> login(String appId, String appSecret, String username, String password) throws Exception {
+        Map<String, String> requestParameters = new HashMap<>();
+        requestParameters.put("client_id", appId);
+        requestParameters.put("client_secret", appSecret);
+        requestParameters.put("grant_type", "password");
+        requestParameters.put("username", username);
+        requestParameters.put("password", password);
+        Principal principal = new UsernamePasswordAuthenticationToken(new User(appId, appSecret, Collections.emptyList()), null, null);
+        return getTokenEndpoint().postAccessToken(principal, requestParameters);
     }
-
-    /**
-     * 返回请求accessToken的链接地址
-     * @return 链接地址
-     */
-    public abstract String getAccessTokenUri();
 
     /**
      * 注册
@@ -111,15 +114,15 @@ public abstract class AbstractLoginService {
      * @param verifyCode 验证码
      * @return 验证码是否正确
      */
-    Boolean verifyVerifyCode(String mobile, String verifyCode) throws Exception {
+    protected Boolean verifyVerifyCode(String mobile, String verifyCode) throws Exception {
         return  verifyCode.equals(CacheUtils.getInstance().get(mobile));
     }
 
-    public AbstractLoginService(
-            Kits kits,
-            OAuth2ClientContext clientContext
-    ) {
-        this.kits = kits;
-        this.clientContext = clientContext;
+    /**
+     * 根据手机号删除验证码
+     * @param mobile 手机号
+     */
+    protected void clearVerifyCode(String mobile) throws Exception {
+        CacheUtils.getInstance().remove(mobile);
     }
 }

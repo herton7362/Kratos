@@ -26,6 +26,10 @@ public class CacheUtils {
         hashMap.put(key, value);
     }
 
+    public void remove(String key) {
+        hashMap.remove(key);
+    }
+
     public Object get(String key) {
         return hashMap.get(key);
     }

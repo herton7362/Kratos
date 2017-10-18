@@ -1,7 +1,8 @@
 package com.kratos.kits.notification.config.annotation.builder;
 
 import com.kratos.kits.notification.config.annotation.AbstractNotificationBuilder;
-import com.kratos.kits.notification.config.annotation.configurer.AlidayuProviderConfigurer;
+import com.kratos.kits.notification.config.annotation.configurer.provider.AlidayuProviderConfigurer;
+import com.kratos.kits.notification.config.annotation.configurer.provider.IpyyProviderConfigurer;
 
 /**
  * 消息提供商构建
@@ -44,5 +45,13 @@ public class NotificationProviders extends AbstractNotificationBuilder<Notificat
      */
     public AlidayuProviderConfigurer<NotificationProviders> alidayuProvider() throws Exception {
         return getOrApply(new AlidayuProviderConfigurer<NotificationProviders>());
+    }
+
+    /**
+     * ipyy短信平台配置
+     * @return ipyy短信平台配置类
+     */
+    public IpyyProviderConfigurer<NotificationProviders> ipyyProvider() throws Exception {
+        return getOrApply(new IpyyProviderConfigurer<NotificationProviders>());
     }
 }

@@ -1,6 +1,7 @@
-package com.kratos.kits.notification.config.annotation.configurer;
+package com.kratos.kits.notification.config.annotation.configurer.provider;
 
 import com.kratos.kits.notification.config.annotation.NotificationBuilder;
+import com.kratos.kits.notification.config.annotation.configurer.NotificationProviderConfigurer;
 
 /**
  * 阿里大鱼短信平台配置

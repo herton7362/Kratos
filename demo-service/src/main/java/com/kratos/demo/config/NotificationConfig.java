@@ -16,15 +16,21 @@ public class NotificationConfig extends NotificationKitConfigurerAdaptor {
                 .setServerUrl("http://gw.api.taobao.com/router/rest")
                 .setSmsFreeSignName("威廉小院")
                 .setSmsTemplateCode("SMS_71820364")
-                .setSmsType("normal");
+                .setSmsType("normal")
+                .and()
+                .ipyyProvider()
+                .setServerUrl("https://dx.ipyy.net/sms.aspx")
+                .setAccountName("KA00012")
+                .setPassword("KA0001255")
+                .setSmsFreeSignName("威廉小院");
     }
 
     @Override
     public void configure(NotificationTypes notificationTypes) throws Exception {
         notificationTypes
-                .smsVerifyCode().alidayuProvider()
+                .smsVerifyCode().ipyyProvider()
             .and()
-                .smsBroadcast().alidayuProvider()
+                .smsBroadcast().ipyyProvider()
             .and()
                 .voiceVerifyCode().alidayuProvider();
     }
