@@ -6,6 +6,9 @@ require(['jquery', 'vue', 'messager', 'utils', _appConf.ctx + '/static/js/module
                 $instance: {},
                 columns: [
                     {field:'name', title:'名称'},
+                    {field:'icon', title:'图标', width: 30, align: 'center', formatter: function (val) {
+                        return '<i class="'+(val || 'fa fa-circle-o')+'"></i>';
+                    }},
                     {field:'type', title:'类型', align: 'center', formatter: function(value){
                         if(value === 'MENU') {
                             return '<small class="label bg-green">菜单</small>';
