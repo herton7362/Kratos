@@ -129,8 +129,8 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
                     }
                     String field = this.currentKey.split("\\.")[1];
                     EntityManager entityManager = SpringUtils.getBean(EntityManager.class);
-                    Query query = entityManager.createQuery("from "+
-                            getEntityName(attribute.getJavaType(), root, key)+" where "+field+"=:" + field);
+                    Query query = entityManager.createQuery("select m from "+
+                            getEntityName(attribute.getJavaType(), root, key)+" m where m."+field+"=:" + field);
                     query.setParameter(field, values[0]);
                     List list = query.getResultList();
                     if(!list.isEmpty()) {
