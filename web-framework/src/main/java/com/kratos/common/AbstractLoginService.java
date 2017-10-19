@@ -36,7 +36,7 @@ public abstract class AbstractLoginService {
      * 发送短信验证码
      * @param mobile 手机号码
      */
-    void sendVerifyCode(String mobile) throws Exception {
+    public void sendVerifyCode(String mobile) throws Exception {
         if(!Pattern.matches(REGEX_MOBILE, mobile)) {
             throw new BusinessException(String.format("%s无效的手机号码", mobile));
         }
@@ -68,7 +68,7 @@ public abstract class AbstractLoginService {
      * @param password 密码
      * @return {@link OAuth2AccessToken} token
      */
-    ResponseEntity<OAuth2AccessToken> login(String appId, String appSecret, String username, String password) throws Exception {
+    public ResponseEntity<OAuth2AccessToken> login(String appId, String appSecret, String username, String password) throws Exception {
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put("client_id", appId);
         requestParameters.put("client_secret", appSecret);

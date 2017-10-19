@@ -20,7 +20,7 @@ public class AdminServiceImpl extends AbstractCrudService<Admin> implements Admi
     }
 
     @Override
-    public Admin save(Admin admin) {
+    public Admin save(Admin admin) throws Exception {
         if(admin.getId() == null) {
             if(admin.getPassword() == null) {
                 admin.setPassword("123456");

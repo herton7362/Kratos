@@ -32,10 +32,10 @@ define(['jquery', 'utils', 'base-select2'], function($, utils) {
             }
         },
         template: '<select :multiple="multiple">' +
-        '              <slot></slot>' +
         '              <template v-for="row in innerOptions">' +
         '                  <option :value="row[valueKey]" v-html="_printPrefix(row, \'\') + row[textKey]"></option>' +
         '              </template>' +
+        '              <slot></slot>' +
         '          </select>',
         methods: {
             _printPrefix: function(row, prefix) {

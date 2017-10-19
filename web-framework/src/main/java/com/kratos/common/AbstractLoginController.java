@@ -1,12 +1,15 @@
 package com.kratos.common;
 
+import com.kratos.entity.BaseUser;
 import com.kratos.exceptions.BusinessException;
+import com.kratos.module.auth.UserThread;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -71,6 +74,7 @@ public abstract class AbstractLoginController {
         try {
             responseEntity = loginService.login(appId, appSecret, username, password);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new BusinessException(e.getMessage());
         }
         return responseEntity;
@@ -95,6 +99,15 @@ public abstract class AbstractLoginController {
     ) throws Exception {
         loginService.register(mobile, code, password, repassword);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * 查询登录用户
+     */
+    @ApiOperation(value="查询登录用户")
+    @RequestMapping(value = "/user/info", method = RequestMethod.GET)
+    public ResponseEntity<BaseUser> getOne() throws Exception {
+        return new ResponseEntity<>(UserThread.getInstance().get(), HttpStatus.OK);
     }
 
     public AbstractLoginController(AbstractLoginService loginService) {

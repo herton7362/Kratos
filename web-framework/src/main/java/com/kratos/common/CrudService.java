@@ -14,32 +14,32 @@ public interface CrudService<T extends BaseEntity> {
      * @param param 查询条件
      * @return {@link Page} spring boot 分页类
      */
-    Page<T> findAll(PageRequest pageRequest, Map<String, String[]> param);
+    Page<T> findAll(PageRequest pageRequest, Map<String, String[]> param) throws Exception;
 
     /**
      * 列表查询
      * @param param 查询条件
      * @return 实体列表
      */
-    List<T> findAll(Map<String, String[]> param);
+    List<T> findAll(Map<String, String[]> param) throws Exception;
 
     /**
      * 查询一个
      * @param id 主键
      * @return 实体
      */
-    T findOne(String id);
+    T findOne(String id) throws Exception;
 
     /**
      * 逻辑删除
      * @param id 主键
      */
-    void logicallyDelete(String id);
+    void logicallyDelete(String id) throws Exception;
 
     /**
      * 新增或修改
      * @param t 实体，如果主键不为空则修改，为空则保存
      * @return 保存后的实体
      */
-    T save(T t);
+    T save(T t) throws Exception;
 }

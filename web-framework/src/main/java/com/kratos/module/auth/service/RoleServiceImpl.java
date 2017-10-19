@@ -31,7 +31,13 @@ public class RoleServiceImpl extends AbstractCrudService<Role> implements RoleSe
         }
         Role role = roleRepository.findOne(roleId);
         List<Module> modules = new ArrayList<>(moduleIds.size());
-        moduleIds.forEach(moduleId -> modules.add(moduleService.findOne(moduleId)));
+        moduleIds.forEach(moduleId -> {
+            try {
+                modules.add(moduleService.findOne(moduleId));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         role.setModules(modules);
         roleRepository.save(role);
     }

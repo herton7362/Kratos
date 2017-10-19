@@ -27,7 +27,7 @@ public class MemberServiceImpl extends AbstractCrudService<Member> implements Me
     }
 
     @Override
-    public Member save(Member member) {
+    public Member save(Member member) throws Exception {
         if(member.getId() != null) {
             if(member.getPassword() == null) {
                 Member temp = repository.findOne(member.getId());

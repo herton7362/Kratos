@@ -44,12 +44,19 @@ define([
         var c = require(component);
         var mounted = c.mounted || function(){return this;};
         c.props = c.props || {};
-        c.props.instance = {
-            type: Object,
-            default: Object
-        };
+        if(c.props instanceof Array) {
+            c.props.push('instance');
+        } else {
+            c.props.instance = {
+                type: Object,
+                default: Object
+            };
+        }
+
         c.mounted = function () {
-            this.instance.$instance = this;
+            if(this.instance) {
+                this.instance.$instance = this;
+            }
             return mounted.apply(this, arguments);
         };
         Vue.component(name,  c);

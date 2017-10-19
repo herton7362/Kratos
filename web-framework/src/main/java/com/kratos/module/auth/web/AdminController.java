@@ -48,15 +48,12 @@ public class AdminController extends AbstractCrudController<Admin> {
     }
 
     /**
-     * 根据id获取用户，如果没有则返回当前登录用户
+     * 根据id获取用户
      */
-    @ApiOperation(value="根据id获取用户，如果没有则返回当前登录用户")
+    @ApiOperation(value="根据id获取用户")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Admin> getOne(@PathVariable String id) throws Exception {
         Admin admin = adminService.findOne(id);
-        if(admin == null) {
-            admin = AdminThread.getInstance().get();
-        }
         AdminSaveParam adminSaveParam = new AdminSaveParam();
         BeanUtils.copyProperties(admin, adminSaveParam);
         List<Role> roles = admin.getRoles();
@@ -88,7 +85,13 @@ public class AdminController extends AbstractCrudController<Admin> {
         BeanUtils.copyProperties(t, admin);
         List<String> ids = t.getRoleIds();
         List<Role> roles = new ArrayList<>();
-        ids.forEach(id -> roles.add(roleService.findOne(id)));
+        ids.forEach(id -> {
+            try {
+                roles.add(roleService.findOne(id));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         admin.setRoles(roles);
         admin = adminService.save(admin);
         return new ResponseEntity<>(admin, HttpStatus.OK);
