@@ -20,7 +20,7 @@ define(function() {
         },
         template: '<div class="row">\n' +
         '              <div class="col-sm-5">\n' +
-        '                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">\n' +
+        '                  <div class="dataTables_info" role="status" aria-live="polite">\n' +
         '                      共 {{count}} 条记录\n' +
         '                  </div>\n' +
         '              </div>\n' +

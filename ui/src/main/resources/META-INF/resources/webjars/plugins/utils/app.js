@@ -139,6 +139,18 @@ define(['jquery'], function($) {
         return roots;
     };
 
+    APP.utils.bytesToSize = function (bytes) {
+        if (!bytes) return '0 B';
+
+        var k = 1024;
+
+        var sizes = ['B','KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+        var i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        return (bytes / Math.pow(k, i)) + ' ' + sizes[i];
+    };
+
     APP.support.touch = (
         ('ontouchstart' in window &&
             navigator.userAgent.toLowerCase().match(/mobile|tablet/)) ||
