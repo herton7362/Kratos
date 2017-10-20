@@ -148,7 +148,7 @@ define(['jquery'], function($) {
 
         var i = Math.floor(Math.log(bytes) / Math.log(k));
 
-        return (bytes / Math.pow(k, i)) + ' ' + sizes[i];
+        return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
     };
 
     APP.support.touch = (
