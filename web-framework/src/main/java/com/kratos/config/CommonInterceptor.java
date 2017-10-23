@@ -1,6 +1,5 @@
-package com.kratos.demo.config;
+package com.kratos.config;
 
-import com.kratos.demo.module.member.domain.MemberRepository;
 import com.kratos.common.utils.NetworkUtils;
 import com.kratos.common.utils.SpringUtils;
 import com.kratos.common.utils.StringUtils;
@@ -16,13 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class CommonInterceptor extends HandlerInterceptorAdapter {
-    private MemberRepository memberRepository;
     private AdminRepository adminRepository;
     private TokenStore tokenStore;
     @Override
     @SuppressWarnings("unchecked")
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        memberRepository = SpringUtils.getBean(MemberRepository.class);
         adminRepository = SpringUtils.getBean(AdminRepository.class);
         tokenStore = SpringUtils.getBean(TokenStore.class);
         String accessToken = request.getParameter("access_token");
@@ -33,13 +30,11 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
             UserThread.getInstance().setClientId(oAuth2Authentication.getOAuth2Request().getClientId());
             oAuth2Authentication.getUserAuthentication().getAuthorities().forEach(grantedAuthority -> {
                 BaseUser baseUser;
-                if(grantedAuthority.getAuthority().equals(BaseUser.UserType.MEMBER.name())) {
-                    baseUser = memberRepository.findOneByLoginName(user.getUsername());
-                } else {
+                if(grantedAuthority.getAuthority().equals(BaseUser.UserType.ADMIN.name())) {
                     baseUser = adminRepository.findOneByLoginName(user.getUsername());
+                    baseUser.setPassword(null);
+                    UserThread.getInstance().set(baseUser);
                 }
-                baseUser.setPassword(null);
-                UserThread.getInstance().set(baseUser);
             });
         }
         return true;
