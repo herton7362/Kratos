@@ -31,10 +31,10 @@ public interface CrudService<T extends BaseEntity> {
     T findOne(String id) throws Exception;
 
     /**
-     * 逻辑删除
+     * 删除
      * @param id 主键
      */
-    void logicallyDelete(String id) throws Exception;
+    void delete(String id) throws Exception;
 
     /**
      * 新增或修改

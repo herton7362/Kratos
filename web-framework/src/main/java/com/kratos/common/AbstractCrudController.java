@@ -74,7 +74,7 @@ public abstract class AbstractCrudController<T extends BaseEntity> {
     public ResponseEntity<T> logicallyDelete(@PathVariable String id) throws Exception {
         String[] ids = id.split(",");
         for (String s : ids) {
-            getService().logicallyDelete(s);
+            getService().delete(s);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }

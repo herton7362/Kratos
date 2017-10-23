@@ -52,7 +52,7 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
     }
 
     @Override
-    public void logicallyDelete(String id) throws Exception {
+    public void delete(String id) throws Exception {
         T t = getRepository().findOne(id);
         t.setLogicallyDeleted(true);
         getRepository().save(t);
