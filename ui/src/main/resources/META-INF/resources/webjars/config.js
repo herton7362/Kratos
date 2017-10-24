@@ -31,7 +31,8 @@ requirejs.config({
         'combobox': 'combobox/combobox',
         'combooption': 'combobox/combooption',
         'jstree': 'jstree/jstree',
-        'tree': 'tree/tree'
+        'tree': 'tree/tree',
+        'sidemodal': 'sidemodal/sidemodal'
     },
     shim: {
         'vuedraggable':['sortablejs', 'base-vue'],
@@ -54,7 +55,8 @@ requirejs.config({
         'icheck': ['bootstrap', 'css!../plugins/iCheck/all.css'],
         'base-select2': ['bootstrap'],
         'modal': ['css!../plugins/modal/css/modal.css'],
-        'jstree': ['css!../plugins/jstree/themes/default/style.min.css']
+        'jstree': ['css!../plugins/jstree/themes/default/style.min.css'],
+        'sidemodal': ['css!../plugins/sidemodal/sidemodal.css']
     },
     map: {
         '*': {

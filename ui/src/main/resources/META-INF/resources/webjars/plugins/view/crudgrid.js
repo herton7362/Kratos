@@ -85,24 +85,22 @@ define(['jquery', 'utils'], function($, utils) {
         '                  </datagrid>\n' +
         '              </div>\n' +
         '              <!-- /.box-body -->\n' +
-        '              <!-- modal -->\n' +
+        '              <!-- sidemodal -->\n' +
         '              <validator :instance="validator">\n' +
         '                  <form @submit.prevent="save">\n' +
-        '                      <modal title="维护窗口" :footer="true" @open="modalOpen" :instance="modal">\n' +
+        '                      <sidemodal title="维护窗口" :footer="true" @open="modalOpen" :instance="modal">\n' +
         '                          <template slot="body">\n' +
-        '                              <div class="box-body">\n' +
-        '                                  <slot name="form-body" :form="form"></slot>\n' +
-        '                              </div>\n' +
+        '                              <slot name="form-body" :form="form"></slot>\n' +
         '                              <!-- /.box-body -->\n' +
         '                          </template>\n' +
         '                          <template slot="footer">\n' +
-        '                              <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">取消</button>\n' +
+        '                              <button type="button" class="btn btn-default margin-r-5 btn-flat" @click="modal.$instance.close()">取消编辑</button>\n' +
         '                              <button type="submit" class="btn btn-primary btn-flat">保存数据</button>\n' +
         '                          </template>\n' +
-        '                      </modal>\n' +
+        '                      </sidemodal>\n' +
         '                  </form>\n' +
         '              </validator>\n' +
-        '              <!-- /.modal -->\n' +
+        '              <!-- /.sidemodal -->\n' +
         '          </div>',
         data: function() {
             return {

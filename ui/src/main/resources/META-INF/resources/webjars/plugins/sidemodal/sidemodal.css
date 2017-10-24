@@ -1,0 +1,53 @@
+.sidemodal {
+    position: fixed;
+    z-index: -1;
+    left:0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.sidemodal .sidemodal-mask {
+    position: fixed;
+    z-index: 1;
+    left:0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.sidemodal.sidemodal-open {
+    z-index: 1030;
+}
+
+.sidemodal .control-sidebar {
+    padding: 0;
+    bottom: 0;
+}
+
+.sidemodal .box {
+    z-index: 2;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    height: 100%;
+}
+
+.sidemodal .box .box-body {
+    overflow-y: auto;
+}
+
+.sidemodal .box .box-header {
+    padding: 20px;
+}
+
+.sidemodal .box .box-footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+}
+
+.control-sidebar.control-sidebar-open, .control-sidebar.control-sidebar-open + .control-sidebar-bg {
+    right: 0 !important;
+}
