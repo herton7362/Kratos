@@ -67,11 +67,11 @@ public abstract class AbstractCrudController<T extends BaseEntity> {
     }
 
     /**
-     * 逻辑删除用户
+     * 删除
      */
-    @ApiOperation(value="逻辑删除")
+    @ApiOperation(value="删除默认为逻辑删除")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<T> logicallyDelete(@PathVariable String id) throws Exception {
+    public ResponseEntity<T> delete(@PathVariable String id) throws Exception {
         String[] ids = id.split(",");
         for (String s : ids) {
             getService().delete(s);
