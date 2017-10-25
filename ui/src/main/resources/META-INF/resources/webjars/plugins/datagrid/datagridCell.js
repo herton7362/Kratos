@@ -9,7 +9,7 @@ define(function() {
         '                   :style="_createStyle(column)"\n' +
         '                   \n' +
         '           >\n' +
-        '               <div class="col-xs-4 cell-title">{{column.title}}</div>\n' +
+        '               <div class="col-xs-4 cell-title">{{column.title}}：</div>\n' +
         '               <span v-if="!_isCellEditing(column, row)" v-html="_renderColumn(column, row)"></span>\n' +
         '               <input \n' +
         '                       type="number" \n' +

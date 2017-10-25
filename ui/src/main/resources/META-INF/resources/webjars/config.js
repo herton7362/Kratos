@@ -32,7 +32,8 @@ requirejs.config({
         'combooption': 'combobox/combooption',
         'jstree': 'jstree/jstree',
         'tree': 'tree/tree',
-        'sidemodal': 'sidemodal/sidemodal'
+        'sidemodal': 'sidemodal/sidemodal',
+        'uploader': 'uploader/uploader'
     },
     shim: {
         'vuedraggable':['sortablejs', 'base-vue'],
@@ -56,7 +57,8 @@ requirejs.config({
         'base-select2': ['bootstrap'],
         'modal': ['css!../plugins/modal/css/modal.css'],
         'jstree': ['css!../plugins/jstree/themes/default/style.min.css'],
-        'sidemodal': ['css!../plugins/sidemodal/sidemodal.css']
+        'sidemodal': ['css!../plugins/sidemodal/sidemodal.css'],
+        'uploader': ['css!../plugins/uploader/uploader.css']
     },
     map: {
         '*': {

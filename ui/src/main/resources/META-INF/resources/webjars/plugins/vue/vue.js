@@ -15,7 +15,8 @@ define([
     'radio',
     'combooption',
     'tree',
-    'sidemodal'
+    'sidemodal',
+    'uploader'
 ],function() {
     var Vue = require('base-vue');
 
@@ -36,6 +37,7 @@ define([
     registerComponent('combooption');
     registerComponent('tree');
     registerComponent('sidemodal');
+    registerComponent('uploader');
 
     // 为所有组件增加instance属性，可以通过该属性找到当前组件
     // 如果component没有传值则使用name作为component

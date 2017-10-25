@@ -45,6 +45,7 @@ define(['jquery'], function($) {
                 return 'width: ' + this.width + 'px;right: -' + this.width + 'px';
             },
             open: function() {
+                this.$emit('open', this);
                 $(this.$el)
                     .addClass('sidemodal-open')
                     .find('.control-sidebar')

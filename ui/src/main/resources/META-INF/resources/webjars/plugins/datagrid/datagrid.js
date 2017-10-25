@@ -64,7 +64,7 @@ define(['jquery', 'utils'], function($, utils) {
         '                              <td v-if="checkbox && checkbox !== \'false\'" align="center"><checkbox :value="row" v-model="selectedRows"/></td>\n' +
         '                              <datagrid-cell v-for="column in columns" :key="row.id" :column="column" :row="row" @click-cell="_clickCell"></datagrid-cell>\n' +
         '                              <td v-if="operator && operator !== \'false\'" style="text-align: center">' +
-        '                                   <div class="col-xs-4 cell-title">操作</div>\n' +
+        '                                   <div class="col-xs-4 cell-title">操作：</div>\n' +
         '                                   <a v-if="draggable" class="btn btn-xs bg-purple draggable-handler" title="拖拽移动"><i class="fa fa-arrows"></i></a>' +
         '                                   <slot name="operator" v-bind:row="row"></slot>' +
         '                              </td>\n' +
@@ -141,7 +141,7 @@ define(['jquery', 'utils'], function($, utils) {
                 this.customParams = data;
                 $.ajax({
                     url: utils.patchUrl(this.url),
-                    data: $.extend(
+                    data: $.extend({},
                         this.queryParams,
                         {
                             pageSize: this.pageSize,
