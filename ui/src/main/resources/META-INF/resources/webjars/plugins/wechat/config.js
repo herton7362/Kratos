@@ -2,16 +2,21 @@ requirejs.config({
     baseUrl: (window._appConf.ctx || '') + '/webjars/plugins/wechat/',
     paths: {
         'base-jquery': '../jquery/js/jquery-2.1.4.min',
-        'jquery': '../jquery/jquery',
+        'jquery': 'jquery/jquery',
         'bootstrap': '../bootstrap/js/bootstrap.min',
         'base-adminlte': '../AdminLTE/js/adminlte.min',
         'adminlte': '../AdminLTE/adminlte',
         'base-vue': '../vue/js/vue',
-        'vue':'vue/vue'
+        'validator': '../validator/validator',
+        'messager': 'messager/js/messager',
+        'vue':'vue/vue',
+        'utils': '../utils/utils',
+        'app': '../utils/app'
     },
     shim: {
         'jquery': ['base-jquery'],
         'vue': ['base-vue'],
+        'messager': ['jquery', 'vue', 'css!../wechat/messager/css/messager.css'],
         'bootstrap': ['jquery'],
         'base-adminlte': ['bootstrap'],
         'adminlte': [
