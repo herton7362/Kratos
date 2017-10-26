@@ -151,6 +151,12 @@ define(['jquery'], function($) {
         return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
     };
 
+    APP.utils.getQueryString = function (name) {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r !== null)return  decodeURI(r[2]); return null;
+    };
+
     APP.support.touch = (
         ('ontouchstart' in window &&
             navigator.userAgent.toLowerCase().match(/mobile|tablet/)) ||

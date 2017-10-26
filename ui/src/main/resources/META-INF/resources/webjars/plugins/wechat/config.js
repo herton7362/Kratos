@@ -11,7 +11,8 @@ requirejs.config({
         'messager': 'messager/js/messager',
         'vue':'vue/vue',
         'utils': '../utils/utils',
-        'app': '../utils/app'
+        'app': '../utils/app',
+        'weui': '../weui/weui.min'
     },
     shim: {
         'jquery': ['base-jquery'],
@@ -24,7 +25,8 @@ requirejs.config({
             'css!../AdminLTE/css/Ionicons/css/ionicons.min.css',
             'css!../AdminLTE/css/font-awesome/css/font-awesome.min.css',
             'css!../AdminLTE/css/datatables.net-bs/dataTables.bootstrap.min.css'
-        ]
+        ],
+        'weui': ['jquery', 'css!../weui/weui.min.css']
     },
     map: {
         '*': {

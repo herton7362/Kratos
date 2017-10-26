@@ -2,7 +2,7 @@ requirejs.config({
     baseUrl: (window._appConf.ctx || '') + '/webjars/plugins/admin/',
     paths: {
         'base-jquery': '../jquery/js/jquery-2.1.4.min',
-        'jquery': '../jquery/jquery',
+        'jquery': 'jquery/jquery',
         'bootstrap': '../bootstrap/js/bootstrap.min',
         'base-datepicker': '../datepicker/js/bootstrap-datepicker.min',
         'datepicker-cn': '../datepicker/locales/bootstrap-datepicker.zh-CN.min',

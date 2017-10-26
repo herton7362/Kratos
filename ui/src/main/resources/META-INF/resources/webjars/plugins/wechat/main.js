@@ -1,3 +1,3 @@
-require(['jquery', 'vue', 'adminlte'], function ($, Vue){
+require(['jquery', 'vue', 'adminlte', 'weui'], function ($, Vue){
 
 });
