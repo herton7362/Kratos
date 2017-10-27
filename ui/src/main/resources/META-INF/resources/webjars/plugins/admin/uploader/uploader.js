@@ -47,7 +47,7 @@ define(['jquery', 'utils'], function($, utils) {
         '                                  <img :src="row.id | coverPath" alt="Attachment">\n' +
         '                              </span>\n' +
         '                              <div class="mailbox-attachment-info">\n' +
-        '                                  <a href="javascript:void(0)" class="mailbox-attachment-name">\n' +
+        '                                  <a href="javascript:void(0)" :title="row.name" class="mailbox-attachment-name">\n' +
         '                                      <i class="fa fa-camera"></i> {{row.name}}\n' +
         '                                  </a>\n' +
         '                                  <span class="mailbox-attachment-size">\n' +
@@ -93,10 +93,10 @@ define(['jquery', 'utils'], function($, utils) {
         },
         filters: {
             coverPath: function (val) {
-                return utils.patchUrl('/api/attachment/download/' + val);
+                return utils.patchUrl('/attachment/download/' + val);
             },
             downloadPath: function (val) {
-                return utils.patchUrl('/api/attachment/download/' + val);
+                return utils.patchUrl('/attachment/download/' + val);
             },
             sizeFormatter: function (val) {
                 return utils.bytesToSize(val);
@@ -133,7 +133,7 @@ define(['jquery', 'utils'], function($, utils) {
                     return;
                 }
                 $.ajax({
-                    url: utils.patchUrl('/api/attachment/upload'),
+                    url: utils.patchUrl('/attachment/upload'),
                     contentType: false,
                     processData: false,
                     type: 'POST',

@@ -26,16 +26,18 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
         UserThread.getInstance().setIpAddress(NetworkUtils.getIpAddress(request));
         if(StringUtils.isNotBlank(accessToken)) {
             OAuth2Authentication oAuth2Authentication = tokenStore.readAuthentication(accessToken);
-            User user = (User) oAuth2Authentication.getPrincipal();
-            UserThread.getInstance().setClientId(oAuth2Authentication.getOAuth2Request().getClientId());
-            oAuth2Authentication.getUserAuthentication().getAuthorities().forEach(grantedAuthority -> {
-                BaseUser baseUser;
-                if(grantedAuthority.getAuthority().equals(BaseUser.UserType.ADMIN.name())) {
-                    baseUser = adminRepository.findOneByLoginName(user.getUsername());
-                    baseUser.setPassword(null);
-                    UserThread.getInstance().set(baseUser);
-                }
-            });
+            if(oAuth2Authentication != null) {
+                User user = (User) oAuth2Authentication.getPrincipal();
+                UserThread.getInstance().setClientId(oAuth2Authentication.getOAuth2Request().getClientId());
+                oAuth2Authentication.getUserAuthentication().getAuthorities().forEach(grantedAuthority -> {
+                    BaseUser baseUser;
+                    if(grantedAuthority.getAuthority().equals(BaseUser.UserType.ADMIN.name())) {
+                        baseUser = adminRepository.findOneByLoginName(user.getUsername());
+                        baseUser.setPassword(null);
+                        UserThread.getInstance().set(baseUser);
+                    }
+                });
+            }
         }
         return true;
     }

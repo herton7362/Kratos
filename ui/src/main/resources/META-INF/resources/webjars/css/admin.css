@@ -1,7 +1,25 @@
-
-
 [v-cloak] {
     display: none;
+}
+
+
+.mailbox-attachment-icon {
+    height: 220px;
+    width: 198px;
+    overflow: hidden;
+}
+
+.mailbox-attachment-name {
+    overflow: hidden;/*超出部分隐藏*/
+    white-space: nowrap;/*不换行*/
+    text-overflow:ellipsis;/*超出部分省略号显示*/
+    width: 180px;
+    display: block;
+}
+
+.mailbox-attachment-icon img {
+    font-size: 20px;
+    font-weight: normal;
 }
 
 .padding-lr-15 {

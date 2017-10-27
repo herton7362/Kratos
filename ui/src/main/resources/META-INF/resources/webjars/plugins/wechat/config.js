@@ -12,7 +12,8 @@ requirejs.config({
         'vue':'vue/vue',
         'utils': '../utils/utils',
         'app': '../utils/app',
-        'weui': '../weui/weui.min'
+        'weui': '../weui/weui.min',
+        'actionsheet': 'actionsheet/actionsheet'
     },
     shim: {
         'jquery': ['base-jquery'],
@@ -26,11 +27,13 @@ requirejs.config({
             'css!../AdminLTE/css/font-awesome/css/font-awesome.min.css',
             'css!../AdminLTE/css/datatables.net-bs/dataTables.bootstrap.min.css'
         ],
-        'weui': ['jquery', 'css!../weui/weui.min.css']
+        'weui': ['jquery', 'css!../weui/weui.min.css'],
+        'actionsheet': ['jquery', 'css!../wechat/actionsheet/actionsheet.css']
     },
     map: {
         '*': {
-            'css': '../css.min'
+            'css': (window._appConf.ctx || '') + '/webjars/plugins/css.min.js',
+            'text': (window._appConf.ctx || '') + '/webjars/plugins/text.js'
         }
     }
 });

@@ -62,7 +62,8 @@ requirejs.config({
     },
     map: {
         '*': {
-            'css': '../css.min'
+            'css': (window._appConf.ctx || '') + '/webjars/plugins/css.min.js',
+            'text': (window._appConf.ctx || '') + '/webjars/plugins/text.js'
         }
     }
 });
