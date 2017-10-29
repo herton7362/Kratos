@@ -78,9 +78,7 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment> imple
         Attachment attachment = attachmentRepository.findOne(id);
         attachmentRepository.delete(id);
         File temp = new File(prefixPath, attachment.getPath());
-        if(!temp.delete()) {
-            throw new BusinessException("文件删除失败");
-        }
+        temp.delete();
     }
 
     @Autowired
