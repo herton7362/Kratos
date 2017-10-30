@@ -163,31 +163,31 @@
             var _sington = void 0;
 
             /**
-             * dialog锛屽脊绐楋紝alert鍜宑onfirm鐨勭埗绫�
+             * dialog，弹窗，alert和confirm的父类
              *
-             * @param {object=} options 閰嶇疆椤�
-             * @param {string=} options.title 寮圭獥鐨勬爣棰�
-             * @param {string=} options.content 寮圭獥鐨勫唴瀹�
-             * @param {string=} options.className 寮圭獥鐨勮嚜瀹氫箟绫诲悕
-             * @param {array=} options.buttons 鎸夐挳閰嶇疆椤�
+             * @param {object=} options 配置项
+             * @param {string=} options.title 弹窗的标题
+             * @param {string=} options.content 弹窗的内容
+             * @param {string=} options.className 弹窗的自定义类名
+             * @param {array=} options.buttons 按钮配置项
              *
-             * @param {string} [options.buttons[].label=纭畾] 鎸夐挳鐨勬枃瀛�
-             * @param {string} [options.buttons[].type=primary] 鎸夐挳鐨勭被鍨� [primary, default]
-             * @param {function} [options.buttons[].onClick=$.noop] 鎸夐挳鐨勫洖璋�
+             * @param {string} [options.buttons[].label=确定] 按钮的文字
+             * @param {string} [options.buttons[].type=primary] 按钮的类型 [primary, default]
+             * @param {function} [options.buttons[].onClick=$.noop] 按钮的回调
              *
              * @example
              * weui.dialog({
-	 *     title: 'dialog鏍囬',
-	 *     content: 'dialog鍐呭',
+	 *     title: 'dialog标题',
+	 *     content: 'dialog内容',
 	 *     className: 'custom-classname',
 	 *     buttons: [{
-	 *         label: '鍙栨秷',
+	 *         label: '取消',
 	 *         type: 'default',
-	 *         onClick: function () { alert('鍙栨秷') }
+	 *         onClick: function () { alert('取消') }
 	 *     }, {
-	 *         label: '纭畾',
+	 *         label: '确定',
 	 *         type: 'primary',
-	 *         onClick: function () { alert('纭畾') }
+	 *         onClick: function () { alert('确定') }
 	 *     }]
 	 * });
              */
@@ -202,7 +202,7 @@
                     content: '',
                     className: '',
                     buttons: [{
-                        label: '纭畾',
+                        label: '确定',
                         type: 'primary',
                         onClick: _util2.default.noop
                     }],
@@ -225,7 +225,7 @@
                 }
 
                 (0, _util2.default)('body').append($dialogWrap);
-                // 涓嶈兘鐩存帴鎶�.weui-animate-fade-in鍔犲埌$dialog锛屼細瀵艰嚧mask鐨剒-index鏈夐棶棰�
+                // 不能直接把.weui-animate-fade-in加到$dialog，会导致mask的z-index有问题
                 $mask.addClass('weui-animate-fade-in');
                 $dialog.addClass('weui-animate-fade-in');
 
@@ -269,10 +269,10 @@
 
             function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-            // 鍏跺疄锛�$ 鐨勫師鍨嬪氨鏄竴涓暟缁勶紝鎷ユ湁鏁扮粍鐨勫悇绉嶆柟娉�
-            // 杩欓噷鍙槸搴撳唴閮ㄤ娇鐢紝鎵€浠ラ€氳繃鏂囨。绾︽潫锛屼笉鍋氬閿欐牎楠岋紝杈惧埌浠ｇ爜鏈€灏忓寲
+            // 其实，$ 的原型就是一个数组，拥有数组的各种方法
+            // 这里只是库内部使用，所以通过文档约束，不做容错校验，达到代码最小化
 
-            /* 鍒ゆ柇绯荤粺 */
+            /* 判断系统 */
             function _detect(ua) {
                 var os = this.os = {},
                     android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
@@ -285,7 +285,7 @@
 
             (0, _objectAssign2.default)(_balajs2.default.fn, {
                 /**
-                 * 鍙兘鏄竴涓� HTMLElement 鍏冪礌鎴栬€� HTMLElement 鏁扮粍锛屼笉鏀寔瀛楃涓�
+                 * 只能是一个 HTMLElement 元素或者 HTMLElement 数组，不支持字符串
                  * @param {Element|Element[]} $child
                  * @returns {append}
                  */
@@ -370,7 +370,7 @@
                 },
                 /**
                  *
-                 * @param html 鐩墠鍙兘鎺ュ彈瀛楃涓�
+                 * @param html 目前只能接受字符串
                  * @returns {html}
                  */
                 html: function html(_html) {
@@ -381,7 +381,7 @@
                 },
                 /**
                  *
-                 * @param {Object} obj 鐩墠鍙兘鎺ュ彈object
+                 * @param {Object} obj 目前只能接受object
                  * @returns {css}
                  */
                 css: function css(obj) {
@@ -457,7 +457,7 @@
                     return Array.prototype.indexOf.call($parent.children, $element);
                 },
                 /**
-                 * @desc 鍥犱负off鏂规硶鐩墠涓嶅彲浠ョЩ闄ょ粦瀹氱殑鍖垮悕鍑芥暟锛岀幇鍦ㄧ洿鎺ユ毚鍔涚Щ闄ゆ墍鏈塴istener
+                 * @desc 因为off方法目前不可以移除绑定的匿名函数，现在直接暴力移除所有listener
                  * @returns {offAll}
                  */
                 offAll: function offAll() {
@@ -530,9 +530,9 @@
                 noop: function noop() {},
                 /**
                  * render
-                 * 鍙栧€硷細<%= variable %>
-                 * 琛ㄨ揪寮忥細<% if {} %>
-                 * 渚嬪瓙锛�
+                 * 取值：<%= variable %>
+                 * 表达式：<% if {} %>
+                 * 例子：
                  *  <div>
                  *    <div class="weui-mask"></div>
                  *    <div class="weui-dialog">
@@ -557,7 +557,7 @@
                     return new Function(code).apply(data);
                 },
                 /**
-                 * getStyle 鑾峰緱鍏冪礌璁＄畻鍚庣殑鏍峰紡鍊�
+                 * getStyle 获得元素计算后的样式值
                  */
                 getStyle: function getStyle(el, styleProp) {
                     var value,
@@ -809,25 +809,25 @@
             function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
             /**
-             * alert 璀﹀憡寮规锛屽姛鑳界被浼间簬娴忚鍣ㄨ嚜甯︾殑 alert 寮规锛岀敤浜庢彁閱掋€佽鍛婄敤鎴风畝鍗曟壖瑕佺殑淇℃伅锛屽彧鏈変竴涓€滅‘璁も€濇寜閽紝鐐瑰嚮鈥滅‘璁も€濇寜閽悗鍏抽棴寮规銆�
-             * @param {string} content 寮圭獥鍐呭
-             * @param {function=} yes 鐐瑰嚮纭畾鎸夐挳鐨勫洖璋�
-             * @param {object=} options 閰嶇疆椤�
-             * @param {string=} options.title 寮圭獥鐨勬爣棰�
-             * @param {string=} options.className 鑷畾涔夌被鍚�
-             * @param {array=} options.buttons 鎸夐挳閰嶇疆椤癸紝璇︽儏鍙傝€僤ialog
+             * alert 警告弹框，功能类似于浏览器自带的 alert 弹框，用于提醒、警告用户简单扼要的信息，只有一个“确认”按钮，点击“确认”按钮后关闭弹框。
+             * @param {string} content 弹窗内容
+             * @param {function=} yes 点击确定按钮的回调
+             * @param {object=} options 配置项
+             * @param {string=} options.title 弹窗的标题
+             * @param {string=} options.className 自定义类名
+             * @param {array=} options.buttons 按钮配置项，详情参考dialog
              *
              * @example
-             * weui.alert('鏅€氱殑alert');
-             * weui.alert('甯﹀洖璋冪殑alert', function(){ console.log('ok') });
-             * weui.alert('鑷畾涔夋爣棰樼殑alert', { title: '鑷畾涔夋爣棰�' });
-             * weui.alert('甯﹀洖璋冪殑鑷畾涔夋爣棰樼殑alert', function(){
+             * weui.alert('普通的alert');
+             * weui.alert('带回调的alert', function(){ console.log('ok') });
+             * weui.alert('自定义标题的alert', { title: '自定义标题' });
+             * weui.alert('带回调的自定义标题的alert', function(){
 	 *    console.log('ok')
 	 * }, {
-	 *    title: '鑷畾涔夋爣棰�'
+	 *    title: '自定义标题'
 	 * });
-             * weui.alert('鑷畾涔夋寜閽殑alert', {
-	 *     title: '鑷畾涔夋寜閽殑alert',
+             * weui.alert('自定义按钮的alert', {
+	 *     title: '自定义按钮的alert',
 	 *     buttons: [{
 	 *         label: 'OK',
 	 *         type: 'primary',
@@ -848,7 +848,7 @@
                 options = _util2.default.extend({
                     content: content,
                     buttons: [{
-                        label: '纭畾',
+                        label: '确定',
                         type: 'primary',
                         onClick: type ? _util2.default.noop : yes
                     }]
@@ -882,24 +882,24 @@
             function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
             /**
-             * 纭寮圭獥
-             * @param {string} content 寮圭獥鍐呭
-             * @param {function=} yes 鐐瑰嚮纭畾鎸夐挳鐨勫洖璋�
-             * @param {function=} no  鐐瑰嚮鍙栨秷鎸夐挳鐨勫洖璋�
-             * @param {object=} options 閰嶇疆椤�
-             * @param {string=} options.title 寮圭獥鐨勬爣棰�
-             * @param {string=} options.className 鑷畾涔夌被鍚�
-             * @param {array=} options.buttons 鎸夐挳閰嶇疆椤癸紝璇︽儏鍙傝€僤ialog
+             * 确认弹窗
+             * @param {string} content 弹窗内容
+             * @param {function=} yes 点击确定按钮的回调
+             * @param {function=} no  点击取消按钮的回调
+             * @param {object=} options 配置项
+             * @param {string=} options.title 弹窗的标题
+             * @param {string=} options.className 自定义类名
+             * @param {array=} options.buttons 按钮配置项，详情参考dialog
              *
              * @example
-             * weui.confirm('鏅€氱殑confirm');
-             * weui.confirm('鑷畾涔夋爣棰樼殑confirm', { title: '鑷畾涔夋爣棰�' });
-             * weui.confirm('甯﹀洖璋冪殑confirm', function(){ console.log('yes') }, function(){ console.log('no') });
-             * weui.confirm('甯﹀洖璋冪殑鑷畾涔夋爣棰樼殑confirm', function(){ console.log('yes') }, function(){ console.log('no') }, {
-	 *     title: '鑷畾涔夋爣棰�'
+             * weui.confirm('普通的confirm');
+             * weui.confirm('自定义标题的confirm', { title: '自定义标题' });
+             * weui.confirm('带回调的confirm', function(){ console.log('yes') }, function(){ console.log('no') });
+             * weui.confirm('带回调的自定义标题的confirm', function(){ console.log('yes') }, function(){ console.log('no') }, {
+	 *     title: '自定义标题'
 	 * });
-             * weui.confirm('鑷畾涔夋寜閽殑confirm', {
-	 *     title: '鑷畾涔夋寜閽殑confirm',
+             * weui.confirm('自定义按钮的confirm', {
+	 *     title: '自定义按钮的confirm',
 	 *     buttons: [{
 	 *         label: 'NO',
 	 *         type: 'default',
@@ -925,11 +925,11 @@
                 options = _util2.default.extend({
                     content: content,
                     buttons: [{
-                        label: '鍙栨秷',
+                        label: '取消',
                         type: 'default',
                         onClick: type ? _util2.default.noop : no
                     }, {
-                        label: '纭畾',
+                        label: '确定',
                         type: 'primary',
                         onClick: type ? _util2.default.noop : yes
                     }]
@@ -963,16 +963,16 @@
             var _sington = void 0;
 
             /**
-             * toast 涓€鑸敤浜庢搷浣滄垚鍔熸椂鐨勬彁绀哄満鏅�
-             * @param {string} content toast鐨勬枃瀛�
-             * @param {Object|function=} options 閰嶇疆椤规垨鍥炶皟
-             * @param {number=} [options.duration=3000] 澶氬皯姣鍚庡叧闂璽oast
-             * @param {function=} options.callback 鍏抽棴鍚庣殑鍥炶皟
-             * @param {string=} options.className 鑷畾涔夌被鍚�
+             * toast 一般用于操作成功时的提示场景
+             * @param {string} content toast的文字
+             * @param {Object|function=} options 配置项或回调
+             * @param {number=} [options.duration=3000] 多少毫秒后关闭toast
+             * @param {function=} options.callback 关闭后的回调
+             * @param {string=} options.className 自定义类名
              *
              * @example
-             * weui.toast('鎿嶄綔鎴愬姛', 3000);
-             * weui.toast('鎿嶄綔鎴愬姛', {
+             * weui.toast('操作成功', 3000);
+             * weui.toast('操作成功', {
 	 *     duration: 3000,
 	 *     className: 'custom-classname',
 	 *     callback: function(){ console.log('close') }
@@ -1050,9 +1050,9 @@
 
             /**
              * loading
-             * @param {string} content loading鐨勬枃瀛�
-             * @param {object=} options 閰嶇疆椤�
-             * @param {string=} options.className 鑷畾涔夌被鍚�
+             * @param {string} content loading的文字
+             * @param {object=} options 配置项
+             * @param {string=} options.className 自定义类名
              *
              * @example
              * var loading = weui.loading('loading', {
@@ -1119,41 +1119,41 @@
             var _sington = void 0;
 
             /**
-             * actionsheet 寮瑰嚭寮忚彍鍗�
-             * @param {array} menus 涓婂眰鐨勯€夐」
-             * @param {string} menus[].label 閫夐」鐨勬枃瀛�
-             * @param {function} menus[].onClick 閫夐」鐐瑰嚮鏃剁殑鍥炶皟
+             * actionsheet 弹出式菜单
+             * @param {array} menus 上层的选项
+             * @param {string} menus[].label 选项的文字
+             * @param {function} menus[].onClick 选项点击时的回调
              *
-             * @param {array} actions 涓嬪眰鐨勯€夐」
-             * @param {string} actions[].label 閫夐」鐨勬枃瀛�
-             * @param {function} actions[].onClick 閫夐」鐐瑰嚮鏃剁殑鍥炶皟
+             * @param {array} actions 下层的选项
+             * @param {string} actions[].label 选项的文字
+             * @param {function} actions[].onClick 选项点击时的回调
              *
-             * @param {object=} options 閰嶇疆椤�
-             * @param {string=} options.className 鑷畾涔夌被鍚�
+             * @param {object=} options 配置项
+             * @param {string=} options.className 自定义类名
              *
              * @example
              * weui.actionSheet([
              *     {
-	 *         label: '鎷嶇収',
+	 *         label: '拍照',
 	 *         onClick: function () {
-	 *             console.log('鎷嶇収');
+	 *             console.log('拍照');
 	 *         }
 	 *     }, {
-	 *         label: '浠庣浉鍐岄€夋嫨',
+	 *         label: '从相册选择',
 	 *         onClick: function () {
-	 *             console.log('浠庣浉鍐岄€夋嫨');
+	 *             console.log('从相册选择');
 	 *         }
 	 *     }, {
-	 *         label: '鍏朵粬',
+	 *         label: '其他',
 	 *         onClick: function () {
-	 *             console.log('鍏朵粬');
+	 *             console.log('其他');
 	 *         }
 	 *     }
              * ], [
              *     {
-	 *         label: '鍙栨秷',
+	 *         label: '取消',
 	 *         onClick: function () {
-	 *             console.log('鍙栨秷');
+	 *             console.log('取消');
 	 *         }
 	 *     }
              * ], {
@@ -1187,7 +1187,7 @@
                 }
                 (0, _util2.default)('body').append($actionSheetWrap);
 
-                // 杩欓噷鑾峰彇涓€涓嬭绠楀悗鐨勬牱寮忥紝寮哄埗瑙﹀彂娓叉煋. fix IOS10涓嬮棯鐜扮殑闂
+                // 这里获取一下计算后的样式，强制触发渲染. fix IOS10下闪现的问题
                 _util2.default.getStyle($actionSheet[0], 'transform');
 
                 $actionSheet.addClass(isAndroid ? 'weui-animate-fade-in' : 'weui-animate-slide-up');
@@ -1239,17 +1239,17 @@
             var _toptips = null;
 
             /**
-             * toptips 椤堕儴鎶ラ敊鎻愮ず
-             * @param {string} content 鎶ラ敊鐨勬枃瀛�
-             * @param {number|function|object=} options 澶氬皯姣鍚庢秷澶眧娑堝け鍚庣殑鍥炶皟|閰嶇疆椤�
-             * @param {number=} [options.duration=3000] 澶氬皯姣鍚庢秷澶�
-             * @param {function=} options.callback 娑堝け鍚庣殑鍥炶皟
+             * toptips 顶部报错提示
+             * @param {string} content 报错的文字
+             * @param {number|function|object=} options 多少毫秒后消失|消失后的回调|配置项
+             * @param {number=} [options.duration=3000] 多少毫秒后消失
+             * @param {function=} options.callback 消失后的回调
              *
              * @example
-             * weui.topTips('璇峰～鍐欐纭殑瀛楁');
-             * weui.topTips('璇峰～鍐欐纭殑瀛楁', 3000);
-             * weui.topTips('璇峰～鍐欐纭殑瀛楁', function(){ console.log('close') });
-             * weui.topTips('璇峰～鍐欐纭殑瀛楁', {
+             * weui.topTips('请填写正确的字段');
+             * weui.topTips('请填写正确的字段', 3000);
+             * weui.topTips('请填写正确的字段', function(){ console.log('close') });
+             * weui.topTips('请填写正确的字段', {
 	 *     duration: 3000,
 	 *     className: 'custom-classname',
 	 *     callback: function(){ console.log('close') }
@@ -1324,8 +1324,8 @@
             function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
             /**
-             * searchbar 鎼滅储妗嗭紝涓昏瀹炵幇鎼滅储妗嗙粍浠朵竴浜涙樉闅愰€昏緫
-             * @param {string} selector searchbar鐨剆elector
+             * searchbar 搜索框，主要实现搜索框组件一些显隐逻辑
+             * @param {string} selector searchbar的selector
              *
              * @example
              * weui.searchBar('#searchBar');
@@ -1384,11 +1384,11 @@
             function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
             /**
-             * tab tab瀵艰埅鏍�
-             * @param {string} selector tab鐨剆elector
-             * @param {object=} options 閰嶇疆椤�
-             * @param {number=} [options.defaultIndex=0] 鍒濆灞曠ず鐨刬ndex
-             * @param {function=} options.onChange 鐐瑰嚮tab鏃讹紝杩斿洖瀵瑰簲鐨刬ndex
+             * tab tab导航栏
+             * @param {string} selector tab的selector
+             * @param {object=} options 配置项
+             * @param {number=} [options.defaultIndex=0] 初始展示的index
+             * @param {function=} options.onChange 点击tab时，返回对应的index
              *
              * @example
              * weui.tab('#tab',{
@@ -1538,7 +1538,7 @@
                         return null;
                     }
                 } else if (val.length) {
-                    // 鏈夎緭鍏ュ€�
+                    // 有输入值
                     return null;
                 }
 
@@ -1559,56 +1559,56 @@
             }
 
             /**
-             * 琛ㄥ崟鏍￠獙
-             * @param {string} selector 琛ㄥ崟鐨剆elector
-             * @param {function} callback 鏍￠獙鍚庣殑鍥炶皟
-             * @param {Object=} options 閰嶇疆椤�
-             * @param {object=} options.regexp 琛ㄥ崟鎵€闇€鐨勬鍒欒〃杈惧紡
+             * 表单校验
+             * @param {string} selector 表单的selector
+             * @param {function} callback 校验后的回调
+             * @param {Object=} options 配置项
+             * @param {object=} options.regexp 表单所需的正则表达式
              *
              * @example
-             * ##### 鏅€歩nput鐨凥TML
+             * ##### 普通input的HTML
              * ```html
-             * <input type="tel" required pattern="[0-9]{11}" placeholder="杈撳叆浣犵幇鍦ㄧ殑鎵嬫満鍙�" emptyTips="璇疯緭鍏ユ墜鏈哄彿" notMatchTips="璇疯緭鍏ユ纭殑鎵嬫満鍙�">
-             * <input type="text" required pattern="REG_IDNUM" placeholder="杈撳叆浣犵殑韬唤璇佸彿鐮�" emptyTips="璇疯緭鍏ヨ韩浠借瘉鍙风爜" notMatchTips="璇疯緭鍏ユ纭殑韬唤璇佸彿鐮�">
+             * <input type="tel" required pattern="[0-9]{11}" placeholder="输入你现在的手机号" emptyTips="请输入手机号" notMatchTips="请输入正确的手机号">
+             * <input type="text" required pattern="REG_IDNUM" placeholder="输入你的身份证号码" emptyTips="请输入身份证号码" notMatchTips="请输入正确的身份证号码">
              * ```
-             * - required 琛ㄧず闇€瑕佹牎楠�
-             * - pattern 琛ㄧず鏍￠獙鐨勬鍒欙紝涓嶅～鍒欒繘琛屼负绌烘牎楠屻€傚綋浠EG_寮€澶存椂锛屽垯鑾峰彇鏍￠獙鏃朵紶鍏ョ殑姝ｅ垯銆傚`pattern="REG_IDNUM"`锛屽垯闇€瑕佸湪璋冪敤鐩稿簲鏂规硶鏃朵紶鍏{regexp:{IDNUM: /(?:^\d{15}$)|(?:^\d{18}$)|^\d{17}[\dXx]$/}}`锛岃鎯呰鐪嬩笅闈checkIfBlur`鍜宍validate`
-             * - 鎶ラ敊鐨剋ording浼氫粠 emptyTips | notMatchTips | tips | placeholder 閲岃幏寰�
+             * - required 表示需要校验
+             * - pattern 表示校验的正则，不填则进行为空校验。当以REG_开头时，则获取校验时传入的正则。如`pattern="REG_IDNUM"`，则需要在调用相应方法时传入`{regexp:{IDNUM: /(?:^\d{15}$)|(?:^\d{18}$)|^\d{17}[\dXx]$/}}`，详情请看下面`checkIfBlur`和`validate`
+             * - 报错的wording会从 emptyTips | notMatchTips | tips | placeholder 里获得
              * <br>
              *
              * ##### radio
-             * radio闇€瑕佹楠岋紝鍙渶鎶婂弬鏁板啓鍦ㄥ悓涓€琛ㄥ崟涓嬶紝鍚宯ame鐨勭涓€涓厓绱犲嵆鍙€�
+             * radio需要检验，只需把参数写在同一表单下，同name的第一个元素即可。
              * ```html
-             * <input type="radio" value="male" name="sex" required tips="璇烽€夋嫨鎬у埆" />
+             * <input type="radio" value="male" name="sex" required tips="请选择性别" />
              * <input type="radio" value="female" name="sex" />
              * ```
              * <br>
              *
              * ##### checkbox
-             * checkbox闇€瑕佹牎楠岋紝鍙渶鎶婂弬鏁板啓鍦ㄥ悓涓€琛ㄥ崟涓嬶紝鍚宯ame鐨勭涓€涓厓绱犲嵆鍙€�
-             * pattern 瑙勫畾閫夋嫨涓暟锛岀敤娉曚笌姝ｅ垯涓€鑷达紝渚嬪锛�
+             * checkbox需要校验，只需把参数写在同一表单下，同name的第一个元素即可。
+             * pattern 规定选择个数，用法与正则一致，例如：
              * ```html
-             * <input type="checkbox" name="assistance" value="榛勮嵂甯�" required pattern="{1,2}" tips="璇峰嬀閫�1-2涓暡鐮佸姪鎵�" />
-             * <input type="checkbox" name="assistance" value="娆ч槼閿�" />
-             * <input type="checkbox" name="assistance" value="娈垫櫤鍏�" />
-             * <input type="checkbox" name="assistance" value="娲竷鍏�" />
+             * <input type="checkbox" name="assistance" value="黄药师" required pattern="{1,2}" tips="请勾选1-2个敲码助手" />
+             * <input type="checkbox" name="assistance" value="欧阳锋" />
+             * <input type="checkbox" name="assistance" value="段智兴" />
+             * <input type="checkbox" name="assistance" value="洪七公" />
              * ```
-             * - {1,}   鑷冲皯閫夋嫨1涓�
-             * - {1,2}  閫夋嫨1-2涓�
-             * - 杩欓噷涓嶄細鍑虹幇{0,}杩欑鎯呭喌锛屽洜涓烘湁required灏辫〃绀哄繀閫夈€傚惁鍒欑洿鎺ュ幓鎺塺equired鍗冲彲銆�
+             * - {1,}   至少选择1个
+             * - {1,2}  选择1-2个
+             * - 这里不会出现{0,}这种情况，因为有required就表示必选。否则直接去掉required即可。
              * <br>
              *
              * ``` js
              * // weui.form.validate('#form', function(error){ console.log(error);}); // error: {dom:[Object], msg:[String]}
              * weui.form.validate('#form', function (error) {
 	 *     if (!error) {
-	 *         var loading = weui.loading('鎻愪氦涓�...');
+	 *         var loading = weui.loading('提交中...');
 	 *         setTimeout(function () {
 	 *             loading.hide();
-	 *             weui.toast('鎻愪氦鎴愬姛', 3000);
+	 *             weui.toast('提交成功', 3000);
 	 *         }, 1500);
 	 *     }
-	 *     // return true; // 褰搑eturn true鏃讹紝涓嶄細鏄剧ず閿欒
+	 *     // return true; // 当return true时，不会显示错误
 	 * }, {
 	 *     regexp: {
 	 *         IDNUM: /(?:^\d{15}$)|(?:^\d{18}$)|^\d{17}[\dXx]$/,
@@ -1644,10 +1644,10 @@
             }
 
             /**
-             * checkIfBlur 褰撹〃鍗曠殑input澶卞幓鐒︾偣鏃舵牎楠�
-             * @param {string} selector 琛ㄥ崟鐨剆elector
-             * @param {Object=} options 閰嶇疆椤�
-             * @param {object=} options.regexp 琛ㄥ崟鎵€闇€鐨勬鍒欒〃杈惧紡
+             * checkIfBlur 当表单的input失去焦点时校验
+             * @param {string} selector 表单的selector
+             * @param {Object=} options 配置项
+             * @param {object=} options.regexp 表单所需的正则表达式
              *
              * @example
              * weui.form.checkIfBlur('#form', {
@@ -1665,11 +1665,11 @@
                 $eles.forEach(function (ele) {
                     var $form = (0, _util2.default)(ele);
                     $form.find('[required]').on('blur', function () {
-                        // checkbox 鍜� radio 涓嶅仛blur妫€娴嬶紝浠ュ厤璇Е鍙�
+                        // checkbox 和 radio 不做blur检测，以免误触发
                         if (this.type == 'checkbox' || this.type == 'radio') return;
 
                         var $this = (0, _util2.default)(this);
-                        if ($this.val().length < 1) return; // 褰撶┖鐨勬椂鍊欎笉鏍￠獙锛屼互闃蹭笉鏂脊鍑簍optips
+                        if ($this.val().length < 1) return; // 当空的时候不校验，以防不断弹出toptips
 
                         var errorMsg = _validate($this, $form, options.regexp);
                         if (errorMsg) {
@@ -1722,23 +1722,23 @@
             var _id = 0;
 
             /**
-             * uploader 涓婁紶缁勪欢
-             * @param {string} selector 涓婁紶缁勪欢鐨剆elector
-             * @param {object} options 閰嶇疆椤�
-             * @param {string} [options.url] 涓婁紶鐨剈rl锛岃繑鍥炲€奸渶瑕佷娇鐢╦son鏍煎紡
-             * @param {boolean} [options.auto=true] 璁剧疆涓篳true`鍚庯紝涓嶉渶瑕佹墜鍔ㄨ皟鐢ㄤ笂浼狅紝鏈夋枃浠堕€夋嫨鍗冲紑濮嬩笂浼犮€傜敤this.upload()鏉ヤ笂浼狅紝璇︽儏璇风湅example
-             * @param {string} [options.type='file'] 涓婁紶绫诲瀷, `file`涓烘枃浠朵笂浼�; `base64`涓轰互base64涓婁紶
-             * @param {string=} [options.fileVal=file] 鏂囦欢涓婁紶鍩熺殑name
-             * @param {object=} [options.compress] 鍘嬬缉閰嶇疆, `false`鍒欎笉鍘嬬缉
-             * @param {number=} [options.compress.width=1600] 鍥剧墖鐨勬渶澶у搴�
-             * @param {number=} [options.compress.height=1600] 鍥剧墖鐨勬渶澶ч珮搴�
-             * @param {number=} [options.compress.quality=.8] 鍘嬬缉璐ㄩ噺, 鍙栧€艰寖鍥� 0 ~ 1
-             * @param {function=} [options.onBeforeQueued] 鏂囦欢娣诲姞鍓嶇殑鍥炶皟锛宺eturn false鍒欎笉娣诲姞
-             * @param {function=} [options.onQueued] 鏂囦欢娣诲姞鎴愬姛鐨勫洖璋�
-             * @param {function=} [options.onBeforeSend] 鏂囦欢涓婁紶鍓嶈皟鐢紝鍏蜂綋鍙傛暟鐪媏xample
-             * @param {function=} [options.onSuccess] 涓婁紶鎴愬姛鐨勫洖璋�
-             * @param {function=} [options.onProgress] 涓婁紶杩涘害鐨勫洖璋�
-             * @param {function=} [options.onError] 涓婁紶澶辫触鐨勫洖璋�
+             * uploader 上传组件
+             * @param {string} selector 上传组件的selector
+             * @param {object} options 配置项
+             * @param {string} [options.url] 上传的url，返回值需要使用json格式
+             * @param {boolean} [options.auto=true] 设置为`true`后，不需要手动调用上传，有文件选择即开始上传。用this.upload()来上传，详情请看example
+             * @param {string} [options.type='file'] 上传类型, `file`为文件上传; `base64`为以base64上传
+             * @param {string=} [options.fileVal=file] 文件上传域的name
+             * @param {object=} [options.compress] 压缩配置, `false`则不压缩
+             * @param {number=} [options.compress.width=1600] 图片的最大宽度
+             * @param {number=} [options.compress.height=1600] 图片的最大高度
+             * @param {number=} [options.compress.quality=.8] 压缩质量, 取值范围 0 ~ 1
+             * @param {function=} [options.onBeforeQueued] 文件添加前的回调，return false则不添加
+             * @param {function=} [options.onQueued] 文件添加成功的回调
+             * @param {function=} [options.onBeforeSend] 文件上传前调用，具体参数看example
+             * @param {function=} [options.onSuccess] 上传成功的回调
+             * @param {function=} [options.onProgress] 上传进度的回调
+             * @param {function=} [options.onError] 上传失败的回调
              *
              * @example
              * var uploadCount = 0;
@@ -1753,55 +1753,55 @@
 	 *        quality: .8
 	 *    },
 	 *    onBeforeQueued: function(files) {
-	 *        // `this` 鏄疆璇㈠埌鐨勬枃浠�, `files` 鏄墍鏈夋枃浠�
+	 *        // `this` 是轮询到的文件, `files` 是所有文件
 	 *
 	 *        if(["image/jpg", "image/jpeg", "image/png", "image/gif"].indexOf(this.type) < 0){
-	 *            weui.alert('璇蜂笂浼犲浘鐗�');
-	 *            return false; // 闃绘鏂囦欢娣诲姞
+	 *            weui.alert('请上传图片');
+	 *            return false; // 阻止文件添加
 	 *        }
 	 *        if(this.size > 10 * 1024 * 1024){
-	 *            weui.alert('璇蜂笂浼犱笉瓒呰繃10M鐨勫浘鐗�');
+	 *            weui.alert('请上传不超过10M的图片');
 	 *            return false;
 	 *        }
-	 *        if (files.length > 5) { // 闃叉涓€涓嬪瓙閫夋嫨杩囧鏂囦欢
-	 *            weui.alert('鏈€澶氬彧鑳戒笂浼�5寮犲浘鐗囷紝璇烽噸鏂伴€夋嫨');
+	 *        if (files.length > 5) { // 防止一下子选择过多文件
+	 *            weui.alert('最多只能上传5张图片，请重新选择');
 	 *            return false;
 	 *        }
 	 *        if (uploadCount + 1 > 5) {
-	 *            weui.alert('鏈€澶氬彧鑳戒笂浼�5寮犲浘鐗�');
+	 *            weui.alert('最多只能上传5张图片');
 	 *            return false;
 	 *        }
 	 *
 	 *        ++uploadCount;
 	 *
-	 *        // return true; // 闃绘榛樿琛屼负锛屼笉鎻掑叆棰勮鍥剧殑妗嗘灦
+	 *        // return true; // 阻止默认行为，不插入预览图的框架
 	 *    },
 	 *    onQueued: function(){
 	 *        console.log(this);
-	 *        // console.log(this.base64); // 濡傛灉鏄痓ase64涓婁紶锛宖ile.base64鍙互鑾峰緱鏂囦欢鐨刡ase64
+	 *        // console.log(this.base64); // 如果是base64上传，file.base64可以获得文件的base64
 	 *
-	 *        // this.upload(); // 濡傛灉鏄墜鍔ㄤ笂浼狅紝杩欓噷鍙互閫氳繃璋冪敤upload鏉ュ疄鐜�
+	 *        // this.upload(); // 如果是手动上传，这里可以通过调用upload来实现
 	 *
-	 *        // return true; // 闃绘榛樿琛屼负锛屼笉鏄剧ず棰勮鍥剧殑鍥惧儚
+	 *        // return true; // 阻止默认行为，不显示预览图的图像
 	 *    },
 	 *    onBeforeSend: function(data, headers){
 	 *        console.log(this, data, headers);
-	 *        // $.extend(data, { test: 1 }); // 鍙互鎵╁睍姝ゅ璞℃潵鎺у埗涓婁紶鍙傛暟
-	 *        // $.extend(headers, { Origin: 'http://127.0.0.1' }); // 鍙互鎵╁睍姝ゅ璞℃潵鎺у埗涓婁紶澶撮儴
+	 *        // $.extend(data, { test: 1 }); // 可以扩展此对象来控制上传参数
+	 *        // $.extend(headers, { Origin: 'http://127.0.0.1' }); // 可以扩展此对象来控制上传头部
 	 *
-	 *        // return false; // 闃绘鏂囦欢涓婁紶
+	 *        // return false; // 阻止文件上传
 	 *    },
 	 *    onProgress: function(procent){
 	 *        console.log(this, procent);
-	 *        // return true; // 闃绘榛樿琛屼负锛屼笉浣跨敤榛樿鐨勮繘搴︽樉绀�
+	 *        // return true; // 阻止默认行为，不使用默认的进度显示
 	 *    },
 	 *    onSuccess: function (ret) {
 	 *        console.log(this, ret);
-	 *        // return true; // 闃绘榛樿琛屼负锛屼笉浣跨敤榛樿鐨勬垚鍔熸€�
+	 *        // return true; // 阻止默认行为，不使用默认的成功态
 	 *    },
 	 *    onError: function(err){
 	 *        console.log(this, err);
-	 *        // return true; // 闃绘榛樿琛屼负锛屼笉浣跨敤榛樿鐨勫け璐ユ€�
+	 *        // return true; // 阻止默认行为，不使用默认的失败态
 	 *    }
 	 * });
              */
@@ -1809,7 +1809,7 @@
                 var $uploader = (0, _util2.default)(selector);
                 var URL = window.URL || window.webkitURL || window.mozURL;
 
-                // 鎵惧埌DOM閲宖ile-content锛岃嫢鏃狅紝鍒欐彃鍏ヤ竴涓€�
+                // 找到DOM里file-content，若无，则插入一个。
                 function findFileCtn($uploader, id) {
                     var $file = $uploader.find('[data-id="' + id + '"]');
                     var $fileCtn = $file.find('.weui-uploader__file-content');
@@ -1822,13 +1822,13 @@
                     return $fileCtn;
                 }
 
-                // 娓呴櫎DOM閲岀殑涓婁紶鐘舵€�
+                // 清除DOM里的上传状态
                 function clearFileStatus($uploader, id) {
                     var $file = $uploader.find('[data-id="' + id + '"]').removeClass('weui-uploader__file_status');
                     $file.find('.weui-uploader__file-content').remove();
                 }
 
-                // 璁剧疆涓婁紶
+                // 设置上传
                 function setUploadFile(file) {
                     file.url = URL.createObjectURL(file);
                     file.upload = function () {
@@ -1948,7 +1948,7 @@
                     }
 
                     if (options.compress === false && options.type == 'file') {
-                        // 浠ュ師鏂囦欢鏂瑰紡涓婁紶
+                        // 以原文件方式上传
                         Array.prototype.forEach.call(files, function (file) {
                             file.id = ++_id;
 
@@ -1957,7 +1957,7 @@
                             setUploadFile(file);
                         });
                     } else {
-                        // base64涓婁紶 鍜� 鍘嬬缉涓婁紶
+                        // base64上传 和 压缩上传
                         Array.prototype.forEach.call(files, function (file) {
                             file.id = ++_id;
 
@@ -1994,10 +1994,10 @@
             exports.dataURItoBlob = dataURItoBlob;
             exports.compress = compress;
             /**
-             * 妫€鏌ュ浘鐗囨槸鍚︽湁琚帇鎵侊紝濡傛灉鏈夛紝杩斿洖姣旂巼
+             * 检查图片是否有被压扁，如果有，返回比率
              */
             function detectVerticalSquash(img) {
-                // 鎷嶇収鍦↖OS7鎴栦互涓嬬殑鏈哄瀷浼氬嚭鐜扮収鐗囪鍘嬫墎鐨刡ug
+                // 拍照在IOS7或以下的机型会出现照片被压扁的bug
                 var data;
                 var ih = img.naturalHeight;
                 var canvas = document.createElement('canvas');
@@ -2043,19 +2043,19 @@
             }
 
             /**
-             * 鍘嬬缉鍥剧墖
+             * 压缩图片
              */
             function compress(file, options, callback) {
                 var reader = new FileReader();
                 reader.onload = function (evt) {
                     if (options.compress === false) {
-                        // 涓嶅惎鐢ㄥ帇缂� & base64涓婁紶 鐨勫垎鏀�
+                        // 不启用压缩 & base64上传 的分支
                         file.base64 = evt.target.result;
                         callback(file);
                         return;
                     }
 
-                    // 鍚敤鍘嬬缉鐨勫垎鏀�
+                    // 启用压缩的分支
                     var img = new Image();
                     img.onload = function () {
                         var ratio = detectVerticalSquash(img);
@@ -2089,7 +2089,7 @@
 
                         if (options.type == 'file') {
                             if (/;base64,null/.test(dataURL) || /;base64,$/.test(dataURL)) {
-                                // 鍘嬬缉鍑洪敊锛屼互鏂囦欢鏂瑰紡涓婁紶鐨勶紝閲囩敤鍘熸枃浠朵笂浼�
+                                // 压缩出错，以文件方式上传的，采用原文件上传
                                 console.warn('Compress fail, dataURL is ' + dataURL + '. Next will use origin file to upload.');
                                 callback(file);
                             } else {
@@ -2102,7 +2102,7 @@
                             }
                         } else {
                             if (/;base64,null/.test(dataURL) || /;base64,$/.test(dataURL)) {
-                                // 鍘嬬缉澶辫触锛屼互base64涓婁紶鐨勶紝鐩存帴鎶ラ敊涓嶄笂浼�
+                                // 压缩失败，以base64上传的，直接报错不上传
                                 options.onError(file, new Error('Compress fail, dataURL is ' + dataURL + '.'));
                                 callback();
                             } else {
@@ -2155,7 +2155,7 @@
 
                 file.xhr = xhr;
 
-                // 璁剧疆鍙傛暟
+                // 设置参数
                 Object.keys(data).forEach(function (key) {
                     formData.append(key, data[key]);
                 });
@@ -2169,7 +2169,7 @@
                     if (xhr.readyState == 4) {
                         if (xhr.status == 200) {
                             try {
-                                // 鍙敮鎸乯son
+                                // 只支持json
                                 var ret = JSON.parse(xhr.responseText);
                                 onSuccess(file, ret);
                             } catch (err) {
@@ -2190,7 +2190,7 @@
 
                 xhr.open('POST', url);
 
-                // 璁剧疆澶撮儴淇℃伅
+                // 设置头部信息
                 Object.keys(headers).forEach(function (key) {
                     xhr.setRequestHeader(key, headers[key]);
                 });
@@ -2243,7 +2243,7 @@
             var show = function show($picker) {
                 (0, _util2.default)('body').append($picker);
 
-                // 杩欓噷鑾峰彇涓€涓嬭绠楀悗鐨勬牱寮忥紝寮哄埗瑙﹀彂娓叉煋. fix IOS10涓嬮棯鐜扮殑闂
+                // 这里获取一下计算后的样式，强制触发渲染. fix IOS10下闪现的问题
                 _util2.default.getStyle($picker[0], 'transform');
 
                 $picker.find('.weui-mask').addClass('weui-animate-fade-in');
@@ -2257,38 +2257,38 @@
                 });
             };
 
-            // temp 瀛樺湪涓婁竴娆℃粦鍔ㄧ殑浣嶇疆
+            // temp 存在上一次滑动的位置
             var temp = {};
 
             /**
-             * picker 澶氬垪閫夋嫨鍣ㄣ€�
-             * @param {array} items picker鐨勬暟鎹紝鍗崇敤浜庣敓鎴恜icker鐨勬暟鎹紝picker鐨勫眰绾у彲浠ヨ嚜宸卞畾涔夛紝浣嗗缓璁渶澶氫笁灞傘€傛暟鎹牸寮忓弬鑰僥xample銆�
-             * @param {Object} options 閰嶇疆椤�
-             * @param {number=} [options.depth] picker娣卞害(涔熷氨鏄痯icker鏈夊灏戝垪) 鍙栧€间负1-3銆傚鏋滀负绌猴紝鍒欏彇items绗竴椤圭殑娣卞害銆�
-             * @param {string=} [options.id=default] 浣滀负picker鐨勫敮涓€鏍囪瘑
-             * @param {string=} [options.className] 鑷畾涔夌被鍚�
-             * @param {array=} [options.defaultValue] 榛樿閫夐」鐨剉alue鏁扮粍
-             * @param {function=} [options.onChange] 鍦╬icker閫変腑鐨勫€煎彂鐢熷彉鍖栫殑鏃跺€欏洖璋�
-             * @param {function=} [options.onConfirm] 鍦ㄧ偣鍑�"纭畾"涔嬪悗鐨勫洖璋冦€傚洖璋冭繑鍥為€変腑鐨勭粨鏋�(Array)锛屾暟缁勯暱搴︿緷璧栦簬picker鐨勫眰绾с€�
+             * picker 多列选择器。
+             * @param {array} items picker的数据，即用于生成picker的数据，picker的层级可以自己定义，但建议最多三层。数据格式参考example。
+             * @param {Object} options 配置项
+             * @param {number=} [options.depth] picker深度(也就是picker有多少列) 取值为1-3。如果为空，则取items第一项的深度。
+             * @param {string=} [options.id=default] 作为picker的唯一标识
+             * @param {string=} [options.className] 自定义类名
+             * @param {array=} [options.defaultValue] 默认选项的value数组
+             * @param {function=} [options.onChange] 在picker选中的值发生变化的时候回调
+             * @param {function=} [options.onConfirm] 在点击"确定"之后的回调。回调返回选中的结果(Array)，数组长度依赖于picker的层级。
              *
              * @example
-             * // 鍗曞垪picker
+             * // 单列picker
              * weui.picker([
              * {
-	 *     label: '椋炴満绁�',
+	 *     label: '飞机票',
 	 *     value: 0,
-	 *     disabled: true // 涓嶅彲鐢�
+	 *     disabled: true // 不可用
 	 * },
              * {
-	 *     label: '鐏溅绁�',
+	 *     label: '火车票',
 	 *     value: 1
 	 * },
              * {
-	 *     label: '姹借溅绁�',
+	 *     label: '汽车票',
 	 *     value: 3
 	 * },
              * {
-	 *     label: '鍏溅绁�',
+	 *     label: '公车票',
 	 *     value: 4,
 	 * }
              * ], {
@@ -2304,7 +2304,7 @@
 	 * });
              *
              * @example
-             * // 澶氬垪picker
+             * // 多列picker
              * weui.picker([
              *     {
 	 *         label: '1',
@@ -2339,51 +2339,51 @@
 	 * });
              *
              * @example
-             * // 绾ц仈picker
+             * // 级联picker
              * weui.picker([
              * {
-	 *     label: '椋炴満绁�',
+	 *     label: '飞机票',
 	 *     value: 0,
 	 *     children: [
 	 *         {
-	 *             label: '缁忔祹鑸�',
+	 *             label: '经济舱',
 	 *             value: 1
 	 *         },
 	 *         {
-	 *             label: '鍟嗗姟鑸�',
+	 *             label: '商务舱',
 	 *             value: 2
 	 *         }
 	 *     ]
 	 * },
              * {
-	 *     label: '鐏溅绁�',
+	 *     label: '火车票',
 	 *     value: 1,
 	 *     children: [
 	 *         {
-	 *             label: '鍗ч摵',
+	 *             label: '卧铺',
 	 *             value: 1,
-	 *             disabled: true // 涓嶅彲鐢�
+	 *             disabled: true // 不可用
 	 *         },
 	 *         {
-	 *             label: '鍧愮エ',
+	 *             label: '坐票',
 	 *             value: 2
 	 *         },
 	 *         {
-	 *             label: '绔欑エ',
+	 *             label: '站票',
 	 *             value: 3
 	 *         }
 	 *     ]
 	 * },
              * {
-	 *     label: '姹借溅绁�',
+	 *     label: '汽车票',
 	 *     value: 3,
 	 *     children: [
 	 *         {
-	 *             label: '蹇彮',
+	 *             label: '快班',
 	 *             value: 1
 	 *         },
 	 *         {
-	 *             label: '鏅€�',
+	 *             label: '普通',
 	 *             value: 2
 	 *         }
 	 *     ]
@@ -2403,9 +2403,9 @@
             function picker() {
                 if (_sington) return _sington;
 
-                var isMulti = false; // 鏄惁澶氬垪鐨勭被鍨�
+                var isMulti = false; // 是否多列的类型
 
-                // 鏁版嵁
+                // 数据
                 var items = void 0;
                 if (arguments.length > 2) {
                     var i = 0;
@@ -2418,7 +2418,7 @@
                     items = arguments[0];
                 }
 
-                // 閰嶇疆椤�
+                // 配置项
                 var options = arguments[arguments.length - 1];
                 var defaults = _util2.default.extend({
                     id: 'default',
@@ -2427,7 +2427,7 @@
                     onConfirm: _util2.default.noop
                 }, options);
 
-                // 鑾峰彇缂撳瓨
+                // 获取缓存
                 temp[defaults.id] = temp[defaults.id] || [];
                 var result = [];
                 var lineTemp = temp[defaults.id];
@@ -2442,10 +2442,10 @@
                 $picker.find('.weui-picker__bd').html(groups);
                 show($picker);
 
-                // 鍒濆鍖栨粴鍔�
+                // 初始化滚动
                 function scroll(items, level) {
                     if (lineTemp[level] === undefined && defaults.defaultValue && defaults.defaultValue[level] !== undefined) {
-                        // 娌℃湁缂撳瓨閫夐」锛岃€屼笖瀛樺湪defaultValue
+                        // 没有缓存选项，而且存在defaultValue
                         var defaultVal = defaults.defaultValue[level];
                         var index = 0,
                             len = items.length;
@@ -2463,7 +2463,7 @@
                         items: items,
                         temp: lineTemp[level],
                         onChange: function onChange(item, index) {
-                            //涓哄綋鍓嶇殑result璧嬪€笺€�
+                            //为当前的result赋值。
                             if (item) {
                                 result[level] = item.value;
                             } else {
@@ -2475,19 +2475,19 @@
                                 defaults.onChange(result);
                             } else {
                                 /**
-                                 * @瀛愬垪琛ㄥ鐞�
-                                 * 1. 鍦ㄦ病鏈夊瓙鍒楄〃锛屾垨鑰呭€煎垪琛ㄧ殑鏁扮粍闀垮害涓�0鏃讹紝闅愯棌鎺夊瓙鍒楄〃銆�
-                                 * 2. 婊戝姩涔嬪悗鍙戠幇閲嶆柊鏈夊瓙鍒楄〃鏃讹紝鍐嶆鏄剧ず瀛愬垪琛ㄣ€�
+                                 * @子列表处理
+                                 * 1. 在没有子列表，或者值列表的数组长度为0时，隐藏掉子列表。
+                                 * 2. 滑动之后发现重新有子列表时，再次显示子列表。
                                  *
-                                 * @鍥炶皟澶勭悊
-                                 * 1. 鍥犱负婊戝姩瀹為檯涓婃槸涓€灞備竴灞備紶閫掔殑锛氱埗鍒楄〃婊氬姩瀹屾垚涔嬪悗锛屼細call瀛愬垪琛ㄧ殑onChange锛屼粠鑰屽甫鍔ㄥ瓙鍒楄〃鐨勬粦鍔ㄣ€�
-                                 * 2. 鎵€浠ワ紝浣跨敤鑰呯殑浼犺繘鏉nChange鍥炶皟搴旇鍦ㄦ渶鍚庝竴涓瓙鍒楄〃婊戝姩鏃跺啀call
+                                 * @回调处理
+                                 * 1. 因为滑动实际上是一层一层传递的：父列表滚动完成之后，会call子列表的onChange，从而带动子列表的滑动。
+                                 * 2. 所以，使用者的传进来onChange回调应该在最后一个子列表滑动时再call
                                  */
                                 if (item.children && item.children.length > 0) {
                                     $picker.find('.weui-picker__group').eq(level + 1).show();
-                                    !isMulti && scroll(item.children, level + 1); // 涓嶆槸澶氬垪鐨勬儏鍐典笅鎵嶇户缁鐞哻hildren
+                                    !isMulti && scroll(item.children, level + 1); // 不是多列的情况下才继续处理children
                                 } else {
-                                    //濡傛灉瀛愬垪琛╰est涓嶉€氳繃锛屽瓙瀛欏垪琛ㄩ兘闅愯棌銆�
+                                    //如果子列表test不通过，子孙列表都隐藏。
                                     var $items = $picker.find('.weui-picker__group');
                                     $items.forEach(function (ele, index) {
                                         if (index > level) {
@@ -2528,13 +2528,13 @@
             }
 
             /**
-             * dataPicker 鏃堕棿閫夋嫨鍣紝鐢眕icker鎷撳睍鑰屾潵锛屾彁渚涘勾銆佹湀銆佹棩鐨勯€夋嫨銆�
-             * @param options 閰嶇疆椤�
-             * @param {string=} [options.id=datePicker] 浣滀负picker鐨勫敮涓€鏍囪瘑
-             * @param {number=} [options.start=2000] 璧峰骞翠唤
-             * @param {number=} [options.end=2030] 缁撴潫骞翠唤
-             * @param {function=} [options.onChange] 鍦╬icker閫変腑鐨勫€煎彂鐢熷彉鍖栫殑鏃跺€欏洖璋�
-             * @param {function=} [options.onConfirm] 鍦ㄧ偣鍑�"纭畾"涔嬪悗鐨勫洖璋冦€傚洖璋冭繑鍥為€変腑鐨勭粨鏋�(Array)锛屾暟缁勯暱搴︿緷璧栦簬picker鐨勫眰绾с€�
+             * dataPicker 时间选择器，由picker拓展而来，提供年、月、日的选择。
+             * @param options 配置项
+             * @param {string=} [options.id=datePicker] 作为picker的唯一标识
+             * @param {number=} [options.start=2000] 起始年份
+             * @param {number=} [options.end=2030] 结束年份
+             * @param {function=} [options.onChange] 在picker选中的值发生变化的时候回调
+             * @param {function=} [options.onConfirm] 在点击"确定"之后的回调。回调返回选中的结果(Array)，数组长度依赖于picker的层级。
              *
              *@example
              * weui.datePicker({
@@ -2559,11 +2559,11 @@
                 }, options);
 
                 var date = [];
-                var daysTotal = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; //鎵€鏈夋湀浠界殑澶╂暟
+                var daysTotal = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; //所有月份的天数
                 for (var i = defaults.start; i <= defaults.end; i++) {
                     var months = [];
                     if (i % 4 == 0 && i % 100 != 0 || i % 400 == 0) {
-                        //鍒ゅ畾涓洪棸骞�
+                        //判定为闰年
                         daysTotal[1] = 29;
                     } else {
                         daysTotal[1] = 28;
@@ -2572,20 +2572,20 @@
                         var dates = [];
                         for (var k = 1; k < daysTotal[j] + 1; k++) {
                             var _date = {
-                                label: k + '鏃�',
+                                label: k + '日',
                                 value: k
                             };
                             dates.push(_date);
                         }
                         months.push({
-                            label: j + 1 + '鏈�',
+                            label: j + 1 + '月',
                             value: j + 1,
                             children: dates
                         });
                     }
 
                     var year = {
-                        label: i + '骞�',
+                        label: i + '年',
                         value: i,
                         children: months
                     };
@@ -2687,29 +2687,29 @@
                 var _this = this;
 
                 var defaults = _util2.default.extend({
-                    items: [], // 鏁版嵁
-                    scrollable: '.weui-picker__content', // 婊氬姩鐨勫厓绱�
-                    offset: 3, // 鍒楄〃鍒濆鍖栨椂鐨勫亸绉婚噺锛堝垪琛ㄥ垵濮嬪寲鏃讹紝閫夐」鏄仛鐒﹀湪涓棿鐨勶紝閫氳繃offset寮哄埗寰€涓婃尓3椤癸紝浠ヨ揪鍒板垵濮嬮€夐」鏄负椤堕儴鐨勯偅椤癸級
-                    rowHeight: 34, // 鍒楄〃姣忎竴琛岀殑楂樺害
-                    onChange: _util2.default.noop, // onChange鍥炶皟
-                    temp: null, // translate鐨勭紦瀛�
-                    bodyHeight: 7 * 34 // picker鐨勯珮搴︼紝鐢ㄤ簬杈呭姪鐐瑰嚮婊氬姩鐨勮绠�
+                    items: [], // 数据
+                    scrollable: '.weui-picker__content', // 滚动的元素
+                    offset: 3, // 列表初始化时的偏移量（列表初始化时，选项是聚焦在中间的，通过offset强制往上挪3项，以达到初始选项是为顶部的那项）
+                    rowHeight: 34, // 列表每一行的高度
+                    onChange: _util2.default.noop, // onChange回调
+                    temp: null, // translate的缓存
+                    bodyHeight: 7 * 34 // picker的高度，用于辅助点击滚动的计算
                 }, options);
                 var items = defaults.items.map(function (item) {
                     return '<div class="weui-picker__item' + (item.disabled ? ' weui-picker__item_disabled' : '') + '">' + item.label + '</div>';
                 }).join('');
                 (0, _util2.default)(this).find('.weui-picker__content').html(items);
 
-                var $scrollable = (0, _util2.default)(this).find(defaults.scrollable); // 鍙粴鍔ㄧ殑鍏冪礌
-                var start = void 0; // 淇濆瓨寮€濮嬫寜涓嬬殑浣嶇疆
-                var end = void 0; // 淇濆瓨缁撴潫鏃剁殑浣嶇疆
-                var startTime = void 0; // 寮€濮嬭Е鎽哥殑鏃堕棿
-                var translate = void 0; // 缂撳瓨 translate
-                var points = []; // 璁板綍绉诲姩鐐�
-                var windowHeight = window.innerHeight; // 灞忓箷鐨勯珮搴�
+                var $scrollable = (0, _util2.default)(this).find(defaults.scrollable); // 可滚动的元素
+                var start = void 0; // 保存开始按下的位置
+                var end = void 0; // 保存结束时的位置
+                var startTime = void 0; // 开始触摸的时间
+                var translate = void 0; // 缓存 translate
+                var points = []; // 记录移动点
+                var windowHeight = window.innerHeight; // 屏幕的高度
 
-                // 棣栨瑙﹀彂閫変腑浜嬩欢
-                // 濡傛灉鏈夌紦瀛樼殑閫夐」锛屽垯鐢ㄧ紦瀛樼殑閫夐」锛屽惁鍒欎娇鐢ㄤ腑闂村€笺€�
+                // 首次触发选中事件
+                // 如果有缓存的选项，则用缓存的选项，否则使用中间值。
                 if (defaults.temp !== null && defaults.temp < defaults.items.length) {
                     var index = defaults.temp;
                     defaults.onChange.call(this, defaults.items[index], index);
@@ -2724,11 +2724,11 @@
                 var stop = function stop(diff) {
                     translate += diff;
 
-                    // 绉诲姩鍒版渶鎺ヨ繎鐨勯偅涓€琛�
+                    // 移动到最接近的那一行
                     translate = Math.round(translate / defaults.rowHeight) * defaults.rowHeight;
                     var max = getMax(defaults.offset, defaults.rowHeight);
                     var min = getMin(defaults.offset, defaults.rowHeight, defaults.items.length);
-                    // 涓嶈瓒呰繃鏈€澶у€兼垨鑰呮渶灏忓€�
+                    // 不要超过最大值或者最小值
                     if (translate > max) {
                         translate = max;
                     }
@@ -2736,7 +2736,7 @@
                         translate = min;
                     }
 
-                    // 濡傛灉鏄� disabled 鐨勫氨璺宠繃
+                    // 如果是 disabled 的就跳过
                     var index = defaults.offset - translate / defaults.rowHeight;
                     while (!!defaults.items[index] && defaults.items[index].disabled) {
                         diff > 0 ? ++index : --index;
@@ -2745,12 +2745,12 @@
                     setTransition($scrollable, .3);
                     setTranslate($scrollable, translate);
 
-                    // 瑙﹀彂閫夋嫨浜嬩欢
+                    // 触发选择事件
                     defaults.onChange.call(_this, defaults.items[index], index);
                 };
 
                 /**
-                 * 鍥犱负鐜板湪娌℃湁绉婚櫎鍖垮悕鍑芥暟鐨勬柟娉曪紝鎵€浠ュ厛鏆村姏绉婚櫎锛坥ffAll锛夛紝骞朵笖鏀瑰彉$scrollable銆�
+                 * 因为现在没有移除匿名函数的方法，所以先暴力移除（offAll），并且改变$scrollable。
                  */
                 $scrollable = (0, _util2.default)(this).offAll().on('touchstart', function (evt) {
                     start = evt.changedTouches[0].pageY;
@@ -2770,20 +2770,20 @@
                     evt.preventDefault();
                 }).on('touchend', function (evt) {
                     /**
-                     * 鎬濊矾:
-                     * 0. touchstart 璁板綍鎸変笅鐨勭偣鍜屾椂闂�
-                     * 1. touchmove 绉诲姩鏃惰褰曞墠 40涓粡杩囩殑鐐瑰拰鏃堕棿
-                     * 2. touchend 鏉惧紑鎵嬫椂, 璁板綍璇ョ偣鍜屾椂闂�. 濡傛灉鏉惧紑鎵嬫椂鐨勬椂闂�, 璺濈涓婁竴娆� move鏃剁殑鏃堕棿瓒呰繃 100ms, 閭ｄ箞璁や负鍋滄浜�, 涓嶆墽琛屾儻鎬ф粦鍔�
-                     *    濡傛灉闂撮殧鏃堕棿鍦� 100ms 鍐�, 鏌ユ壘 100ms 鍐呮渶杩戠殑閭ｄ釜鐐�, 鍜屾澗寮€鎵嬫椂鐨勯偅涓偣, 璁＄畻璺濈鍜屾椂闂村樊, 绠楀嚭閫熷害
-                     *    閫熷害涔樹互鎯€ф粦鍔ㄧ殑鏃堕棿, 渚嬪 300ms, 璁＄畻鍑哄簲璇ユ粦鍔ㄧ殑璺濈
+                     * 思路:
+                     * 0. touchstart 记录按下的点和时间
+                     * 1. touchmove 移动时记录前 40个经过的点和时间
+                     * 2. touchend 松开手时, 记录该点和时间. 如果松开手时的时间, 距离上一次 move时的时间超过 100ms, 那么认为停止了, 不执行惯性滑动
+                     *    如果间隔时间在 100ms 内, 查找 100ms 内最近的那个点, 和松开手时的那个点, 计算距离和时间差, 算出速度
+                     *    速度乘以惯性滑动的时间, 例如 300ms, 计算出应该滑动的距离
                      */
                     var endTime = new Date().getTime();
                     end = evt.changedTouches[0].pageY;
                     var relativeY = windowHeight - defaults.bodyHeight / 2;
 
-                    // 濡傛灉涓婃鏃堕棿璺濈鏉惧紑鎵嬬殑鏃堕棿瓒呰繃 100ms, 鍒欏仠姝簡, 娌℃湁鎯€ф粦鍔�
+                    // 如果上次时间距离松开手的时间超过 100ms, 则停止了, 没有惯性滑动
                     if (endTime - startTime > 100) {
-                        //濡傛灉end鍜宻tart鐩稿樊灏忎簬10锛屽垯瑙嗕负
+                        //如果end和start相差小于10，则视为
                         if (Math.abs(end - start) > 10) {
                             stop(end - start);
                         } else {
@@ -2802,8 +2802,8 @@
                                 var sp = points[startPos];
                                 var t = ep.time - sp.time;
                                 var s = ep.y - sp.y;
-                                var v = s / t; // 鍑烘墜鏃剁殑閫熷害
-                                var diff = v * 150 + (end - start); // 婊戣 150ms,杩欓噷鐩存帴褰卞搷鈥滅伒鏁忓害鈥�
+                                var v = s / t; // 出手时的速度
+                                var diff = v * 150 + (end - start); // 滑行 150ms,这里直接影响“灵敏度”
                                 stop(diff);
                             } else {
                                 stop(0);
@@ -2836,7 +2836,7 @@
         /* 27 */
         /***/ function(module, exports) {
 
-            module.exports = "<div class=\"<%= className %>\"> <div class=weui-mask></div> <div class=weui-picker> <div class=weui-picker__hd> <a href=javascript:; data-action=cancel class=weui-picker__action>鍙栨秷</a> <a href=javascript:; data-action=select class=weui-picker__action id=weui-picker-confirm>纭畾</a> </div> <div class=weui-picker__bd></div> </div> </div> ";
+            module.exports = "<div class=\"<%= className %>\"> <div class=weui-mask></div> <div class=weui-picker> <div class=weui-picker__hd> <a href=javascript:; data-action=cancel class=weui-picker__action>取消</a> <a href=javascript:; data-action=select class=weui-picker__action id=weui-picker-confirm>确定</a> </div> <div class=weui-picker__bd></div> </div> </div> ";
 
             /***/ },
         /* 28 */
@@ -2867,17 +2867,17 @@
             var _sington = void 0;
 
             /**
-             * gallery 甯﹀垹闄ゆ寜閽殑鍥剧墖棰勮锛屼富瑕佹槸閰嶅悎鍥剧墖涓婁紶浣跨敤
-             * @param {string} url gallery鏄剧ず鐨勫浘鐗囩殑url
-             * @param {object=} options 閰嶇疆椤�
-             * @param {string=} options.className 鑷畾涔夌被鍚�
-             * @param {function=} options.onDelete 鐐瑰嚮鍒犻櫎鍥剧墖鏃剁殑鍥炶皟
+             * gallery 带删除按钮的图片预览，主要是配合图片上传使用
+             * @param {string} url gallery显示的图片的url
+             * @param {object=} options 配置项
+             * @param {string=} options.className 自定义类名
+             * @param {function=} options.onDelete 点击删除图片时的回调
              *
              * @example
              * var gallery = weui.gallery(url, {
 	 *     className: 'custom-classname',
 	 *     onDelete: function(){
-	 *         if(confirm('纭畾鍒犻櫎璇ュ浘鐗囷紵')){ console.log('鍒犻櫎'); }
+	 *         if(confirm('确定删除该图片？')){ console.log('删除'); }
 	 *         gallery.hide();
 	 *     }
 	 * });
@@ -2941,12 +2941,12 @@
             function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
             /**
-             * slider slider婊戝潡锛屽崟浣嶆槸鐧惧垎姣斻€傛敞鎰忥紝鍥犱负闇€瑕佽幏鍙杝lider鐨勯暱搴︼紝鎵€浠ュ繀椤昏鍦╯lider鍙鐨勬儏鍐典笅鏉ヨ皟鐢ㄣ€�
-             * @param {string} selector slider鐨剆elector
-             * @param {object=} options 閰嶇疆椤�
-             * @param {number=} options.step slider鐨剆tep锛屾瘡娆＄Щ鍔ㄧ殑鐧惧垎姣旓紝鍙栧€艰寖鍥� [0-100]
-             * @param {number=} [options.defaultValue=0] slider鐨勯粯璁ょ櫨鍒嗘瘮鍊硷紝鍙栧€艰寖鍥� [0-100]
-             * @param {function=} options.onChange slider鍙戠敓鏀瑰彉鏃惰繑鍥炲搴旂殑鐧惧垎姣旓紝鍙栧€艰寖鍥� [0-100]
+             * slider slider滑块，单位是百分比。注意，因为需要获取slider的长度，所以必须要在slider可见的情况下来调用。
+             * @param {string} selector slider的selector
+             * @param {object=} options 配置项
+             * @param {number=} options.step slider的step，每次移动的百分比，取值范围 [0-100]
+             * @param {number=} [options.defaultValue=0] slider的默认百分比值，取值范围 [0-100]
+             * @param {function=} options.onChange slider发生改变时返回对应的百分比，取值范围 [0-100]
              *
              * @example
              * weui.slider('#sliderStep', {
@@ -2983,11 +2983,11 @@
                     var $sliderTrack = $slider.find('.weui-slider__track');
                     var $sliderHandler = $slider.find('.weui-slider__handler');
 
-                    var sliderLength = parseInt(_util2.default.getStyle($sliderInner[0], 'width')); // slider鐨勯暱搴�
-                    var sliderLeft = $sliderInner[0].offsetLeft; // slider鐩稿浜庨〉闈㈢殑offset
-                    var handlerStartPos = 0; // handler璧峰浣嶇疆
-                    var handlerStartX = 0; // handler touchstart鐨刋
-                    var stepWidth = void 0; // 姣忎釜step鐨勫搴�
+                    var sliderLength = parseInt(_util2.default.getStyle($sliderInner[0], 'width')); // slider的长度
+                    var sliderLeft = $sliderInner[0].offsetLeft; // slider相对于页面的offset
+                    var handlerStartPos = 0; // handler起始位置
+                    var handlerStartX = 0; // handler touchstart的X
+                    var stepWidth = void 0; // 每个step的宽度
 
                     function getHandlerPos() {
                         var pos = _util2.default.getStyle($sliderHandler[0], 'left');
@@ -3001,8 +3001,8 @@
                     }
                     function setHandler(distance) {
                         var dist = void 0,
-                            // handler鐨勭洰鏍囦綅缃�
-                            percent = void 0; // 鎵€鍦ㄤ綅缃殑鐧惧垎姣�
+                            // handler的目标位置
+                            percent = void 0; // 所在位置的百分比
 
                         if (options.step) {
                             distance = Math.round(distance / stepWidth) * stepWidth;

@@ -88,10 +88,10 @@ define(['jquery', 'utils'], function($, utils) {
                 innerProps: {
                     data: this.data,
                     count: this.count,
-                    currentPage: this.currentPage
+                    currentPage: this.currentPage,
+                    queryParams: {}
                 },
                 selectedRows: [],
-                customParams: {},
                 checkAll: false
             };
         },
@@ -138,7 +138,7 @@ define(['jquery', 'utils'], function($, utils) {
                 }
                 this.$emit('load', data);
                 var self = this;
-                this.customParams = data;
+                this.innerProps.queryParams = data;
                 $.ajax({
                     url: utils.patchUrl(this.url),
                     data: $.extend({},
@@ -158,7 +158,7 @@ define(['jquery', 'utils'], function($, utils) {
             reload: function(data) {
                 this.load($.extend({
                     currentPage: this.innerProps.currentPage
-                }, data));
+                }, this.innerProps.queryParams, data));
             },
             loadData: function(data, count) {
                 this.innerProps.data = data;

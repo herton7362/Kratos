@@ -33,6 +33,23 @@ public abstract class AbstractLoginController {
     }
 
     /**
+     * 验证短信验证码
+     */
+    @ApiOperation(value="验证短信验证码")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "mobile", value = "手机号码", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "verifyCode", value = "验证码", dataType = "String", paramType = "query")
+    })
+    @RequestMapping(value = "/verifyVerifyCode", method = RequestMethod.GET)
+    public ResponseEntity<?> verifyVerifyCode(
+            @RequestParam(value = "mobile") String mobile,
+            @RequestParam(value = "verifyCode") String verifyCode
+    ) throws Exception {
+        loginService.verifyVerifyCode(mobile, verifyCode);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
      * 修改密码
      */
     @ApiOperation(value="修改密码")
