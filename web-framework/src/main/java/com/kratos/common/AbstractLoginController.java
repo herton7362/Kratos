@@ -50,6 +50,15 @@ public abstract class AbstractLoginController {
     }
 
     /**
+     * 根据手机号获取用户
+     */
+    @ApiOperation(value="根据手机号获取用户")
+    @RequestMapping(value = "/user/mobile/{mobile}", method = RequestMethod.GET)
+    public ResponseEntity<BaseUser> findUserByMobile(@PathVariable(value = "mobile") String mobile) throws Exception {
+        return new ResponseEntity<>(loginService.findUserByMobile(mobile), HttpStatus.OK);
+    }
+
+    /**
      * 修改密码
      */
     @ApiOperation(value="修改密码")
