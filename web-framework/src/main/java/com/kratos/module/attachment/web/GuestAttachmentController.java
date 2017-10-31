@@ -51,6 +51,9 @@ public class GuestAttachmentController extends AbstractReadController<Attachment
         if(OSUtils.isWindows()) {
             prefixPath = AttachmentServiceImpl.prefixPath;
         }
+        if(attachment == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         File file=new File(prefixPath, attachment.getPath());
         HttpHeaders headers=new HttpHeaders();
         String downloadFileName=new String(attachment.getName().getBytes("UTF-8"),"ISO-8859-1");  //少了这句，可能导致下载中文文件名的文档，只有后缀名的情况
