@@ -37,7 +37,11 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
                         UserThread.getInstance().set(baseUser);
                     }
                 });
+            } else {
+                UserThread.getInstance().set(null);
             }
+        } else {
+            UserThread.getInstance().set(null);
         }
         return true;
     }

@@ -56,9 +56,8 @@ public abstract class AbstractLoginService {
      * @param mobile 手机号码
      * @param code 短信验证码
      * @param password 密码
-     * @param repassword 确认密码
      */
-    public abstract void editPwd(String mobile, String code, String password, String repassword) throws Exception;
+    public abstract void editPwd(String mobile, String code, String password) throws Exception;
 
     /**
      * 登录
@@ -84,9 +83,8 @@ public abstract class AbstractLoginService {
      * @param mobile 手机号码
      * @param code 短信验证码
      * @param password 密码
-     * @param repassword 确认密码
      */
-    public abstract void register(String mobile, String code, String password, String repassword) throws Exception;
+    public abstract void register(String mobile, String code, String password) throws Exception;
 
     /**
      * 根据手机号获取用户

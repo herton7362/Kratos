@@ -13,7 +13,8 @@ requirejs.config({
         'utils': '../utils/utils',
         'app': '../utils/app',
         'weui': '../weui/weui.min',
-        'actionsheet': 'actionsheet/actionsheet'
+        'actionsheet': 'actionsheet/actionsheet',
+        'modal': 'modal/modal'
     },
     shim: {
         'jquery': ['base-jquery'],

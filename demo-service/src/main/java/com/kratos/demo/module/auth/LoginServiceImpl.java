@@ -30,12 +30,9 @@ public class LoginServiceImpl extends AbstractLoginService {
     }
 
     @Override
-    public void editPwd(String mobile, String code, String password, String repassword) throws Exception {
+    public void editPwd(String mobile, String code, String password) throws Exception {
         if(!verifyVerifyCode(mobile, code)) {
             throw new BusinessException(String.format("验证码%s不正确", code));
-        }
-        if(!password.equals(repassword)) {
-            throw new BusinessException("两次密码输入不一致");
         }
         Member member = memberService.findOneByLoginName(mobile);
         if(member == null) {
@@ -46,12 +43,9 @@ public class LoginServiceImpl extends AbstractLoginService {
     }
 
     @Override
-    public void register(String mobile, String code, String password, String repassword) throws Exception {
+    public void register(String mobile, String code, String password) throws Exception {
         if(!verifyVerifyCode(mobile, code)) {
             throw new BusinessException(String.format("验证码%s不正确", code));
-        }
-        if(!password.equals(repassword)) {
-            throw new BusinessException("两次密码输入不一致");
         }
         if(findUserByMobile(mobile) != null) {
             throw new BusinessException("该手机号已被注册，请选择找回密码或者直接登录");

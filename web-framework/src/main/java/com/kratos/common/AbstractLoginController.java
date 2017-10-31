@@ -33,23 +33,6 @@ public abstract class AbstractLoginController {
     }
 
     /**
-     * 验证短信验证码
-     */
-    @ApiOperation(value="验证短信验证码")
-    @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "mobile", value = "手机号码", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "verifyCode", value = "验证码", dataType = "String", paramType = "query")
-    })
-    @RequestMapping(value = "/verifyVerifyCode", method = RequestMethod.GET)
-    public ResponseEntity<?> verifyVerifyCode(
-            @RequestParam(value = "mobile") String mobile,
-            @RequestParam(value = "verifyCode") String verifyCode
-    ) throws Exception {
-        loginService.verifyVerifyCode(mobile, verifyCode);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    /**
      * 根据手机号获取用户
      */
     @ApiOperation(value="根据手机号获取用户")
@@ -72,10 +55,9 @@ public abstract class AbstractLoginController {
     public ResponseEntity<?> editPwd(
             @RequestParam(value = "mobile") String mobile,
             @RequestParam(value = "code") String code,
-            @RequestParam(value = "password") String password,
-            @RequestParam(value = "repassword") String repassword
+            @RequestParam(value = "password") String password
     ) throws Exception {
-        loginService.editPwd(mobile, code, password, repassword);
+        loginService.editPwd(mobile, code, password);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -113,17 +95,15 @@ public abstract class AbstractLoginController {
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "mobile", value = "手机号码", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "code", value = "验证码", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "password", value = "密码", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "repassword", value = "确认密码", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "password", value = "密码", dataType = "String", paramType = "query")
     })
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> register(
             @RequestParam(value = "mobile") String mobile,
             @RequestParam(value = "code") String code,
-            @RequestParam(value = "password") String password,
-            @RequestParam(value = "repassword") String repassword
+            @RequestParam(value = "password") String password
     ) throws Exception {
-        loginService.register(mobile, code, password, repassword);
+        loginService.register(mobile, code, password);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
