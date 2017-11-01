@@ -4,7 +4,7 @@ define(['jquery', 'vue'], function($, Vue){
         _loading: false,
         vueAlert: null,
         $alert: $("<div id='common_alert' v-cloak>\n" +
-            "        <modal :title=\"title\" @mounted=\"modalMounted\">\n" +
+            "        <modal :title=\"null\" @mounted=\"modalMounted\">\n" +
             "            <template slot=\"body\">\n" +
             "                {{msg}}\n" +
             "            </template>\n" +
@@ -41,7 +41,6 @@ define(['jquery', 'vue'], function($, Vue){
                 el: '#common_alert',
                 data: {
                     msg: '',
-                    title: '系统提示',
                     modal: {},
                     ok: function(){},
                     cancel: function () {}

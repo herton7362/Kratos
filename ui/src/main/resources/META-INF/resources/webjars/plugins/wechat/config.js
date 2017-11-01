@@ -6,7 +6,7 @@ requirejs.config({
         'bootstrap': '../bootstrap/js/bootstrap.min',
         'base-adminlte': '../AdminLTE/js/adminlte.min',
         'adminlte': '../AdminLTE/adminlte',
-        'base-vue': '../vue/js/vue',
+        'base-vue': '../vue/js/vue.min',
         'validator': '../validator/validator',
         'messager': 'messager/js/messager',
         'vue':'vue/vue',
@@ -29,7 +29,8 @@ requirejs.config({
             'css!../AdminLTE/css/datatables.net-bs/dataTables.bootstrap.min.css'
         ],
         'weui': ['jquery', 'css!../weui/weui.min.css'],
-        'actionsheet': ['jquery', 'css!../wechat/actionsheet/actionsheet.css']
+        'actionsheet': ['jquery', 'css!../wechat/actionsheet/actionsheet.css'],
+        'modal': ['jquery', 'css!../wechat/modal/modal.css']
     },
     map: {
         '*': {

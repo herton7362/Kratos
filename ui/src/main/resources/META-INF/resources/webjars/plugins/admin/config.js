@@ -9,7 +9,7 @@ requirejs.config({
         'datepicker': 'datepicker/datepicker',
         'base-adminlte': '../AdminLTE/js/adminlte.min',
         'adminlte': '../AdminLTE/adminlte',
-        'base-vue': '../vue/js/vue',
+        'base-vue': '../vue/js/vue.min',
         'vue':'vue/vue',
         'sortablejs': '../vue/js/Sortable.min',
         'vuedraggable': '../vue/js/vuedraggable',
