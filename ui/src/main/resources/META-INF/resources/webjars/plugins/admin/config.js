@@ -13,7 +13,7 @@ requirejs.config({
         'vue':'vue/vue',
         'sortablejs': '../vue/js/Sortable.min',
         'vuedraggable': '../vue/js/vuedraggable',
-        'utils': '../utils/utils',
+        'utils': 'utils/utils',
         'app': '../utils/app',
         'validator': '../validator/validator',
         'messager': 'messager/js/messager',

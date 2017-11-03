@@ -10,7 +10,7 @@ requirejs.config({
         'validator': '../validator/validator',
         'messager': 'messager/js/messager',
         'vue':'vue/vue',
-        'utils': '../utils/utils',
+        'utils': 'utils/utils',
         'app': '../utils/app',
         'weui': '../weui/weui.min',
         'actionsheet': 'actionsheet/actionsheet',

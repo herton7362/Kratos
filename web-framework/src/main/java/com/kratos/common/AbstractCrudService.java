@@ -80,6 +80,7 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
      * 4、当属性类型为数字时则用equal判断
      * 5、当属性类型为数字时并且value为两个是则用between判断
      */
+    @SuppressWarnings("unchecked")
     class SimpleSpecification implements Specification<T> {
         Map<String, String[]> param;
         String currentKey;
@@ -92,7 +93,7 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
             List<Predicate> predicate = new ArrayList<>();
             String key;
             String[] values;
-            for (Attribute<? super T, ?> attribute : attributes) {
+            for (Attribute attribute : attributes) {
                 key = attribute.getName();
                 Assert.isTrue(
                         !attribute.getJavaType().isPrimitive(),
@@ -109,6 +110,8 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
                     predicate.add(criteriaBuilder.isNull(root.get(key)));
                 } else if(attribute.getJavaType().equals(String.class)) {
                     predicate.add(criteriaBuilder.like(root.get(key), "%"+ values[0] +"%"));
+                } else if(attribute.getJavaType().getSuperclass().equals(Enum.class)) {
+                    predicate.add(criteriaBuilder.equal(root.get(key), Enum.valueOf(attribute.getJavaType(), values[0])));
                 } else if(attribute.getJavaType().getSuperclass().equals(Number.class)) {
                     if(values.length == 1) {
                         predicate.add(criteriaBuilder.equal(root.get(key), values[0]));
