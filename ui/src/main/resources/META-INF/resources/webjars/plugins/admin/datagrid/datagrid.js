@@ -166,10 +166,6 @@ define(['jquery', 'utils'], function($, utils) {
                 this.clearSelected();
             },
             clearSelected: function() {
-                var self = this;
-                $.each(this.selectedRows, function() {
-                    self.$set(this, 'selected', !this.selected);
-                });
                 this.selectedRows.splice(0);
             },
             selectAll: function(event) {
