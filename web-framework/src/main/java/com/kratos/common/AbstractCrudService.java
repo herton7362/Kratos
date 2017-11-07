@@ -156,7 +156,8 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
 
         private Boolean containsKey(Map<String, String[]> param, String key) {
             for (String k : param.keySet()) {
-                if(k.split("\\.")[0].equals(key)) {
+                if(k.split("\\.")[0].equals(key)
+                        || k.split("\\.")[0].equals(key + "[]")) {
                     this.currentKey = k;
                     return true;
                 }
