@@ -19,7 +19,7 @@ public class Admin extends BaseUser {
     @Column(length = 20)
     private String name;
     @ApiModelProperty(required = true, value = "角色")
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="admin_roles",joinColumns={@JoinColumn(name="admin_id")},inverseJoinColumns={@JoinColumn(name="role_id")})
     private List<Role> roles;
 

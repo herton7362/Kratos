@@ -1,5 +1,6 @@
 package com.kratos.module.auth.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kratos.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,6 +20,7 @@ public class Role extends BaseEntity {
     @Column(length = 50)
     private String name;
     @ManyToMany
+    @JsonIgnore
     @JoinTable(name="role_modules",joinColumns={@JoinColumn(name="role_id")},inverseJoinColumns={@JoinColumn(name="module_id")})
     private List<Module> modules;
 

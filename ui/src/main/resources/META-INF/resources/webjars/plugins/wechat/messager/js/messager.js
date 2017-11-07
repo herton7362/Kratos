@@ -23,7 +23,7 @@ define(['jquery', 'vue'], function($, Vue){
             "    </div>"),
         $bubble: $('<div style="display: none;">\n' +
             '        <div class="weui-mask_transparent"></div>\n' +
-            '        <div class="weui-toast">\n' +
+            '        <div class="weui-toast" style="display: none;">\n' +
             '            <i class="weui-icon_toast"></i>\n' +
             '            <p class="weui-toast__content">已完成</p>\n' +
             '        </div>\n' +
@@ -76,7 +76,8 @@ define(['jquery', 'vue'], function($, Vue){
                 return;
             }
             Messager.$loading.find('.weui-toast__content').html(options.message || '正在载入...');
-            Messager.$loading.fadeIn(100);
+            Messager.$loading.show();
+            Messager.$loading.find('.weui-toast').fadeIn(100);
             this._loading = true;
         },
         // icon 支持 success，warning，danger，secondary
@@ -109,16 +110,23 @@ define(['jquery', 'vue'], function($, Vue){
             }
             Messager.$bubble.find('.weui-toast__content').html(message);
             if (Messager.$bubble.css('display') !== 'none') return;
-            Messager.$bubble.fadeIn(100);
+            Messager.$bubble.show();
+            Messager.$bubble.find('.weui-toast').fadeIn(100);
             setTimeout(function () {
-                Messager.$bubble.fadeOut(100);
-            }, 2000);
+                Messager.$bubble.find('.weui-toast').fadeOut(100);
+                setTimeout(function () {
+                    Messager.$bubble.hide();
+                }, 100);
+            }, 1000);
         }
     };
 
     Messager.loading.methods = {
         close: function() {
-            Messager.$loading.fadeOut(100);
+            Messager.$loading.find('.weui-toast').fadeOut(100);
+            setTimeout(function () {
+                Messager.$loading.hide();
+            }, 100);
             Messager._loading = false;
         }
     };
