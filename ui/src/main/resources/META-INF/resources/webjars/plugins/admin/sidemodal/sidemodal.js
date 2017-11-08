@@ -12,7 +12,7 @@ define(['jquery'], function($) {
             },
             width: {
                 type: [String, Number],
-                default: '600'
+                default: '550'
             }
         },
         template: '<div class="sidemodal">' +

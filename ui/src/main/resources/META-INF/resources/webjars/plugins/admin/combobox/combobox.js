@@ -80,7 +80,7 @@ define(['jquery', 'utils', 'base-select2'], function($, utils) {
             var self = this;
             $(this.$el).select2({
                 width: '100%',
-                allowClear: true,
+                allowClear: false,
                 formatNoMatches: function() {
                     return "没有选项";
                 },

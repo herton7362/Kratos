@@ -21,6 +21,8 @@ table.table-bordered.dataTable .cell-title {
         display: flex;
         border: none;
     }
+}
 
-
+table.table-bordered.dataTable .btn {
+    margin-right: 5px
 }

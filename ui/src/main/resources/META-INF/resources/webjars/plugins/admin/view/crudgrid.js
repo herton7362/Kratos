@@ -25,17 +25,17 @@ define(['jquery', 'utils'], function($, utils) {
         '              <div class="box-header">\n' +
         '                  <div class="row">\n' +
         '                      <div class="col-md-9">\n' +
-        '                          <button type="button" class="btn btn-flat btn-primary btn-sm" @click="refresh"><i class="fa fa-refresh"></i> </button>\n' +
-        '                          <button class="btn btn-flat btn-success btn-sm" @click="add"><i class="fa fa-plus-square"></i> 添加</button>\n' +
+        '                          <button type="button" class="btn btn-flat btn-primary" @click="refresh"><i class="fa fa-refresh"></i> </button>\n' +
+        '                          <button class="btn btn-flat btn-success" @click="add"><i class="fa fa-plus-square"></i> 添加</button>\n' +
         '                          <button\n' +
-        '                                  class="btn btn-flat btn-success btn-sm"\n' +
+        '                                  class="btn btn-flat btn-success"\n' +
         '                                  :disabled="datagrid.$instance.selectedRows <= 0"\n' +
         '                                  :class="{\'disabled\': datagrid.$instance.selectedRows <= 0}"\n' +
         '                                  @click="edit(datagrid.$instance.selectedRows[0])">\n' +
         '                              <i class="fa fa-pencil"></i> 修改\n' +
         '                          </button>\n' +
         '                          <button\n' +
-        '                                  class="btn btn-flat btn-danger btn-sm"\n' +
+        '                                  class="btn btn-flat btn-danger"\n' +
         '                                  :disabled="datagrid.$instance.selectedRows <= 0"\n' +
         '                                  :class="{\'disabled\': datagrid.$instance.selectedRows <= 0}"\n' +
         '                                  @click="remove(datagrid.$instance.selectedRows, $event)">\n' +
@@ -44,7 +44,7 @@ define(['jquery', 'utils'], function($, utils) {
         '                          <slot name="toolbar"></slot>\n' +
         '                      </div>\n' +
         '                      <div class="col-md-3">\n' +
-        '                          <div class="input-group input-group-sm pull-right has-feedback search">\n' +
+        '                          <div class="input-group pull-right has-feedback search">\n' +
         '                              <input\n' +
         '                                      class="form-control"\n' +
         '                                      type="text"\n' +

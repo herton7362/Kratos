@@ -37,7 +37,7 @@
 .sidemodal .box .box-body {
     overflow-y: auto;
     height: 100%;
-    padding-bottom: 110px;
+    padding: 20px 20px 110px 20px;
 }
 
 .sidemodal .box .box-header {

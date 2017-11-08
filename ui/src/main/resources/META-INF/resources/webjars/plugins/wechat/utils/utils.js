@@ -4,7 +4,7 @@ define(['app'], function(APP) {
         require(['jquery','messager'], function ($, messager) {
             $.ajax({
                 url: utils.patchUrl('/user/info'),
-                async: false,
+                cache: false,
                 success: function (member) {
                     if(member && member.userType === 'MEMBER') {
                         callback(member);
