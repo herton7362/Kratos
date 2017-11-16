@@ -33,7 +33,9 @@ requirejs.config({
         'jstree': '../jstree/jstree',
         'tree': 'tree/tree',
         'sidemodal': 'sidemodal/sidemodal',
-        'uploader': 'uploader/uploader'
+        'uploader': 'uploader/uploader',
+        'raphael': '../raphael/raphael.min',
+        'morris': '../morris.js/morris'
     },
     shim: {
         'vuedraggable':['sortablejs', 'base-vue'],
@@ -58,7 +60,8 @@ requirejs.config({
         'modal': ['css!../admin/modal/css/modal.css'],
         'jstree': ['css!../jstree/themes/default/style.min.css'],
         'sidemodal': ['css!../admin/sidemodal/sidemodal.css'],
-        'uploader': ['css!../admin/uploader/uploader.css']
+        'uploader': ['css!../admin/uploader/uploader.css'],
+        'morris': ['raphael', 'css!../morris.js/morris.css']
     },
     map: {
         '*': {
