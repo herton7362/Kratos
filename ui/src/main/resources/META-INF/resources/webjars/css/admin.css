@@ -3,7 +3,7 @@
 }
 
 
-.mailbox-attachment-icon {
+.attachment-list .mailbox-attachment-icon {
     height: 220px;
     width: 198px;
     overflow: hidden;
@@ -20,6 +20,14 @@
 .mailbox-attachment-icon img {
     font-size: 20px;
     font-weight: normal;
+}
+
+@media (max-width: 768px) {
+    .attachment-list .mailbox-attachment-icon,
+    .mailbox-attachments li {
+        height: auto;
+        width: 100%;
+    }
 }
 
 .padding-lr-15 {

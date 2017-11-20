@@ -77,8 +77,6 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment> imple
     public void delete(String id) throws Exception {
         Attachment attachment = attachmentRepository.findOne(id);
         attachmentRepository.delete(id);
-        File temp = new File(prefixPath, attachment.getPath());
-        temp.delete();
     }
 
     @Autowired

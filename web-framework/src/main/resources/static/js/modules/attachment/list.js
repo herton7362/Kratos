@@ -20,6 +20,7 @@ require(['jquery', 'vue', 'utils', 'messager'], function($, Vue, utils, messager
         },
         methods: {
             goToPage: function (page) {
+                this.currentPage = page;
                 this.load({
                     currentPage: page
                 });

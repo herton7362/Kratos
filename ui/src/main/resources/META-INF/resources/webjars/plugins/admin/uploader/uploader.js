@@ -177,6 +177,7 @@ define(['jquery', 'utils'], function($, utils) {
                 this.modal.$instance.close();
             },
             _goToPage: function (page) {
+                this.attachment.currentPage = page;
                 this.loadAttachment({
                     currentPage: page
                 });

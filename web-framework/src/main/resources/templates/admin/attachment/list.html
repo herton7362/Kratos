@@ -10,7 +10,7 @@
     以获得更好的体验！</p>
 <![endif]-->
 <!-- Site wrapper -->
-<div class="wrapper">
+<div class="wrapper attachment-list">
     <header th:include="admin/common/header_html"></header>
     <!-- =============================================== -->
     <aside th:include="admin/common/aside"></aside>
@@ -45,6 +45,7 @@
                         </div>
 
                         <div class="box-body">
+                            <pagination :current-page="currentPage" :pager-size="7" :page-size="pageSize" :count="count" @go="goToPage"></pagination>
                             <ul class="mailbox-attachments clearfix">
                                 <li v-for="row in data">
                                     <span class="mailbox-attachment-icon has-img">
