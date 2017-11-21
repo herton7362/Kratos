@@ -9,7 +9,7 @@ require(['jquery', 'vue', 'messager', 'utils'], function($, Vue, messager, utils
             },
             sidebar: {
                 root: {
-                    id: null,
+                    id: 'isNull',
                     name: '所有地址',
                     open: true,
                     alwaysExpended: true

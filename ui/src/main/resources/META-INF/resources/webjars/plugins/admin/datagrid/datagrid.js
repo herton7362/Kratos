@@ -53,6 +53,7 @@ define(['jquery', 'utils'], function($, utils) {
         '                                    <checkbox :value="checkAll" v-model="checkAll" @change="selectAll"/>' +
         '                                  </th>\n' +
         '                                  <th ' +
+        '                                   v-if="!column.hidden" ' +
         '                                   v-for="column in columns" ' +
         '                                   :width="column.width?column.width:\'\'"' +
         '                                   :style="\'text-align:\'+(column.align||\'left\')">{{column.title}}</th>\n' +

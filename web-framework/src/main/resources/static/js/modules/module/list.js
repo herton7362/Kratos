@@ -27,7 +27,7 @@ require(['jquery', 'vue', 'messager', 'utils', _appConf.ctx + '/static/js/module
             },
             sidebar: {
                 root: {
-                    id: null,
+                    id: 'isNull',
                     name: '所有模块',
                     open: true,
                     alwaysExpended: true

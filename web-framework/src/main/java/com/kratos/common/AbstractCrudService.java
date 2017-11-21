@@ -106,7 +106,11 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
 
                 values = param.get(this.currentKey);
 
-                if(values == null || values[0] == null) {
+                if(values == null || StringUtils.isBlank(values[0])) {
+                    continue;
+                }
+
+                if("isNull".equals(values[0])) {
                     predicate.add(criteriaBuilder.isNull(root.get(key)));
                 } else if(attribute.getJavaType().equals(String.class)) {
                     predicate.add(criteriaBuilder.like(root.get(key), "%"+ values[0] +"%"));
@@ -127,10 +131,7 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
                         }
                     }
                 } else if(BaseEntity.class.isAssignableFrom(attribute.getJavaType())) {
-                    if(StringUtils.isBlank(values[0])) {
-                        predicate.add(criteriaBuilder.isNull(root.get(key)));
-                    }
-                    String field = this.currentKey.split("\\.")[1];
+                    String field = this.getFiled();
                     EntityManager entityManager = SpringUtils.getBean(EntityManager.class);
                     Query query = entityManager.createQuery("select m from "+
                             getEntityName(attribute.getJavaType(), root, key)+" m where m."+field+"=:" + field);
@@ -157,12 +158,25 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
         private Boolean containsKey(Map<String, String[]> param, String key) {
             for (String k : param.keySet()) {
                 if(k.split("\\.")[0].equals(key)
-                        || k.split("\\.")[0].equals(key + "[]")) {
+                        || k.split("\\[")[0].equals(key)) {
                     this.currentKey = k;
                     return true;
                 }
             }
             return false;
+        }
+
+        private String getFiled() {
+            String field = null;
+            if(currentKey.contains(".")) {
+                field = currentKey.split("\\.")[1];
+            } else if (currentKey.contains("[")) {
+                field = currentKey.split("\\[")[1];
+                if(StringUtils.isNotBlank(field)) {
+                    field = field.split("]")[0];
+                }
+            }
+            return field;
         }
     }
 }

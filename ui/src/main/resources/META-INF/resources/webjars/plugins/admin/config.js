@@ -1,4 +1,5 @@
 requirejs.config({
+    urlArgs: "v=" + window._appConf.version,
     baseUrl: (window._appConf.ctx || '') + '/webjars/plugins/admin/',
     paths: {
         'base-jquery': '../jquery/js/jquery-2.1.4.min',

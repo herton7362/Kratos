@@ -11,6 +11,10 @@ define(['jquery', 'utils'], function($, utils) {
                 type: String,
                 default: 'name'
             },
+            searchAble: {
+                type: Boolean,
+                default: true
+            },
             queryParams: {
                 type: Object,
                 default: function() {
@@ -24,7 +28,7 @@ define(['jquery', 'utils'], function($, utils) {
         template: '<div class="box">\n' +
         '              <div class="box-header">\n' +
         '                  <div class="row">\n' +
-        '                      <div class="col-md-9">\n' +
+        '                      <div class="col-md-8">\n' +
         '                          <button type="button" class="btn btn-flat btn-primary" @click="refresh"><i class="fa fa-refresh"></i> </button>\n' +
         '                          <button class="btn btn-flat btn-success" @click="add"><i class="fa fa-plus-square"></i> 添加</button>\n' +
         '                          <button\n' +
@@ -44,7 +48,7 @@ define(['jquery', 'utils'], function($, utils) {
         '                          <slot name="toolbar"></slot>\n' +
         '                      </div>\n' +
         '                      <div class="col-md-3">\n' +
-        '                          <div class="input-group pull-right has-feedback search">\n' +
+        '                          <div class="input-group pull-right has-feedback search" v-if="searchAble">\n' +
         '                              <input\n' +
         '                                      class="form-control"\n' +
         '                                      type="text"\n' +
@@ -59,6 +63,25 @@ define(['jquery', 'utils'], function($, utils) {
         '                                      @click="datagrid.queryParams.name=\'\';datagrid.$instance.reload()"\n' +
         '                              ></span>\n' +
         '                              </span>\n' +
+        '                          </div>\n' +
+        '                      </div>\n' +
+        '                      <div class="col-md-1 hidden-xs hidden-sm">\n' +
+        '                          <div class="btn-group pull-right">' +
+        '                               <button type="button"' +
+        '                                       class="btn btn-default dropdown-toggle"' +
+        '                                       data-toggle="dropdown"' +
+        '                                       aria-expanded="false">\n' +
+        '                                    <i class="glyphicon glyphicon-th icon-th"></i>\n' +
+        '                                    <span class="caret"></span>\n' +
+        '                                    <span class="sr-only">Toggle Dropdown</span>\n' +
+        '                               </button>\n' +
+        '                               <ul class="dropdown-menu" role="menu">\n' +
+        '                                    <li v-for="column in datagrid.columns">\n' +
+        '                                       <a href="javascript:void(0)" @click="toggleColumnVisibility(column)">' +
+        '                                           <input type="checkbox" :checked="!column.hidden"> {{column.title}}' +
+        '                                       </a>\n' +
+        '                                    </li>\n' +
+        '                               </ul>\n' +
         '                          </div>\n' +
         '                      </div>\n' +
         '                  </div>\n' +
@@ -206,6 +229,9 @@ define(['jquery', 'utils'], function($, utils) {
             },
             getSelectedRows: function () {
                 return this.datagrid.$instance.selectedRows;
+            },
+            toggleColumnVisibility: function (column) {
+                this.$set(column, 'hidden', !column.hidden);
             }
         },
         mounted: function() {

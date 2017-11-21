@@ -6,6 +6,7 @@ define(function() {
         },
         template: '<td' +
         '                   @click="_clickCell(row, column)"\n' +
+        '                   v-if="!column.hidden"\n' +
         '                   :style="_createStyle(column)"\n' +
         '                   \n' +
         '           >\n' +
