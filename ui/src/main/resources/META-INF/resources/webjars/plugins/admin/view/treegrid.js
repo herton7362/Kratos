@@ -44,6 +44,7 @@ define(['jquery', 'utils'], function($, utils) {
         '                            :instance="crudgrid"\n' +
         '                            @refresh="refresh"\n' +
         '                            @open="modalOpen"\n' +
+        '                            @sort="datagridSort"\n' +
         '                    >\n' +
         '                        <template slot="form-body" scope="props">\n' +
         '                            <slot name="form-body" :form="props.form"></slot>\n' +
@@ -61,7 +62,7 @@ define(['jquery', 'utils'], function($, utils) {
                 sidebar: {
                     $instance: {},
                     root: this.root,
-                    selectedId: null,
+                    selectedId: this.root.id,
                     data: []
                 }
             };
@@ -102,6 +103,22 @@ define(['jquery', 'utils'], function($, utils) {
             },
             getForm: function() {
                 return this.crudgrid.$instance.getForm();
+            },
+            datagridSort: function(data) {
+                if(this.$emit('sort', data) === false) {
+                    return;
+                }
+                $.ajax({
+                    url: utils.patchUrl('/api/' + this.domain + '/sort'),
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function () {
+                        require(['messager'], function(messager) {
+                            messager.bubble('排序成功');
+                        });
+                    }
+                });
             }
         },
         mounted: function() {

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
+
 /**
  * 提供基本增删改查
  * @author tang he
@@ -36,6 +38,16 @@ public abstract class AbstractCrudController<T extends BaseEntity> extends Abstr
         for (String s : ids) {
             getService().delete(s);
         }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * 调整排序
+     */
+    @ApiOperation(value="调整排序")
+    @RequestMapping(value = "/sort", method = RequestMethod.POST)
+    public ResponseEntity<T> sort(@RequestBody List<T> ts) throws Exception {
+        getService().sort(ts);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

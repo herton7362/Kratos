@@ -225,7 +225,20 @@ define(['jquery', 'utils'], function($, utils) {
                 this.datagrid.$instance.load($.extend({}, $.extend({}, this.datagrid.queryParams), data));
             },
             datagridSort: function(data) {
-                console.log(data)
+                if(this.$emit('sort', data) === false) {
+                    return;
+                }
+                $.ajax({
+                    url: utils.patchUrl('/api/' + this.domain + '/sort'),
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function () {
+                        require(['messager'], function(messager) {
+                            messager.bubble('排序成功');
+                        });
+                    }
+                });
             },
             getSelectedRows: function () {
                 return this.datagrid.$instance.selectedRows;

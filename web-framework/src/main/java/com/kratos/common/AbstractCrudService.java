@@ -3,6 +3,7 @@ package com.kratos.common;
 import com.kratos.common.utils.SpringUtils;
 import com.kratos.common.utils.StringUtils;
 import com.kratos.entity.BaseEntity;
+import com.kratos.exceptions.BusinessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -177,6 +178,18 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
                 }
             }
             return field;
+        }
+    }
+
+    public void sort(List<T> ts) throws Exception {
+        T t;
+        for (int i = 0; i < ts.size(); i++) {
+            if(StringUtils.isBlank(ts.get(i).getId())) {
+                throw new BusinessException("参数不正确，缺失主键");
+            }
+            t = getRepository().findOne(ts.get(i).getId());
+            t.setSortNumber(i);
+            getRepository().save(t);
         }
     }
 }

@@ -42,4 +42,10 @@ public interface CrudService<T extends BaseEntity> {
      * @return 保存后的实体
      */
     T save(T t) throws Exception;
+
+    /**
+     * 调整排序
+     * @param ts 调整后的顺序列表
+     */
+    void sort(List<T> ts) throws Exception;
 }
