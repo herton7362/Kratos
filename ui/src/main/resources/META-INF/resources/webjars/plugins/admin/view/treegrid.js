@@ -72,8 +72,12 @@ define(['jquery', 'utils'], function($, utils) {
                 var $form = this.crudgrid.$instance.getForm();
                 this.$emit('open', $form);
                 if(this.sidebar.$instance.getSelectedId()) {
+                    var id = null;
+                    if(this.sidebar.$instance.getSelectedId() !== 'isNull') {
+                        id = this.sidebar.$instance.getSelectedId();
+                    }
                     $form.parent = {
-                        id: this.sidebar.$instance.getSelectedId()
+                        id: id
                     }
                 } else {
                     $form.parent = {};

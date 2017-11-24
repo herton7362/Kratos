@@ -156,7 +156,7 @@ define(['jquery', 'utils'], function($, utils) {
                     url: utils.patchUrl('/api/' + this.domain + '/' + row.id),
                     success: function(data) {
                         $.each($.extend(true, {}, self.defaultFormData), function(key, value) {
-                            if(value instanceof Object && data[key] === null) {
+                            if((value instanceof Object || value instanceof Array) && data[key] === null) {
                                 data[key] = value;
                             }
                         });

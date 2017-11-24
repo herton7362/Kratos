@@ -2,6 +2,12 @@ define(['jquery','icheck', 'utils'], function($) {
     return {
         props: {
             value: null,
+            comparator: {
+                type: Function,
+                default: function(o1, o2) {
+                    return o1.id === o2.id;
+                }
+            },
             checked: [Array, Boolean]
         },
         template: '<input type="checkbox" :checked="isChecked()">',
@@ -37,7 +43,16 @@ define(['jquery','icheck', 'utils'], function($) {
             },
             isChecked: function() {
                 if(this.innerChecked instanceof Array) {
-                    return $.inArray(this.value, this.innerChecked) >= 0;
+                    if(typeof this.value === 'object') {
+                        for(var i = 0, l = this.innerChecked.length; i < l; i++) {
+                            if(this.comparator(this.value, this.innerChecked[i])) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    } else {
+                        return $.inArray(this.value, this.innerChecked) >= 0;
+                    }
                 } else if(typeof this.innerChecked === 'boolean') {
                     return this.innerChecked;
                 }
