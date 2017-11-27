@@ -36,10 +36,12 @@ define(['jquery'], function($) {
             close: function () {
                 $(this.$el).find('.weui-actionsheet').removeClass('weui-actionsheet_toggle');
                 $(this.$el).find('.weui-mask').fadeOut(200);
+                this.$emit('close', this);
             },
             open: function () {
                 $(this.$el).find('.weui-actionsheet').addClass('weui-actionsheet_toggle');
                 $(this.$el).find('.weui-mask').fadeIn(200);
+                this.$emit('open', this);
             },
             buttonClick: function () {
                 this.button.callback.call(this);

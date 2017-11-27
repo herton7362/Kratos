@@ -1,6 +1,7 @@
 requirejs.config({
-    urlArgs: "v=" + window._appConf.version,
+    urlArgs: "v=" + new Date().getTime(),
     baseUrl: (window._appConf.ctx || '') + '/webjars/plugins/admin/',
+    waitSeconds: 0,
     paths: {
         'base-jquery': '../jquery/js/jquery-2.1.4.min',
         'jquery': 'jquery/jquery',

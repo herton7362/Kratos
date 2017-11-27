@@ -1,6 +1,7 @@
 requirejs.config({
-    urlArgs: "v=" + window._appConf.version,
+    urlArgs: "v=" + new Date().getTime(),
     baseUrl: (window._appConf.ctx || '') + '/webjars/plugins/wechat/',
+    waitSeconds: 0,
     paths: {
         'base-jquery': '../jquery/js/jquery-2.1.4.min',
         'jquery': 'jquery/jquery',
@@ -19,7 +20,12 @@ requirejs.config({
     },
     shim: {
         'jquery': ['base-jquery'],
-        'vue': ['base-vue'],
+        'vue': [
+            'base-vue',
+            'validator',
+            'actionsheet',
+            'modal'
+        ],
         'messager': ['jquery', 'vue', 'css!../wechat/messager/css/messager.css'],
         'bootstrap': ['jquery'],
         'base-adminlte': ['bootstrap'],
@@ -29,9 +35,11 @@ requirejs.config({
             'css!../AdminLTE/css/font-awesome/css/font-awesome.min.css',
             'css!../AdminLTE/css/datatables.net-bs/dataTables.bootstrap.min.css'
         ],
+        'validator': ['jquery', 'app'],
         'weui': ['jquery', 'css!../weui/weui.min.css'],
         'actionsheet': ['jquery', 'css!../wechat/actionsheet/actionsheet.css'],
-        'modal': ['jquery', 'css!../wechat/modal/modal.css']
+        'modal': ['jquery', 'css!../wechat/modal/modal.css'],
+        'utils': ['app']
     },
     map: {
         '*': {
