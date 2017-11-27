@@ -1,5 +1,5 @@
 requirejs.config({
-    urlArgs: "v=" + new Date().getTime(),
+    urlArgs: "v=" + window._appConf.version,
     baseUrl: (window._appConf.ctx || '') + '/webjars/plugins/wechat/',
     waitSeconds: 0,
     paths: {
