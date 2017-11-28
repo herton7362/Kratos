@@ -1,5 +1,5 @@
 requirejs.config({
-    urlArgs: "v=" + window._appConf.version,
+    urlArgs: "_=" + new Date().getTime(),
     baseUrl: (window._appConf.ctx || '') + '/webjars/plugins/admin/',
     waitSeconds: 0,
     paths: {
