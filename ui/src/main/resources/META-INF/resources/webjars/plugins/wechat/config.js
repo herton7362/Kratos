@@ -16,7 +16,8 @@ requirejs.config({
         'app': '../utils/app',
         'weui': '../weui/weui.min',
         'actionsheet': 'actionsheet/actionsheet',
-        'modal': 'modal/modal'
+        'modal': 'modal/modal',
+        'sidemodal': 'sidemodal/sidemodal'
     },
     shim: {
         'jquery': ['base-jquery'],
@@ -39,7 +40,8 @@ requirejs.config({
         'weui': ['jquery', 'css!../weui/weui.min.css'],
         'actionsheet': ['jquery', 'css!../wechat/actionsheet/actionsheet.css'],
         'modal': ['jquery', 'css!../wechat/modal/modal.css'],
-        'utils': ['app']
+        'utils': ['app'],
+        'sidemodal': ['jquery', 'utils']
     },
     map: {
         '*': {
