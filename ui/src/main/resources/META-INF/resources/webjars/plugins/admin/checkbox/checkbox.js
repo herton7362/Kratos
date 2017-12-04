@@ -51,7 +51,7 @@ define(['jquery','icheck', 'utils'], function($) {
                         }
                         return false;
                     } else {
-                        return $.inArray(this.value, this.innerChecked) >= 0;
+                        return this.inArray(this.value, this.innerChecked) >= 0;
                     }
                 } else if(typeof this.innerChecked === 'boolean') {
                     return this.innerChecked;
@@ -65,9 +65,17 @@ define(['jquery','icheck', 'utils'], function($) {
                     if(!this.isChecked()){
                         this.innerChecked.push(this.value);
                     }
-                } else if($.inArray(this.value, this.innerChecked) >= 0) {
-                    this.innerChecked.splice($.inArray(this.value, this.innerChecked), 1);
+                } else if(this.inArray(this.value, this.innerChecked) >= 0) {
+                    this.innerChecked.splice(this.inArray(this.value, this.innerChecked), 1);
                 }
+            },
+            inArray: function (value, array) {
+                for(var i = 0, l = array.length; i < l; i++) {
+                    if(this.comparator(value, array[i])) {
+                        return i;
+                    }
+                }
+                return -1;
             },
             onSingleCheck: function(event) {
                 if(event.target.checked) {
