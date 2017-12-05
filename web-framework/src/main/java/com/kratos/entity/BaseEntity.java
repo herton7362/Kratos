@@ -62,4 +62,18 @@ public abstract class BaseEntity implements Cloneable, Serializable {
     public void setSortNumber(Integer sortNumber) {
         this.sortNumber = sortNumber;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false ;
+        else{
+            if (obj instanceof BaseEntity){
+                BaseEntity e = (BaseEntity) obj;
+                if(e.id.equals(this.id)){
+                    return true ;
+                }
+            }
+        }
+        return false ;
+    }
 }
