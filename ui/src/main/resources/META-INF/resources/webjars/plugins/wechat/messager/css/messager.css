@@ -10,3 +10,7 @@
     color: #FFFFFF;
     font-size: 55px;
 }
+
+.weui-toast {
+    z-index: 5005;
+}

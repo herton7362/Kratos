@@ -1,5 +1,6 @@
 package com.kratos.module.attachment.service;
 
+import com.kratos.config.FrameworkProperties;
 import com.kratos.module.attachment.domain.Attachment;
 import com.kratos.module.attachment.domain.AttachmentRepository;
 import com.kratos.common.AbstractCrudService;
@@ -36,7 +37,7 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment> imple
             return null;
         }
         Attachment attachment = new Attachment();
-        String path = "/nfs-client/%s/%s/%s.%s";
+        String path = "/nfs-client/%s/%s/%s/%s.%s";
         if(multipartFile.getOriginalFilename().lastIndexOf(".") >= 0) {
             String format = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf("."));
             if(StringUtils.isNotBlank(format)) {
@@ -52,7 +53,7 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment> imple
         String date = format.format(new Date());
         Long unixTimestamp = new Date().getTime();
         String attachmentFormat = attachment.getFormat();
-        attachment.setPath(String.format(path, loginName, date, unixTimestamp, attachmentFormat));
+        attachment.setPath(String.format(FrameworkProperties.getProjectName(), path, loginName, date, unixTimestamp, attachmentFormat));
         attachment.setSize(multipartFile.getSize());
         String prefixPath = null;
         if(OSUtils.isWindows()) {
