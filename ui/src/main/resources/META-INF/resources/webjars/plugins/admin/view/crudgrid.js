@@ -62,7 +62,6 @@ define(['jquery', 'utils'], function($, utils) {
         '                                      aria-hidden="true"\n' +
         '                                      @click="datagrid.queryParams.name=\'\';datagrid.$instance.reload()"\n' +
         '                              ></span>\n' +
-        '                              </span>\n' +
         '                          </div>\n' +
         '                      </div>\n' +
         '                      <div class="col-md-1 hidden-xs hidden-sm">\n' +

@@ -1,10 +1,13 @@
 package com.kratos.entity;
 
+import com.kratos.common.utils.IteratorUtils;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 @MappedSuperclass
 public abstract class BaseEntity implements Cloneable, Serializable {
@@ -69,11 +72,19 @@ public abstract class BaseEntity implements Cloneable, Serializable {
         else{
             if (obj instanceof BaseEntity){
                 BaseEntity e = (BaseEntity) obj;
-                if(e.id.equals(this.id)){
-                    return true ;
-                }
+                return e.id.equals(this.id) ;
             }
         }
         return false ;
+    }
+
+    public static <E extends BaseEntity> boolean compare(List<E> l1, List<E> l2) {
+        String[] array1 = new String[l1.size()];
+        String[] array2 = new String[l2.size()];
+        IteratorUtils.forEach(l1, (index, l) ->array1[index] = l.getId());
+        IteratorUtils.forEach(l2, (index, l) ->array2[index] = l.getId());
+        Arrays.sort(array1);
+        Arrays.sort(array2);
+        return Arrays.equals(array1, array2);
     }
 }
