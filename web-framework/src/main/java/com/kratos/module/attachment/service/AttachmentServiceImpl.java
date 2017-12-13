@@ -53,7 +53,7 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment> imple
         String date = format.format(new Date());
         Long unixTimestamp = new Date().getTime();
         String attachmentFormat = attachment.getFormat();
-        attachment.setPath(String.format(FrameworkProperties.getProjectName(), path, loginName, date, unixTimestamp, attachmentFormat));
+        attachment.setPath(String.format(path, FrameworkProperties.getProjectName(), loginName, date, unixTimestamp, attachmentFormat));
         attachment.setSize(multipartFile.getSize());
         String prefixPath = null;
         if(OSUtils.isWindows()) {
