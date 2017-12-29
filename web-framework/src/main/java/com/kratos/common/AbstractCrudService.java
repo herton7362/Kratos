@@ -37,8 +37,9 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
     protected abstract PageRepository<T> getRepository();
 
     @Override
-    public Page<T> findAll(PageRequest pageRequest, Map<String, String[]> param) throws Exception {
-        return getRepository().findAll(getSpecification(param), pageRequest);
+    public PageResult<T> findAll(PageRequest pageRequest, Map<String, String[]> param) throws Exception {
+        Page<T> page = getRepository().findAll(getSpecification(param), pageRequest);
+        return new PageResult<>(page);
     }
 
     @Override

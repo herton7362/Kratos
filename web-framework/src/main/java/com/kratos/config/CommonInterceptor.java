@@ -23,6 +23,7 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
         adminRepository = SpringUtils.getBean(AdminRepository.class);
         tokenStore = SpringUtils.getBean(TokenStore.class);
         String accessToken = request.getParameter("access_token");
+        UserThread.getInstance().setAccessToken(accessToken);
         UserThread.getInstance().setIpAddress(NetworkUtils.getIpAddress(request));
         if(StringUtils.isNotBlank(accessToken)) {
             OAuth2Authentication oAuth2Authentication = tokenStore.readAuthentication(accessToken);

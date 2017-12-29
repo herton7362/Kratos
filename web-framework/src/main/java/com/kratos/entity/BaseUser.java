@@ -15,7 +15,6 @@ public abstract class BaseUser extends BaseEntity {
     @ApiModelProperty(value = "登录名称")
     private String loginName;
     @ApiModelProperty(value = "密码")
-    @JsonBackReference
     private String password;
     @ApiModelProperty(value = "手机")
     private String mobile;

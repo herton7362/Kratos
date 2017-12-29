@@ -12,9 +12,9 @@ public interface CrudService<T extends BaseEntity> {
      * 分页查询
      * @param pageRequest 分页条件
      * @param param 查询条件
-     * @return {@link Page} spring boot 分页类
+     * @return {@link PageResult} spring boot 分页类
      */
-    Page<T> findAll(PageRequest pageRequest, Map<String, String[]> param) throws Exception;
+    PageResult<T> findAll(PageRequest pageRequest, Map<String, String[]> param) throws Exception;
 
     /**
      * 列表查询

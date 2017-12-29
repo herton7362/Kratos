@@ -4,15 +4,19 @@ define(['jquery', 'utils'], function($, utils){
             isOpen: {
                 type: Boolean,
                 default: false
+            },
+            padding: {
+                type: [Number, String],
+                default: 10
             }
         },
         template: '<div class="page sidemodal" :class="{\'js_show slideIn\':isOpen,\'js_show slideOut\':!isOpen && hashchanged}">\n' +
         '            <div class="weui-panel weui-panel_access">\n' +
+    '                    <div class="weui-panel__hd">\n' +
+    '                        <slot name="header"></slot>\n' +
+    '                    </div>\n' +
         '                <div class="weui-panel__bd">\n' +
-        '                    <div class="weui-media-box weui-media-box_text">\n' +
-        '                        <h4 class="weui-media-box__title"><slot name="header"></slot></h4>\n' +
-        '                    </div>\n' +
-        '                    <div class="weui-media-box weui-media-box_text">\n' +
+        '                    <div class="weui-media-box weui-media-box_text" :style="\'padding:\' + padding + \'px\' ">\n' +
         '                       <slot name="body"></slot>\n' +
         '                    </div>\n' +
         '                </div>\n' +

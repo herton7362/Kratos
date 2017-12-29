@@ -43,7 +43,7 @@ public abstract class AbstractReadController<T extends BaseEntity> {
     public ResponseEntity<?> searchPagedList(@ModelAttribute PageParam pageParam, HttpServletRequest request) throws Exception {
         Map<String, String[]> param = request.getParameterMap();
         if(pageParam.isPageAble()) {
-            Page<T> page = getService().findAll(pageParam.getPageRequest(), param);
+            PageResult<T> page = getService().findAll(pageParam.getPageRequest(), param);
             return new ResponseEntity<>(page, HttpStatus.OK);
         }
         List<T> list = getService().findAll(param);

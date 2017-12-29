@@ -7,6 +7,7 @@ public class UserThread<T extends BaseUser> {
     private static ThreadLocal<BaseUser> userThreadLocal = new ThreadLocal<>();
     private static ThreadLocal<String> clientIdThreadLocal = new ThreadLocal<>();
     private static ThreadLocal<String> ipAddressThreadLocal = new ThreadLocal<>();
+    private static ThreadLocal<String> accessTokenThreadLocal = new ThreadLocal<>();
     private static UserThread instance;
     public UserThread() {}
 
@@ -40,6 +41,14 @@ public class UserThread<T extends BaseUser> {
 
     public String getIpAddress() {
         return ipAddressThreadLocal.get();
+    }
+
+    public String getAccessToken() {
+        return accessTokenThreadLocal.get();
+    }
+
+    public void setAccessToken(String accessToken) {
+        accessTokenThreadLocal.set(accessToken);
     }
 
     public void clear() {
