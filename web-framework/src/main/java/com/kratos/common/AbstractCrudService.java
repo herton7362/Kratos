@@ -116,6 +116,8 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
                     predicate.add(criteriaBuilder.isNull(root.get(key)));
                 } else if(attribute.getJavaType().equals(String.class)) {
                     predicate.add(criteriaBuilder.like(root.get(key), "%"+ values[0] +"%"));
+                } else if(attribute.getJavaType().equals(Boolean.class)) {
+                    predicate.add(criteriaBuilder.equal(root.get(key), Boolean.valueOf(values[0])));
                 } else if(attribute.getJavaType().getSuperclass().equals(Enum.class)) {
                     predicate.add(criteriaBuilder.equal(root.get(key), Enum.valueOf(attribute.getJavaType(), values[0])));
                 } else if(attribute.getJavaType().getSuperclass().equals(Number.class)) {

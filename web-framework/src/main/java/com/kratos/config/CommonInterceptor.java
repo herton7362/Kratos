@@ -43,6 +43,12 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
         } else {
             UserThread.getInstance().set(null);
         }
+        setHeaders(response);
         return true;
+    }
+
+    private void setHeaders(HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin","*");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     }
 }

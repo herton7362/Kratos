@@ -8,11 +8,18 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.security.Principal;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 提供登录注册等服务
@@ -59,6 +66,31 @@ public abstract class AbstractLoginController {
     ) throws Exception {
         loginService.editPwd(mobile, code, password);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * 登录
+     */
+    @ApiOperation(value="登录")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "username", value = "手机号码", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "密码", dataType = "String", paramType = "query")
+    })
+    @RequestMapping(value = "/admin/login", method = {RequestMethod.POST, RequestMethod.OPTIONS})
+    public ResponseEntity<OAuth2AccessToken> login(
+            @RequestParam(value = "username") String username,
+            @RequestParam(value = "password") String password
+    ) throws Exception {
+        ResponseEntity<OAuth2AccessToken> responseEntity;
+        try {
+            String appId = "tonr";
+            String appSecret = "secret";
+            responseEntity = loginService.login(appId, appSecret, username, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
+        return responseEntity;
     }
 
     /**
