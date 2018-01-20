@@ -76,7 +76,7 @@ public abstract class AbstractLoginController {
             @ApiImplicitParam(name = "username", value = "手机号码", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "密码", dataType = "String", paramType = "query")
     })
-    @RequestMapping(value = "/admin/login", method = {RequestMethod.POST, RequestMethod.OPTIONS})
+    @RequestMapping(value = "/admin/login", method = {RequestMethod.POST})
     public ResponseEntity<OAuth2AccessToken> login(
             @RequestParam(value = "username") String username,
             @RequestParam(value = "password") String password
