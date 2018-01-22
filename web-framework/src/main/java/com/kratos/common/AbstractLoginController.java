@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -66,6 +67,31 @@ public abstract class AbstractLoginController {
     ) throws Exception {
         loginService.editPwd(mobile, code, password);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * 刷新token
+     */
+    @ApiOperation(value="刷新token")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "appId", value = "app_id", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "appSecret", value = "app_secret", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "refreshToken", value = "refresh_token", dataType = "String", paramType = "query")
+    })
+    @RequestMapping(value = "/refresh/token", method = RequestMethod.POST)
+    public ResponseEntity<OAuth2AccessToken> refreshToken(
+            @RequestParam(value = "appId") String appId,
+            @RequestParam(value = "appSecret") String appSecret,
+            @RequestParam(value = "refreshToken") String refreshToken
+    ) throws Exception {
+        ResponseEntity<OAuth2AccessToken> responseEntity;
+        try {
+            responseEntity = loginService.refreshToken(appId, appSecret, refreshToken);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
+        return responseEntity;
     }
 
     /**

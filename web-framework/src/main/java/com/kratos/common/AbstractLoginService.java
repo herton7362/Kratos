@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 
 import java.security.Principal;
@@ -122,5 +123,21 @@ public abstract class AbstractLoginService {
      */
     protected void clearVerifyCode(String mobile) throws Exception {
         CacheUtils.getInstance().remove(mobile);
+    }
+
+    /**
+     * 刷新token
+     * @param appId app_id
+     * @param appSecret app_secret
+     * @param refreshToken refresh_token
+     */
+    public  ResponseEntity<OAuth2AccessToken> refreshToken(String appId, String appSecret, String refreshToken) throws Exception {
+        Map<String, String> requestParameters = new HashMap<>();
+        requestParameters.put("client_id", appId);
+        requestParameters.put("client_secret", appSecret);
+        requestParameters.put("grant_type", "refresh_token");
+        requestParameters.put("refresh_token", refreshToken);
+        Principal principal = new UsernamePasswordAuthenticationToken(new User(appId, appSecret, Collections.emptyList()), null, null);
+        return getTokenEndpoint().postAccessToken(principal, requestParameters);
     }
 }
