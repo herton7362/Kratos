@@ -24,7 +24,7 @@ public class Module extends BaseEntity {
     @Column(length = 50)
     private String name;
     @ApiModelProperty(value = "功能代码")
-    @Column(length = 20)
+    @Column(length = 100)
     private String code;
     @ApiModelProperty(value = "菜单请求路径")
     @Column(length = 500)
