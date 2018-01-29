@@ -1,6 +1,7 @@
 package com.kratos.module.attachment.service;
 
 import com.kratos.config.FrameworkProperties;
+import com.kratos.entity.BaseUser;
 import com.kratos.module.attachment.domain.Attachment;
 import com.kratos.module.attachment.domain.AttachmentRepository;
 import com.kratos.common.AbstractCrudService;
@@ -49,7 +50,11 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment> imple
         }
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         attachment.setName(multipartFile.getOriginalFilename());
-        String loginName = UserThread.getInstance().get().getLoginName();
+        BaseUser user = UserThread.getInstance().get();
+        String loginName = "anonymous";
+        if(user != null) {
+            loginName = UserThread.getInstance().get().getLoginName();
+        }
         String date = format.format(new Date());
         Long unixTimestamp = new Date().getTime();
         String attachmentFormat = attachment.getFormat();
