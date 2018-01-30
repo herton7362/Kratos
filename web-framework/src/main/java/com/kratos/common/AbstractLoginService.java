@@ -14,10 +14,7 @@ import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 
 import java.security.Principal;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -137,6 +134,23 @@ public abstract class AbstractLoginService {
         requestParameters.put("client_secret", appSecret);
         requestParameters.put("grant_type", "refresh_token");
         requestParameters.put("refresh_token", refreshToken);
+        Principal principal = new UsernamePasswordAuthenticationToken(new User(appId, appSecret, Collections.emptyList()), null, null);
+        return getTokenEndpoint().postAccessToken(principal, requestParameters);
+    }
+
+    public ResponseEntity<OAuth2AccessToken> loginByCode(String appId, String appSecret, String mobile, String code) throws Exception {
+        if(!verifyVerifyCode(mobile, code)) {
+            throw new BusinessException("验证码不正确");
+        }
+        BaseUser baseUser = findUserByMobile(mobile);
+        if(baseUser == null) {// 用户未注册需要注册
+            register(mobile, code, UUID.randomUUID().toString());
+        }
+        clearVerifyCode(mobile);
+        Map<String, String> requestParameters = new HashMap<>();
+        requestParameters.put("client_id", appId);
+        requestParameters.put("client_secret", appSecret);
+        requestParameters.put("grant_type", "client_credentials");
         Principal principal = new UsernamePasswordAuthenticationToken(new User(appId, appSecret, Collections.emptyList()), null, null);
         return getTokenEndpoint().postAccessToken(principal, requestParameters);
     }
