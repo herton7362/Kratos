@@ -18,10 +18,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Attribute;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 抽象service提供基本的增删改查操作
@@ -84,10 +81,11 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
      */
     @SuppressWarnings("unchecked")
     class SimpleSpecification implements Specification<T> {
-        Map<String, String[]> param;
+        Map<String, String[]> params;
         String currentKey;
-        SimpleSpecification(Map<String, String[]> param) {
-            this.param = param;
+        Attribute currentAttribute;
+        SimpleSpecification(Map<String, String[]> params) {
+            this.params = params;
         }
         @Override
         public Predicate toPredicate(Root<T> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -95,18 +93,24 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
             List<Predicate> predicate = new ArrayList<>();
             String key;
             String[] values;
-            for (Attribute attribute : attributes) {
-                key = attribute.getName();
+            Attribute attribute;
+            Set<Map.Entry<String, String[]>> set = params.entrySet();
+            for (Map.Entry<String, String[]> param : set) {
+
+                if(!containsKey(param.getKey(), attributes))  {
+                    continue;
+                }
+
+                key = this.currentAttribute.getName();
+                attribute = this.currentAttribute;
                 Assert.isTrue(
                         !attribute.getJavaType().isPrimitive(),
                         "实体[" + root.getModel().getName() + "]:["+attribute.getName()+"]" +
                                 "为基本类型，不要将实体属性设置成基本类型"
                 );
-                if(!containsKey(param, key))  {
-                    continue;
-                }
 
-                values = param.get(this.currentKey);
+
+                values = param.getValue();
 
                 if(values == null || StringUtils.isBlank(values[0])) {
                     continue;
@@ -136,6 +140,9 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
                     }
                 } else if(BaseEntity.class.isAssignableFrom(attribute.getJavaType())) {
                     String field = this.getFiled();
+                    if(StringUtils.isBlank(field)) {
+                        continue;
+                    }
                     EntityManager entityManager = SpringUtils.getBean(EntityManager.class);
                     Query query = entityManager.createQuery("select m from "+
                             getEntityName(attribute.getJavaType(), root, key)+" m where m."+field+"=:" + field);
@@ -159,11 +166,14 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
             return clazz.getSimpleName();
         }
 
-        private Boolean containsKey(Map<String, String[]> param, String key) {
-            for (String k : param.keySet()) {
-                if(k.split("\\.")[0].equals(key)
+        private Boolean containsKey(String k, Set<Attribute<? super T, ?>> attributes) {
+            String key;
+            for(Attribute attribute : attributes) {
+                key = attribute.getName();
+                if (k.split("\\.")[0].equals(key)
                         || k.split("\\[")[0].equals(key)) {
                     this.currentKey = k;
+                    this.currentAttribute = attribute;
                     return true;
                 }
             }
