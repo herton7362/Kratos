@@ -28,14 +28,20 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
         if(StringUtils.isNotBlank(accessToken)) {
             OAuth2Authentication oAuth2Authentication = tokenStore.readAuthentication(accessToken);
             if(oAuth2Authentication != null) {
-                User user = (User) oAuth2Authentication.getPrincipal();
-                UserThread.getInstance().setClientId(oAuth2Authentication.getOAuth2Request().getClientId());
-                BaseUser baseUser = adminRepository.findOneByLoginName(user.getUsername());
-                if(baseUser != null) {
-                    baseUser.setPassword(null);
-                    UserThread.getInstance().set(baseUser);
-                } else {
-                    UserThread.getInstance().set(null);
+                Object principal = oAuth2Authentication.getPrincipal();
+
+                if(principal instanceof User) {
+                    User user = (User) principal;
+                    UserThread.getInstance().setClientId(oAuth2Authentication.getOAuth2Request().getClientId());
+                    BaseUser baseUser = adminRepository.findOneByLoginName(user.getUsername());
+                    if(baseUser != null) {
+                        baseUser.setPassword(null);
+                        UserThread.getInstance().set(baseUser);
+                    } else {
+                        UserThread.getInstance().set(null);
+                    }
+                } else if(principal instanceof String) {
+                    UserThread.getInstance().setClientId((String) principal);
                 }
             } else {
                 UserThread.getInstance().set(null);

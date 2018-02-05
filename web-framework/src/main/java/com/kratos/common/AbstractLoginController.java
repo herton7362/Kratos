@@ -193,6 +193,22 @@ public abstract class AbstractLoginController {
     }
 
     /**
+     * 验证码校验
+     */
+    @ApiOperation(value="验证码校验")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "mobile", value = "手机号码", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "code", value = "验证码", dataType = "String", paramType = "query")
+    })
+    @RequestMapping(value = "/verify/verifyCode", method = RequestMethod.GET)
+    public ResponseEntity<Boolean> verifyVerifyCode(
+            @RequestParam(value = "mobile") String mobile,
+            @RequestParam(value = "code") String code
+    ) throws Exception {
+        return new ResponseEntity<>(loginService.verifyVerifyCode(mobile, code), HttpStatus.OK);
+    }
+
+    /**
      * 查询登录用户
      */
     @ApiOperation(value="查询登录用户")
