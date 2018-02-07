@@ -138,15 +138,13 @@ public abstract class AbstractLoginService {
         return getTokenEndpoint().postAccessToken(principal, requestParameters);
     }
 
-    public ResponseEntity<OAuth2AccessToken> loginByCode(String appId, String appSecret, String mobile, String code) throws Exception {
-        if(!verifyVerifyCode(mobile, code)) {
-            throw new BusinessException("验证码不正确");
-        }
-        BaseUser baseUser = findUserByMobile(mobile);
-        if(baseUser == null) {// 用户未注册需要注册
-            register(mobile, code, UUID.randomUUID().toString());
-        }
-        clearVerifyCode(mobile);
+    /**
+     * 获取token
+     * @param appId 应用id
+     * @param appSecret secret
+     * @return token
+     */
+    public ResponseEntity<OAuth2AccessToken> getAccessToken(String appId, String appSecret) throws Exception {
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put("client_id", appId);
         requestParameters.put("client_secret", appSecret);
