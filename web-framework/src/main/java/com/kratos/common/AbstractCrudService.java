@@ -18,6 +18,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Attribute;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -125,14 +126,36 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
                 } else if(attribute.getJavaType().getSuperclass().equals(Enum.class)) {
                     predicate.add(criteriaBuilder.equal(root.get(key), Enum.valueOf(attribute.getJavaType(), values[0])));
                 } else if(attribute.getJavaType().getSuperclass().equals(Number.class)) {
+                    NumberFormat nf = NumberFormat.getInstance();
                     if(values.length == 1) {
-                        predicate.add(criteriaBuilder.equal(root.get(key), values[0]));
+                        try {
+                            predicate.add(criteriaBuilder.equal(root.get(key), nf.parse(values[0])));
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
                     } else if(values.length == 2) {
-                        NumberFormat nf = NumberFormat.getInstance();
                         try {
                             predicate.add(criteriaBuilder.and(
                                     criteriaBuilder.gt(root.get(key), nf.parse(values[0])),
                                     criteriaBuilder.lt(root.get(key), nf.parse(values[1]))
+                            ));
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                } else if(attribute.getJavaType().equals(Date.class)) {
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    if(values.length == 1) {
+                        try {
+                            predicate.add(criteriaBuilder.equal(root.get(key), df.parse(values[0])));
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else if(values.length == 2) {
+                        try {
+                            predicate.add(criteriaBuilder.and(
+                                    criteriaBuilder.greaterThanOrEqualTo(root.get(key), df.parse(values[0])),
+                                    criteriaBuilder.lessThanOrEqualTo(root.get(key), df.parse(values[1]))
                             ));
                         } catch (ParseException e) {
                             throw new RuntimeException(e);
