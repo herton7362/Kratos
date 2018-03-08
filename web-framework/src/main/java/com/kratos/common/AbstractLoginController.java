@@ -50,6 +50,29 @@ public abstract class AbstractLoginController {
     }
 
     /**
+     * token登录
+     */
+    @ApiOperation(value="token登录")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "appId", value = "app_id", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "appSecret", value = "app_secret", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "token", value = "token", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "username", value = "手机号码", dataType = "String", paramType = "query")
+
+    })
+    @RequestMapping(value = "/token/login", method = {RequestMethod.POST})
+    public ResponseEntity<OAuth2AccessToken> loginByToken(
+            @RequestParam(value = "appId") String appId,
+            @RequestParam(value = "appSecret") String appSecret,
+            @RequestParam(value = "token") String token,
+            @RequestParam(value = "username") String username
+    ) throws Exception {
+        ResponseEntity<OAuth2AccessToken> responseEntity;
+        responseEntity = loginService.loginByToken(appId, appSecret, token, username);
+        return responseEntity;
+    }
+
+    /**
      * 修改密码
      */
     @ApiOperation(value="修改密码")

@@ -43,6 +43,11 @@ public class AdminServiceImpl extends AbstractCrudService<Admin> implements Admi
     }
 
     @Override
+    public BaseUser findOneByLoginNameAndClientId(String account, String clientId) throws Exception {
+        return adminRepository.findOneByLoginNameAndClientId(account, clientId);
+    }
+
+    @Override
     protected AdminRepository getRepository() {
         return adminRepository;
     }

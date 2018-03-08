@@ -36,11 +36,8 @@ require(['jquery', 'vue', 'utils', 'adminlte'], function ($, Vue, utils){
         function refreshToken() {
             if(new Date().getTime() > window.localStorage.expiration - 10 * 1000) {
                 $.ajax({
-                    url: utils.patchUrl('/oauth/token?client_id='+_appConf.appId+'&client_secret='+_appConf.appSecret+'&grant_type=refresh_token&refresh_token=' + window.localStorage.refreshToken),
+                    url: utils.patchUrl('/refresh/token?appId='+_appConf.appId+'&appSecret='+_appConf.appSecret+'&refreshToken=' + window.localStorage.refreshToken),
                     contentType: 'application/json',
-                    headers: {
-                        Authorization: "Basic " + btoa(_appConf.appId + ':' + _appConf.appSecret)
-                    },
                     type: 'POST',
                     cache: false,
                     success: function(data) {

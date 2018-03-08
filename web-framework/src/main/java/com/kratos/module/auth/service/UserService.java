@@ -9,4 +9,12 @@ public interface UserService {
      * @return {@link BaseUser} 继承该实体的用户类
      */
     BaseUser findOneByLoginName(String account) throws Exception;
+
+    /**
+     * 根据账户查和clientId询用户
+     * @param account 账户
+     * @param clientId clientId
+     * @return {@link BaseUser} 继承该实体的用户类
+     */
+    BaseUser findOneByLoginNameAndClientId(String account, String clientId) throws Exception;
 }

@@ -39,15 +39,21 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
                         UserThread.getInstance().set(baseUser);
                     } else {
                         UserThread.getInstance().set(null);
+                        UserThread.getInstance().setClientId(null);
+                        UserThread.getInstance().setAccessToken(null);
                     }
                 } else if(principal instanceof String) {
                     UserThread.getInstance().setClientId((String) principal);
                 }
             } else {
                 UserThread.getInstance().set(null);
+                UserThread.getInstance().setClientId(null);
+                UserThread.getInstance().setAccessToken(null);
             }
         } else {
             UserThread.getInstance().set(null);
+            UserThread.getInstance().setClientId(null);
+            UserThread.getInstance().setAccessToken(null);
         }
         setHeaders(response);
         return true;

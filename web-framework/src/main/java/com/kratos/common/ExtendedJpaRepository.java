@@ -1,6 +1,8 @@
 package com.kratos.common;
 
 import com.kratos.entity.BaseEntity;
+import com.kratos.entity.BaseUser;
+import com.kratos.module.auth.UserThread;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +29,15 @@ public class ExtendedJpaRepository<T extends BaseEntity> extends SimpleJpaReposi
         Assert.notNull(entity, "entity need be initialized");
         if (StringUtils.isEmpty(entity.getId())) {
             entity.setCreatedDate(new Date().getTime());
+            BaseUser user = UserThread.getInstance().get();
+            if(user != null) {
+                entity.setCreateUserId(user.getId());
+            }
+            if(StringUtils.isEmpty(entity.getClientId())) {
+                entity.setClientId(UserThread.getInstance().getClientId());
+            }
         }
+
         entity.setSortNumber(entity.getSortNumber() == null?0: entity.getSortNumber());
         if(entity.getLogicallyDeleted() == null) {
             entity.setLogicallyDeleted(false);

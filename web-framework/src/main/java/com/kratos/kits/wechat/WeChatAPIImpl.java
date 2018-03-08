@@ -44,14 +44,18 @@ public class WeChatAPIImpl implements WeChatAPI {
         LOG.debug("pay unifiedorder result: {}", result);
         String prePayId = (String) XmlUtils.xmltoMap(result).get("prepay_id");
         Map<String, Object> map = new HashMap<>();
-        map.put("appId", weChatPayConfig.getAppId());
+        map.put("appid", weChatPayConfig.getAppId());
+        map.put("package", "Sign=WXPay");
+        map.put("noncestr", MD5Utils.getMessageDigest(String.valueOf(new Random().nextInt(10000)).getBytes())); // 获取32位随机码
         map.put("partnerid", weChatPayConfig.getMchId());
         map.put("prepayid", prePayId);
-        map.put("package", "Sign=WXPay");
-        map.put("timeStamp", String.valueOf(System.currentTimeMillis() / 1000));
-        map.put("nonceStr", MD5Utils.getMessageDigest(String.valueOf(new Random().nextInt(10000)).getBytes())); // 获取32位随机码
+        map.put("timestamp", String.valueOf(System.currentTimeMillis() / 1000));
         String sign = getSign(map);
         map.put("sign", sign);
+        map.remove("package");
+        map.put("pkg", "Sign=WXPay");
+        map.put("retcode", "0");
+        map.put("retmsg", "ok");
         return map;
     }
 

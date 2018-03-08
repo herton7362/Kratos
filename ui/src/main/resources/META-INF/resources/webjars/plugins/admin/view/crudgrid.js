@@ -23,6 +23,12 @@ define(['jquery', 'utils'], function($, utils) {
                         order: 'asc,desc'
                     }
                 }
+            },
+            tableTransformResponse: {
+                type: Function,
+                default: function(response) {
+                    return response
+                }
             }
         },
         template: '<div class="box">\n' +
@@ -98,6 +104,7 @@ define(['jquery', 'utils'], function($, utils) {
         '                          :pagination="true"\n' +
         '                          :instance="datagrid"\n' +
         '                          @load="onLoad"\n' +
+        '                          :table-transform-response="tableTransformResponse"' +
         '                          @sort="datagridSort">\n' +
         '                      <template slot="operator" scope="props">\n' +
         '                          <a class="btn btn-xs bg-green" @click="edit(props.row)" title="修改"><i class="fa fa-pencil"></i></a>\n' +

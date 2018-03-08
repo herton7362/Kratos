@@ -40,6 +40,12 @@ define(['jquery', 'utils'], function($, utils) {
             count: {
                 type: [Number, String],
                 default: 0
+            },
+            tableTransformResponse: {
+                type: Function,
+                default: function(response) {
+                    return response
+                }
             }
         },
         template: '<div class="dataTables_wrapper">\n' +
@@ -162,7 +168,7 @@ define(['jquery', 'utils'], function($, utils) {
                 }, this.innerProps.queryParams, data));
             },
             loadData: function(data, count) {
-                this.innerProps.data = data;
+                this.innerProps.data = this.tableTransformResponse(data);
                 this.innerProps.count = count;
                 this.clearSelected();
             },

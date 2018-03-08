@@ -4,6 +4,8 @@ import com.kratos.common.utils.SpringUtils;
 import com.kratos.common.utils.StringUtils;
 import com.kratos.entity.BaseEntity;
 import com.kratos.exceptions.BusinessException;
+import com.kratos.module.auth.UserThread;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -28,6 +30,9 @@ import java.util.*;
  * @param <T> 增删改查的实体
  */
 public abstract class AbstractCrudService<T extends BaseEntity> implements CrudService<T> {
+    @Value("${service.showAllEntities}")
+    private Boolean showAllEntities;
+
     /**
      * 获取实体Repository
      * @return {@link PageRepository} 实现类
@@ -44,7 +49,6 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
     public List<T> findAll(Map<String, String[]> param) throws Exception {
         return getRepository().findAll(getSpecification(param));
     }
-
 
     @Override
     public T findOne(String id) throws Exception {
@@ -68,8 +72,17 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
      * @param param 用户传入的查询条件
      * @return {@link Specification}
      */
-    private Specification<T> getSpecification(Map<String, String[]> param) {
-        return new SimpleSpecification(param);
+    protected Specification<T> getSpecification(Map<String, String[]> param) {
+        return new SimpleSpecification(param, showAllEntities);
+    }
+
+    /**
+     * 提供重写查询的入口
+     * @param param 用户传入的查询条件
+     * @return {@link Specification}
+     */
+    protected Specification<T> getSpecificationForAllEntities(Map<String, String[]> param) {
+        return new SimpleSpecification(param, true);
     }
 
     /**
@@ -85,8 +98,10 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
         Map<String, String[]> params;
         String currentKey;
         Attribute currentAttribute;
-        SimpleSpecification(Map<String, String[]> params) {
+        Boolean allEntities;
+        SimpleSpecification(Map<String, String[]> params, Boolean allEntities) {
             this.params = params;
+            this.allEntities = allEntities;
         }
         @Override
         public Predicate toPredicate(Root<T> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -179,6 +194,10 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
                 }
             }
             predicate.add(criteriaBuilder.equal(root.get("logicallyDeleted"), false));
+            String clientId = UserThread.getInstance().getClientId();
+            if(StringUtils.isNotBlank(clientId) && !this.allEntities) {
+                predicate.add(criteriaBuilder.equal(root.get("clientId"), UserThread.getInstance().getClientId()));
+            }
             return criteriaBuilder.and(predicate.toArray(new Predicate[]{}));
         }
 

@@ -25,6 +25,12 @@ public abstract class BaseEntity implements Cloneable, Serializable {
     private Boolean logicallyDeleted = false;
     @ApiModelProperty(value = "排序号", notes = "自动生成，系统默认字段")
     private Integer sortNumber;
+    @ApiModelProperty(required = true, value = "oauth client id")
+    @Column(length = 128)
+    private String clientId;
+    @ApiModelProperty(required = true, value = "创建人id")
+    @Column(length = 36)
+    private String createUserId;
 
     public String getId() {
         return id;
@@ -64,6 +70,22 @@ public abstract class BaseEntity implements Cloneable, Serializable {
 
     public void setSortNumber(Integer sortNumber) {
         this.sortNumber = sortNumber;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public String getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(String createUserId) {
+        this.createUserId = createUserId;
     }
 
     @Override
