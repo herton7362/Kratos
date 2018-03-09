@@ -14,9 +14,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.security.Principal;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -26,6 +29,7 @@ import java.util.regex.Pattern;
  */
 public abstract class AbstractLoginService {
     private TokenStore tokenStore;
+    private RestTemplate restTemplate;
     /**
      * 正则表达式：验证手机号
      */
@@ -181,7 +185,10 @@ public abstract class AbstractLoginService {
      */
     public ResponseEntity<OAuth2AccessToken> loginByToken(String appId, String appSecret, String token, String username) throws Exception {
         tokenStore = SpringUtils.getBean(TokenStore.class);
-        OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(token);
+        restTemplate = SpringUtils.getBean(RestTemplate.class);
+        ResponseEntity<OAuth2AccessToken> responseEntity = restTemplate.getForEntity(
+                URI.create("http://www.dldjshop.com/token/" + token), OAuth2AccessToken.class);
+        OAuth2AccessToken oAuth2AccessToken = responseEntity.getBody();
         if (oAuth2AccessToken == null) {
             throw new BusinessException("token 不正确");
         }
@@ -200,6 +207,16 @@ public abstract class AbstractLoginService {
         }
         clearVerifyCode(username);
         return login(appId, appSecret, username, "123456");
+    }
+
+    public OAuth2AccessToken readAccessToken(String token) {
+        tokenStore = SpringUtils.getBean(TokenStore.class);
+        return tokenStore.readAccessToken(token);
+    }
+
+    public OAuth2Authentication readAuthentication(String token) {
+        tokenStore = SpringUtils.getBean(TokenStore.class);
+        return tokenStore.readAuthentication(token);
     }
 }
 

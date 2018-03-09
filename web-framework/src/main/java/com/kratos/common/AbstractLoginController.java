@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -234,6 +235,24 @@ public abstract class AbstractLoginController {
     @RequestMapping(value = "/user/info", method = RequestMethod.GET)
     public ResponseEntity<BaseUser> getOne() throws Exception {
         return new ResponseEntity<>(UserThread.getInstance().get(), HttpStatus.OK);
+    }
+
+    /**
+     * 获取OAuth2AccessToken
+     */
+    @ApiOperation(value="获取OAuth2AccessToken")
+    @RequestMapping(value = "/token/{token}", method = RequestMethod.GET)
+    public ResponseEntity<OAuth2AccessToken> getToken(@PathVariable String token) throws Exception {
+        return new ResponseEntity<>(loginService.readAccessToken(token), HttpStatus.OK);
+    }
+
+    /**
+     * 获取OAuth2AccessToken
+     */
+    @ApiOperation(value="获取OAuth2AccessToken")
+    @RequestMapping(value = "/token/authentication/{token}", method = RequestMethod.GET)
+    public ResponseEntity<OAuth2Authentication> readAuthentication(@PathVariable String token) throws Exception {
+        return new ResponseEntity<>(loginService.readAuthentication(token), HttpStatus.OK);
     }
 
     public AbstractLoginController(AbstractLoginService loginService) {
