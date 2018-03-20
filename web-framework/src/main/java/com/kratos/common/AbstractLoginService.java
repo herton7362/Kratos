@@ -187,7 +187,7 @@ public abstract class AbstractLoginService {
         tokenStore = SpringUtils.getBean(TokenStore.class);
         restTemplate = SpringUtils.getBean(RestTemplate.class);
         ResponseEntity<OAuth2AccessToken> responseEntity = restTemplate.getForEntity(
-                URI.create("http://www.dldjshop.com/token/" + token), OAuth2AccessToken.class);
+                URI.create("http://jifen.dldjshop.com/token/" + token), OAuth2AccessToken.class);
         OAuth2AccessToken oAuth2AccessToken = responseEntity.getBody();
         if (oAuth2AccessToken == null) {
             throw new BusinessException("token 不正确");
