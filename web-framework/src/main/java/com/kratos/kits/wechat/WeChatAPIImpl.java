@@ -59,6 +59,25 @@ public class WeChatAPIImpl implements WeChatAPI {
         return map;
     }
 
+    @Override
+    public Map<String, Object> makeWebUnifiedOrder(String orderNumber, HttpServletRequest request, Integer totalFee) throws Exception {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
+        headers.setContentType(type);
+        headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+        String str = genProductArgs(totalFee, WeChatTradeType.MWEB, request, orderNumber, null);
+
+        HttpEntity<String> formEntity = new HttpEntity<>(str, headers);
+        String result = restTemplate.postForObject("https://api.mch.weixin.qq.com/pay/unifiedorder", formEntity,
+                String.class);
+        LOG.debug("pay unifiedorder result: {}", result);
+        String mwebUrl = (String) XmlUtils.xmltoMap(result).get("mweb_url");
+        Map<String, Object> map = new HashMap<>();
+        map.put("mwebUrl", mwebUrl);
+        return map;
+    }
+
     public Map<String, Object> makeUnifiedOrder(String orderNumber, HttpServletRequest request, String openid, Integer totalFee) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -477,7 +496,8 @@ public class WeChatAPIImpl implements WeChatAPI {
         JSAPI,// 公众号支付
         NATIVE,// 原生扫码支付
         APP,// app支付
-        MICROPAY// 刷卡支付
+        MICROPAY,// 刷卡支付
+        MWEB
     }
 
     /**

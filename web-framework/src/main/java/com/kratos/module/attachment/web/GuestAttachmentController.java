@@ -9,6 +9,8 @@ import com.kratos.module.attachment.service.AttachmentServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/attachment")
 public class GuestAttachmentController extends AbstractReadController<Attachment> {
+    private final Logger LOG = LoggerFactory.getLogger(GuestAttachmentController.class);
     private final AttachmentService attachmentService;
     @Override
     protected CrudService<Attachment> getService() {
@@ -59,7 +62,13 @@ public class GuestAttachmentController extends AbstractReadController<Attachment
         String downloadFileName=new String(attachment.getName().getBytes("UTF-8"),"ISO-8859-1");  //少了这句，可能导致下载中文文件名的文档，只有后缀名的情况
         headers.setContentDispositionFormData("attachment", downloadFileName);//告知浏览器以下载方式打开
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);//设置MIME类型
-        return new ResponseEntity<>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
+        byte[] bytes = null;
+        try {
+            bytes = FileUtils.readFileToByteArray(file);
+        } catch (Exception e) {
+            LOG.debug("未找到文件", e);
+        }
+        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
     }
 
     @Autowired
