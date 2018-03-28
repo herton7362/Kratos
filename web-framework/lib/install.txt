@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=G:/git/Kratos/web-framework/lib/alipay-sdk-java20170615110434.jar -DgroupId=com.alipay -DartifactId=alipay-sdk-java -Dversion=1.1 -Dpackaging=jar
