@@ -55,7 +55,7 @@ public abstract class AbstractReadController<T extends BaseEntity> {
      */
     @ApiOperation(value="查询一个")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<T> getOne(@PathVariable String id) throws Exception {
+    public ResponseEntity<? extends T> getOne(@PathVariable String id) throws Exception {
         return new ResponseEntity<>(getService().findOne(id), HttpStatus.OK);
     }
 }

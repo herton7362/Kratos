@@ -206,7 +206,15 @@ public abstract class AbstractLoginService {
             editPwd(username, "123456", "123456");
         }
         clearVerifyCode(username);
-        return login(appId, appSecret, username, "123456");
+        Map<String, String> requestParameters = new HashMap<>();
+        requestParameters.put("client_id", appId);
+        requestParameters.put("client_secret", appSecret);
+        requestParameters.put("grant_type", "password");
+        requestParameters.put("username", username);
+        requestParameters.put("password", "123456");
+        UserThread.getInstance().setClientId(appId);
+        Principal principal = new UsernamePasswordAuthenticationToken(new User(appId, appSecret, Collections.emptyList()), null, null);
+        return getTokenEndpoint().postAccessToken(principal, requestParameters);
     }
 
     public OAuth2AccessToken readAccessToken(String token) {
