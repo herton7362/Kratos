@@ -18,7 +18,11 @@ public abstract class JdbcUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         BaseUser user;
         try {
-            user = userService.findOneByLoginName(username);
+            if(UserThread.getInstance().getClientId() == null) {
+                user = userService.findOneByLoginName(username);
+            } else {
+                user = userService.findOneByLoginNameAndClientId(username, UserThread.getInstance().getClientId());
+            }
         } catch (Exception e) {
             throw new UsernameNotFoundException(String.format("username: %s not found", username));
         }

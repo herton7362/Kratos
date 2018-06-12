@@ -35,16 +35,7 @@ public class AdminController extends AbstractCrudController<Admin> {
     @RequestMapping(value = "/menus", method = RequestMethod.GET)
     public ResponseEntity<List<Module>> menus() throws Exception {
         Admin admin = AdminThread.getInstance().get();
-        admin = adminService.findOne(admin.getId());
-        final List<Module> modulesNew = new ArrayList<>();
-        List<Role> roles = admin.getRoles();
-        roles.forEach(role -> modulesNew.addAll(role.getModules()));
-        List<Module> result = modulesNew
-                .stream()
-                .filter(module -> Module.Type.MENU.name().equals(module.getType()))
-                .sorted(Comparator.comparing(Module::getSortNumber))
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(adminService.findModules(admin.getId()), HttpStatus.OK);
     }
 
     /**

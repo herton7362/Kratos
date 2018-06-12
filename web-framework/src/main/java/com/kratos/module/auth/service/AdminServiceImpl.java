@@ -4,10 +4,17 @@ import com.kratos.common.AbstractCrudService;
 import com.kratos.entity.BaseUser;
 import com.kratos.module.auth.domain.Admin;
 import com.kratos.module.auth.domain.AdminRepository;
+import com.kratos.module.auth.domain.Module;
+import com.kratos.module.auth.domain.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Transactional
@@ -48,8 +55,21 @@ public class AdminServiceImpl extends AbstractCrudService<Admin> implements Admi
     }
 
     @Override
+    public List<Module> findModules(String id) throws Exception {
+        Admin admin = findOne(id);
+        final List<Module> modulesNew = new ArrayList<>();
+        List<Role> roles = admin.getRoles();
+        roles.forEach(role -> modulesNew.addAll(role.getModules()));
+        List<Module> result = modulesNew
+                .stream()
+                .filter(module -> Module.Type.MENU.name().equals(module.getType()))
+                .sorted(Comparator.comparing(Module::getSortNumber))
+                .collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
     protected AdminRepository getRepository() {
         return adminRepository;
     }
-
 }
