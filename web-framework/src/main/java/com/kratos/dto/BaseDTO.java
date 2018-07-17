@@ -2,11 +2,14 @@ package com.kratos.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kratos.common.utils.ReflectionUtils;
 import com.kratos.common.utils.SpringUtils;
 import com.kratos.entity.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -113,6 +116,34 @@ public abstract class BaseDTO<D extends BaseDTO, E extends BaseEntity> {
 
     public List<D> convertFor(Iterable<E> eList) {
         return (List<D>) getConverter().reverse().convert(eList);
+    }
+
+    public static <D extends BaseDTO> List<Field> getChildrenFields(Class<D> clazz) {
+        Field[] fields = ReflectionUtils.getDeclaredFields(clazz);
+        List<Field> childrenFields = new ArrayList<>();
+        Children children;
+        for (Field field : fields) {
+            children = field.getAnnotation(Children.class);
+            if(children != null) {
+                childrenFields.add(field);
+            }
+        }
+        return childrenFields;
+    }
+
+    public static <D extends BaseDTO> Field getParentField(Class<D> clazz) {
+        Field[] fields = ReflectionUtils.getDeclaredFields(clazz);
+        Field parentField = null;
+        for (Field tempField : fields) {
+            if(tempField.getAnnotation(Parent.class) != null) {
+                parentField = tempField;
+                break;
+            }
+        }
+        if(parentField == null) {
+            throw new RuntimeException("实体" + clazz.toString() + "需要@Parnet注解来指定父级字段");
+        }
+        return parentField;
     }
 
     @Override
