@@ -2,12 +2,13 @@ package com.kratos.exceptions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 
 /**
  * Base Exception
- * 
+ *
  * @author tang he
  * @since 1.0.0
  */
@@ -20,5 +21,9 @@ public class BusinessException extends Exception implements Serializable {
     public BusinessException(String message) {
         super(message);
         LOG.warn(message);
+    }
+
+    public int getStatus() {
+        return HttpStatus.NOT_ACCEPTABLE.value();
     }
 }

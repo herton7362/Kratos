@@ -24,7 +24,7 @@ abstract class ExceptionMessage  {
         timestamp = new Date().getTime();
         if(e instanceof BusinessException) {
             message = e.getMessage();
-            status = HttpStatus.NOT_ACCEPTABLE.value();
+            status = ((BusinessException)e).getStatus();
             error = "Business Error";
         } else {
             message = "系统内部错误！";
