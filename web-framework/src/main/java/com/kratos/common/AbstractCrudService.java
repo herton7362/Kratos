@@ -5,6 +5,7 @@ import com.kratos.common.utils.StringUtils;
 import com.kratos.entity.BaseEntity;
 import com.kratos.exceptions.BusinessException;
 import com.kratos.module.auth.UserThread;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,9 +36,18 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
 
     /**
      * 获取实体Repository
+     * {@link PageRepository} 实现类
+     */
+    @Autowired
+    protected PageRepository<T> pageRepository;
+
+    /**
+     * 获取实体Repository
      * @return {@link PageRepository} 实现类
      */
-    protected abstract PageRepository<T> getRepository();
+    protected PageRepository<T> getRepository() {
+        return this.pageRepository;
+    }
 
     @Override
     public PageResult<T> findAll(PageRequest pageRequest, Map<String, String[]> param) throws Exception {

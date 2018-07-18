@@ -4,6 +4,7 @@ import com.kratos.entity.BaseEntity;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,15 @@ public abstract class AbstractReadController<T extends BaseEntity> {
      * 获取实体的service
      * @return {@link CrudService} 实现类
      */
-    protected abstract CrudService<T> getService();
+    @Autowired
+    protected CrudService<T> crudService;
+    /**
+     * 获取实体的service
+     * @return {@link CrudService} 实现类
+     */
+    protected CrudService<T> getService() {
+        return this.crudService;
+    }
 
     /**
      * 查询
