@@ -29,6 +29,12 @@ define(['jquery', 'utils'], function($, utils) {
                 default: function(response) {
                     return response
                 }
+            },
+            transformSaveData: {
+                type: Function,
+                default: function(data) {
+                    return data
+                }
             }
         },
         template: '<div class="box">\n' +
@@ -182,7 +188,7 @@ define(['jquery', 'utils'], function($, utils) {
                     contentType: 'application/json',
                     type: 'POST',
                     dataType: 'JSON',
-                    data: JSON.stringify(this.form),
+                    data: JSON.stringify(this.transformSaveData(this.form)),
                     success: function(data) {
                         self.modal.$instance.close();
                         require(['messager'], function(messager) {
