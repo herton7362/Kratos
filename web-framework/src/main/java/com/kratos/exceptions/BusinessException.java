@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author tang he
  * @since 1.0.0
  */
-public class BusinessException extends Exception implements Serializable {
+public class BusinessException extends RuntimeException implements Serializable {
     private static final Logger LOG = LoggerFactory.getLogger(BusinessException.class);
     private static final long serialVersionUID = 6807228021289834441L;
     private static final String DEFAULT_MASSAGES = "出现业务异常，未标明业务异常信息";
