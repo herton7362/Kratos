@@ -50,30 +50,30 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
     }
 
     @Override
-    public PageResult<T> findAll(PageRequest pageRequest, Map<String, String[]> param) throws Exception {
+    public PageResult<T> findAll(PageRequest pageRequest, Map<String, String[]> param) {
         Page<T> page = getRepository().findAll(getSpecification(param), pageRequest);
         return new PageResult<>(page);
     }
 
     @Override
-    public List<T> findAll(Map<String, String[]> param) throws Exception {
+    public List<T> findAll(Map<String, String[]> param) {
         return getRepository().findAll(getSpecification(param));
     }
 
     @Override
-    public T findOne(String id) throws Exception {
+    public T findOne(String id) {
         return getRepository().findOne(id);
     }
 
     @Override
-    public void delete(String id) throws Exception {
+    public void delete(String id) {
         T t = getRepository().findOne(id);
         t.setLogicallyDeleted(true);
         getRepository().save(t);
     }
 
     @Override
-    public T save(T t) throws Exception {
+    public T save(T t) {
         return getRepository().save(t);
     }
 
@@ -257,7 +257,7 @@ public abstract class AbstractCrudService<T extends BaseEntity> implements CrudS
         }
     }
 
-    public void sort(List<T> ts) throws Exception {
+    public void sort(List<T> ts) {
         T t;
         for (int i = 0; i < ts.size(); i++) {
             if(StringUtils.isBlank(ts.get(i).getId())) {

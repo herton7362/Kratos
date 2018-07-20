@@ -31,7 +31,7 @@ public class AddressController extends AbstractCrudController<Address> {
      */
     @ApiOperation(value="保存")
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Address> save(@RequestBody Address productCategory) throws Exception {
+    public ResponseEntity<Address> save(@RequestBody Address productCategory) {
         if(productCategory.getParent() != null && StringUtils.isNotBlank(productCategory.getParent().getId())) {
             productCategory.setParent(addressService.findOne(productCategory.getParent().getId()));
         } else {

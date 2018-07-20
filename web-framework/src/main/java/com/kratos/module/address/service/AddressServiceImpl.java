@@ -23,12 +23,12 @@ public class AddressServiceImpl extends AbstractCrudService<Address> implements 
     }
 
     @Override
-    public PageResult<Address> findAll(PageRequest pageRequest, Map<String, String[]> param) throws Exception {
+    public PageResult<Address> findAll(PageRequest pageRequest, Map<String, String[]> param) {
         return new PageResult<>(addressRepository.findAll(this.getSpecificationForAllEntities(param), pageRequest));
     }
 
     @Override
-    public List<Address> findAll(Map<String, String[]> param) throws Exception {
+    public List<Address> findAll(Map<String, String[]> param) {
         return addressRepository.findAll(this.getSpecificationForAllEntities(param));
     }
 

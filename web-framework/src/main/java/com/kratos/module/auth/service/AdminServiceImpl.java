@@ -27,7 +27,7 @@ public class AdminServiceImpl extends AbstractCrudService<Admin> implements Admi
     }
 
     @Override
-    public Admin save(Admin admin) throws Exception {
+    public Admin save(Admin admin) {
         if(admin.getId() == null) {
             if(admin.getPassword() == null) {
                 admin.setPassword("123456");
@@ -45,17 +45,17 @@ public class AdminServiceImpl extends AbstractCrudService<Admin> implements Admi
     }
 
     @Override
-    public BaseUser findOneByLoginName(String account) throws Exception {
+    public BaseUser findOneByLoginName(String account) {
         return adminRepository.findOneByLoginName(account);
     }
 
     @Override
-    public BaseUser findOneByLoginNameAndClientId(String account, String clientId) throws Exception {
+    public BaseUser findOneByLoginNameAndClientId(String account, String clientId) {
         return adminRepository.findOneByLoginNameAndClientId(account, clientId);
     }
 
     @Override
-    public List<Module> findModules(String id) throws Exception {
+    public List<Module> findModules(String id) {
         Admin admin = findOne(id);
         final List<Module> modulesNew = new ArrayList<>();
         List<Role> roles = admin.getRoles();

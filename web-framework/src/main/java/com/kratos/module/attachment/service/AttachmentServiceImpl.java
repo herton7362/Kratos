@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,7 +37,7 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment> imple
     }
 
     @Override
-    public Attachment save(MultipartFile multipartFile) throws Exception {
+    public Attachment save(MultipartFile multipartFile) {
         if(multipartFile == null || multipartFile.isEmpty()) {
             return null;
         }
@@ -68,13 +69,17 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment> imple
             prefixPath = AttachmentServiceImpl.prefixPath;
         }
         File temp = new File(prefixPath, attachment.getPath());
-        FileUtils.forceMkdir(temp.getParentFile());
-        multipartFile.transferTo(temp);
+        try {
+            FileUtils.forceMkdir(temp.getParentFile());
+            multipartFile.transferTo(temp);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return attachmentRepository.save(attachment);
     }
 
     @Override
-    public List<Attachment> save(List<MultipartFile> multipartFiles) throws Exception {
+    public List<Attachment> save(List<MultipartFile> multipartFiles) {
         List<Attachment> attachments = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {
             attachments.add(save(multipartFile));
@@ -83,18 +88,18 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment> imple
     }
 
     @Override
-    public void delete(String id) throws Exception {
+    public void delete(String id) {
         Attachment attachment = attachmentRepository.findOne(id);
         attachmentRepository.delete(id);
     }
 
     @Override
-    public List<Attachment> findAll(Map<String, String[]> param) throws Exception {
+    public List<Attachment> findAll(Map<String, String[]> param) {
         return attachmentRepository.findAll(this.getSpecificationForAllEntities(param));
     }
 
     @Override
-    public PageResult<Attachment> findAll(PageRequest pageRequest, Map<String, String[]> param) throws Exception {
+    public PageResult<Attachment> findAll(PageRequest pageRequest, Map<String, String[]> param) {
         return new PageResult<>(attachmentRepository.findAll(this.getSpecificationForAllEntities(param), pageRequest));
     }
 

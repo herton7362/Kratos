@@ -12,5 +12,5 @@ public interface AdminService extends CrudService<Admin> {
      * @param id 管理员id
      * @return 菜单
      */
-    List<Module> findModules(String id) throws Exception;
+    List<Module> findModules(String id);
 }

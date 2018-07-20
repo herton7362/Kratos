@@ -35,7 +35,7 @@ public class DictionaryController extends AbstractCrudController<Dictionary> {
      */
     @ApiOperation(value="保存")
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Dictionary> save(@RequestBody Dictionary product) throws Exception {
+    public ResponseEntity<Dictionary> save(@RequestBody Dictionary product) {
         if(product.getDictionaryCategory() != null && StringUtils.isNotBlank(product.getDictionaryCategory().getId())) {
             product.setDictionaryCategory(dictionaryCategoryService.findOne(product.getDictionaryCategory().getId()));
         } else {
@@ -50,7 +50,7 @@ public class DictionaryController extends AbstractCrudController<Dictionary> {
      */
     @ApiOperation(value="根据code获取字典")
     @RequestMapping(value= "/code/{code}", method = RequestMethod.GET)
-    public ResponseEntity<List<Dictionary>> getByCode(@PathVariable String code) throws Exception {
+    public ResponseEntity<List<Dictionary>> getByCode(@PathVariable String code) {
         Map<String, String[]> params = new HashMap<>();
         params.put("code", new String[]{code});
         List<DictionaryCategory> dictionaryCategories  =  dictionaryCategoryService.findAll(params);

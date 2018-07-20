@@ -30,7 +30,7 @@ public class DictionaryCategoryController extends AbstractCrudController<Diction
      */
     @ApiOperation(value="保存")
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<DictionaryCategory> save(@RequestBody DictionaryCategory productCategory) throws Exception {
+    public ResponseEntity<DictionaryCategory> save(@RequestBody DictionaryCategory productCategory) {
         if(productCategory.getParent() != null && StringUtils.isNotBlank(productCategory.getParent().getId())) {
             productCategory.setParent(dictionaryCategoryService.findOne(productCategory.getParent().getId()));
         } else {

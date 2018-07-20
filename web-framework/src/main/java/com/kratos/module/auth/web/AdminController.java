@@ -33,7 +33,7 @@ public class AdminController extends AbstractCrudController<Admin> {
     @ApiOperation(value="获取当前用户菜单")
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/menus", method = RequestMethod.GET)
-    public ResponseEntity<List<Module>> menus() throws Exception {
+    public ResponseEntity<List<Module>> menus() {
         Admin admin = AdminThread.getInstance().get();
         return new ResponseEntity<>(adminService.findModules(admin.getId()), HttpStatus.OK);
     }
@@ -43,7 +43,7 @@ public class AdminController extends AbstractCrudController<Admin> {
      */
     @ApiOperation(value="根据id获取用户")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Admin> getOne(@PathVariable String id) throws Exception {
+    public ResponseEntity<Admin> getOne(@PathVariable String id) {
         Admin admin = adminService.findOne(id);
         AdminSaveParam adminSaveParam = new AdminSaveParam();
         BeanUtils.copyProperties(admin, adminSaveParam);
@@ -61,7 +61,7 @@ public class AdminController extends AbstractCrudController<Admin> {
      */
     @ApiOperation(value="保存")
     @RequestMapping(value = "/save/deprecated", method = RequestMethod.POST)
-    public ResponseEntity<Admin> save(@RequestBody Admin t) throws Exception {
+    public ResponseEntity<Admin> save(@RequestBody Admin t) {
         t = adminService.save(t);
         return new ResponseEntity<>(t, HttpStatus.OK);
     }
@@ -71,7 +71,7 @@ public class AdminController extends AbstractCrudController<Admin> {
      */
     @ApiOperation(value="保存")
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Admin> save(@RequestBody AdminSaveParam t) throws Exception {
+    public ResponseEntity<Admin> save(@RequestBody AdminSaveParam t) {
         Admin admin = new Admin();
         BeanUtils.copyProperties(t, admin);
         List<String> ids = t.getRoleIds();

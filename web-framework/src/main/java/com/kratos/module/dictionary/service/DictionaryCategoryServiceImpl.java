@@ -23,12 +23,12 @@ public class DictionaryCategoryServiceImpl extends AbstractCrudService<Dictionar
     }
 
     @Override
-    public List<DictionaryCategory> findAll(Map<String, String[]> param) throws Exception {
+    public List<DictionaryCategory> findAll(Map<String, String[]> param) {
         return dictionaryCategoryRepository.findAll(this.getSpecificationForAllEntities(param));
     }
 
     @Override
-    public PageResult<DictionaryCategory> findAll(PageRequest pageRequest, Map<String, String[]> param) throws Exception {
+    public PageResult<DictionaryCategory> findAll(PageRequest pageRequest, Map<String, String[]> param) {
         return new PageResult<>(dictionaryCategoryRepository.findAll(this.getSpecificationForAllEntities(param), pageRequest));
     }
 

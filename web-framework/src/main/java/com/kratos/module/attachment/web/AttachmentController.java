@@ -33,7 +33,7 @@ public class AttachmentController extends AbstractCrudController<Attachment> {
      */
     @ApiOperation(value="删除")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Attachment> delete(@PathVariable String id) throws Exception {
+    public ResponseEntity<Attachment> delete(@PathVariable String id) {
         ResponseEntity<Attachment> responseEntity;
         Attachment attachment = attachmentService.findOne(id);
         try {

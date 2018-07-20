@@ -28,7 +28,7 @@ public class RoleServiceImpl extends AbstractCrudService<Role> implements RoleSe
     }
 
     @Override
-    public void authorize(String roleId, List<String> moduleIds) throws Exception {
+    public void authorize(String roleId, List<String> moduleIds) {
         if(StringUtils.isBlank(roleId)) {
             throw new BusinessException("roleId is required");
         }
@@ -46,12 +46,12 @@ public class RoleServiceImpl extends AbstractCrudService<Role> implements RoleSe
     }
 
     @Override
-    public List<Role> findAll(Map<String, String[]> param) throws Exception {
+    public List<Role> findAll(Map<String, String[]> param) {
         return roleRepository.findAll(this.getSpecificationForAllEntities(param));
     }
 
     @Override
-    public PageResult<Role> findAll(PageRequest pageRequest, Map<String, String[]> param) throws Exception {
+    public PageResult<Role> findAll(PageRequest pageRequest, Map<String, String[]> param) {
         return new PageResult<>(roleRepository.findAll(this.getSpecificationForAllEntities(param), pageRequest));
     }
 

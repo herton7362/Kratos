@@ -25,7 +25,7 @@ public class ModuleController extends AbstractCrudController<Module> {
      */
     @ApiOperation(value="保存")
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Module> save(@RequestBody Module module) throws Exception {
+    public ResponseEntity<Module> save(@RequestBody Module module) {
         if(module.getParent() != null && StringUtils.isNotBlank(module.getParent().getId())) {
             module.setParent(moduleService.findOne(module.getParent().getId()));
         } else {

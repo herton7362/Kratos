@@ -30,7 +30,7 @@ public class OauthClientDetailsServiceImpl extends AbstractCrudService<OauthClie
     }
 
     @Override
-    public OauthClientDetails save(OauthClientDetails oauthClientDetails) throws Exception {
+    public OauthClientDetails save(OauthClientDetails oauthClientDetails) {
         if(StringUtils.isBlank(oauthClientDetails.getClientId())) {
             throw new BusinessException("client id is null");
         }
@@ -44,13 +44,13 @@ public class OauthClientDetailsServiceImpl extends AbstractCrudService<OauthClie
     }
 
     @Override
-    public PageResult<OauthClientDetails> findAll(PageRequest pageRequest, Map<String, String[]> param) throws Exception {
+    public PageResult<OauthClientDetails> findAll(PageRequest pageRequest, Map<String, String[]> param) {
         Page<OauthClientDetails> page = getRepository().findAll(getSpecificationForAllEntities(param), pageRequest);
         return new PageResult<>(page);
     }
 
     @Override
-    public List<OauthClientDetails> findAll(Map<String, String[]> param) throws Exception {
+    public List<OauthClientDetails> findAll(Map<String, String[]> param) {
         return getRepository().findAll(getSpecificationForAllEntities(param));
     }
 
@@ -58,7 +58,7 @@ public class OauthClientDetailsServiceImpl extends AbstractCrudService<OauthClie
      * 初始化超级管理员
      * @param clientId client id
      */
-    private void initSuperAdmin(String clientId) throws Exception {
+    private void initSuperAdmin(String clientId) {
         Admin admin = new Admin();
         admin.setName("超级管理员");
         admin.setLoginName("admin");
@@ -73,7 +73,7 @@ public class OauthClientDetailsServiceImpl extends AbstractCrudService<OauthClie
      * 初始化超级管理员角色
      * @param clientId client id
      */
-    private Role initRole(String clientId)  throws Exception {
+    private Role initRole(String clientId)  {
         Role role = new Role();
         role.setName("超级管理员");
         role.setClientId(clientId);
@@ -81,7 +81,7 @@ public class OauthClientDetailsServiceImpl extends AbstractCrudService<OauthClie
         return roleService.save(role);
     }
 
-    private List<Module> initModule(String clientId) throws Exception {
+    private List<Module> initModule(String clientId) {
         List<Module> modules = new ArrayList<>();
         Module authModule = createModule("权限管理", "", clientId, null);
         modules.add(authModule);
@@ -91,7 +91,7 @@ public class OauthClientDetailsServiceImpl extends AbstractCrudService<OauthClie
         return modules;
     }
 
-    private Module createModule(String name, String url, String clientId, Module parent)  throws Exception {
+    private Module createModule(String name, String url, String clientId, Module parent)  {
         Module module = new Module();
         module.setName(name);
         module.setType(Module.Type.MENU.name());
@@ -102,7 +102,7 @@ public class OauthClientDetailsServiceImpl extends AbstractCrudService<OauthClie
     }
 
     @Override
-    public OauthClientDetails findOneByClientId(String clientId) throws Exception {
+    public OauthClientDetails findOneByClientId(String clientId) {
         return oauthClientDetailsRepository.findOneByClientId(clientId);
     }
 

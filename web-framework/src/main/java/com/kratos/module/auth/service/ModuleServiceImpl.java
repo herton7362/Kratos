@@ -19,12 +19,12 @@ public class ModuleServiceImpl extends AbstractCrudService<Module> implements Mo
     private final ModuleRepository moduleRepository;
 
     @Override
-    public PageResult<Module> findAll(PageRequest pageRequest, Map<String, String[]> param) throws Exception {
+    public PageResult<Module> findAll(PageRequest pageRequest, Map<String, String[]> param) {
         return new PageResult<>(moduleRepository.findAll(this.getSpecificationForAllEntities(param), pageRequest));
     }
 
     @Override
-    public List<Module> findAll(Map<String, String[]> param) throws Exception {
+    public List<Module> findAll(Map<String, String[]> param) {
         return moduleRepository.findAll(this.getSpecificationForAllEntities(param));
     }
 

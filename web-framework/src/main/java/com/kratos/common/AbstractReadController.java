@@ -49,7 +49,7 @@ public abstract class AbstractReadController<T extends BaseEntity> {
             @ApiImplicitParam(name = "order", value = "排序方向，多个用逗号隔开", dataType = "String", paramType = "query")
     })
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> searchPagedList(@ModelAttribute PageParam pageParam, HttpServletRequest request) throws Exception {
+    public ResponseEntity<?> searchPagedList(@ModelAttribute PageParam pageParam, HttpServletRequest request) {
         Map<String, String[]> param = request.getParameterMap();
         if(pageParam.isPageAble()) {
             PageResult<T> page = getService().findAll(pageParam.getPageRequest(), param);
@@ -64,7 +64,7 @@ public abstract class AbstractReadController<T extends BaseEntity> {
      */
     @ApiOperation(value="查询一个")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<? extends T> getOne(@PathVariable String id) throws Exception {
+    public ResponseEntity<? extends T> getOne(@PathVariable String id) {
         return new ResponseEntity<>(getService().findOne(id), HttpStatus.OK);
     }
 }

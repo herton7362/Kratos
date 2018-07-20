@@ -40,7 +40,7 @@ public abstract class AbstractCrudClientService<T extends BaseEntity> implements
 
     @Override
     @SuppressWarnings("unchecked")
-    public PageResult<T> findAll(PageRequest pageRequest, Map<String, String[]> param) throws Exception {
+    public PageResult<T> findAll(PageRequest pageRequest, Map<String, String[]> param) {
         Map<String, String> newParam = new HashMap<>();
         newParam.put("currentPage", String.valueOf(pageRequest.getPageNumber()));
         newParam.put("pageSize", String.valueOf(pageRequest.getPageSize()));
@@ -62,7 +62,7 @@ public abstract class AbstractCrudClientService<T extends BaseEntity> implements
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<T> findAll(Map<String, String[]> param) throws Exception {
+    public List<T> findAll(Map<String, String[]> param) {
         Map<String, String> newParam = new HashMap<>();
         List<String> params = new ArrayList<>();
         param.forEach((k, v) -> newParam.put(k, v[0]));
@@ -74,26 +74,26 @@ public abstract class AbstractCrudClientService<T extends BaseEntity> implements
 
 
     @Override
-    public T findOne(String id) throws Exception {
+    public T findOne(String id) {
         ResponseEntity<T> responseEntity = getOAuth2RestTemplate().getForEntity(
                 URI.create(getDomainUri() + "/" + id), getGenericClass());
         return responseEntity.getBody();
     }
 
     @Override
-    public void delete(String id) throws Exception {
+    public void delete(String id) {
         getOAuth2RestTemplate().delete(
                 URI.create(getDomainUri() + "/" + id));
     }
 
     @Override
-    public T save(T t) throws Exception {
+    public T save(T t) {
         ResponseEntity<T> responseEntity = getOAuth2RestTemplate().postForEntity(
                 URI.create(getDomainUri()), t, getGenericClass());
         return responseEntity.getBody();
     }
 
-    public void sort(List<T> ts) throws Exception {
+    public void sort(List<T> ts) {
         T t;
         for (int i = 0; i < ts.size(); i++) {
             if(StringUtils.isBlank(ts.get(i).getId())) {
