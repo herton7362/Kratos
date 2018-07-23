@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  * </code>
  */
 public class CascadePersistHelper {
-    public static <D extends BaseDTO> void saveChildren(D d) throws Exception {
+    public static <D extends BaseDTO> void saveChildren(D d) {
         List<Field> childrenFields = BaseDTO.getChildrenFields(d.getClass());
         if (!childrenFields.isEmpty()) {
             for (Field childrenField : childrenFields) {
@@ -51,7 +51,7 @@ public class CascadePersistHelper {
      * @param childrenField 子集的字段
      */
     @SuppressWarnings("unchecked")
-    private static <D extends BaseDTO> void saveChildren(final D d, Field childrenField) throws Exception {
+    private static <D extends BaseDTO> void saveChildren(final D d, Field childrenField) {
         Children children = childrenField.getAnnotation(Children.class);
         CrudService childCurdService = SpringUtils.getBean(children.service());
         List list = (List) ReflectionUtils.getFieldValue(d, childrenField.getName());
@@ -73,7 +73,7 @@ public class CascadePersistHelper {
     @SuppressWarnings("unchecked")
     private static <P extends BaseDTO,
             D extends BaseDTO> void saveAsChildren(P parent, Class<D> childClass,
-                                                      List<D> dList, CrudService crudService) throws Exception {
+                                                      List<D> dList, CrudService crudService) {
         Field parentField = BaseDTO.getParentField(childClass);
         String parentFieldName = parentField.getName();
         if (dList != null) {
@@ -96,8 +96,13 @@ public class CascadePersistHelper {
         if(oldEntityList != null) {
             D d;
             for (BaseEntity e : oldEntityList) {
-                d = childClass.newInstance();
-                oldList.add((D) d.convertFor(e));
+                try {
+                    d = childClass.newInstance();
+                    oldList.add((D) d.convertFor(e));
+                } catch (InstantiationException | IllegalAccessException e1) {
+                    e1.printStackTrace();
+                }
+
             }
         }
 
