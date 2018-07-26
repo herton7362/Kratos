@@ -22,10 +22,10 @@ public abstract class BaseDTO<D extends BaseDTO, E extends BaseEntity> {
     private Boolean logicallyDeleted;
     @ApiModelProperty(value = "数据创建时间", notes = "自动生成，系统默认字段")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
-    private Date createdDate;
+    private Long createdDate;
     @ApiModelProperty(value = "数据修改时间", notes = "自动生成，系统默认字段")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
-    private Date updatedDate;
+    private Long updatedDate;
     @ApiModelProperty(required = true, value = "oauth client id")
     @JsonIgnore
     private String clientId;
@@ -57,19 +57,19 @@ public abstract class BaseDTO<D extends BaseDTO, E extends BaseEntity> {
         this.logicallyDeleted = logicallyDeleted;
     }
 
-    public Date getCreatedDate() {
+    public Long getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
     }
 
-    public Date getUpdatedDate() {
+    public Long getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(Date updatedDate) {
+    public void setUpdatedDate(Long updatedDate) {
         this.updatedDate = updatedDate;
     }
 
