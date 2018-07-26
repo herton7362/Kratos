@@ -3,6 +3,7 @@ package com.kratos.dto;
 import com.kratos.common.CrudService;
 import com.kratos.common.utils.ReflectionUtils;
 import com.kratos.common.utils.SpringUtils;
+import com.kratos.common.utils.StringUtils;
 import com.kratos.entity.BaseEntity;
 
 import java.lang.reflect.Field;
@@ -76,14 +77,19 @@ public class CascadePersistHelper {
                                                       List<D> dList, CrudService crudService) {
         Field parentField = BaseDTO.getParentField(childClass);
         String parentFieldName = parentField.getName();
+        String searchField = parentFieldName;
+        Parent parentAnnotation = parentField.getAnnotation(Parent.class);
+        if(StringUtils.isNotBlank(parentAnnotation.fieldName())) {
+            searchField = parentAnnotation.fieldName();
+        }
         if (dList != null) {
             for (D d : dList) {
                 ReflectionUtils.setFieldValue(d, parentFieldName, parent.getId());
             }
         }
 
-        Map<String, String> params = new HashMap<>();
-        params.put(parentFieldName, parent.getId());
+        Map<String, String[]> params = new HashMap<>();
+        params.put(searchField, new String[]{ parent.getId() });
         List<BaseEntity> oldEntityList = crudService.findAll(params);
         List<D> oldList = new ArrayList<>();
         if ((oldEntityList == null || oldEntityList.isEmpty()) && dList != null) {

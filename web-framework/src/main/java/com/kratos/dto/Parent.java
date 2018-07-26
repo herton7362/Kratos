@@ -11,4 +11,8 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Parent {
+    /**
+     * @return 父键名称
+     */
+    String fieldName() default "";
 }

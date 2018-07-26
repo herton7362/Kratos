@@ -14,8 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Children {
     /**
-     * 当前子类的service类
-     * @return
+     * @return 当前子类的service类
      */
     Class<? extends CrudService> service();
 }
