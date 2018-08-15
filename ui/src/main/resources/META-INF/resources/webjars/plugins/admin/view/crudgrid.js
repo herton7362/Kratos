@@ -3,6 +3,7 @@ define(['jquery', 'utils'], function($, utils) {
         props: {
             columns: Array,
             domain: String,
+            modalWidth: Number,
             formData: {
                 type: Object,
                 default: Object
@@ -123,7 +124,7 @@ define(['jquery', 'utils'], function($, utils) {
         '              <!-- sidemodal -->\n' +
         '              <validator :instance="validator">\n' +
         '                  <form @submit.prevent="save">\n' +
-        '                      <sidemodal title="维护窗口" :footer="true" @open="modalOpen" :instance="modal">\n' +
+        '                      <sidemodal title="维护窗口" :footer="true" @open="modalOpen" :width="modalWidth" :instance="modal">\n' +
         '                          <template slot="body">\n' +
         '                              <slot name="form-body" :form="form"></slot>\n' +
         '                              <!-- /.box-body -->\n' +
