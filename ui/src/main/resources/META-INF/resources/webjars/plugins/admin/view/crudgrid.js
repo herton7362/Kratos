@@ -25,6 +25,12 @@ define(['jquery', 'utils'], function($, utils) {
                     }
                 }
             },
+            afterLoadOne: {
+                type: Function,
+                default: function(data) {
+                    return data
+                }
+            },
             tableTransformResponse: {
                 type: Function,
                 default: function(response) {
@@ -174,6 +180,7 @@ define(['jquery', 'utils'], function($, utils) {
                             }
                         });
                         self.form = data;
+                        self.afterLoadOne(self.form);
                         self.modal.$instance.open();
                     }
                 });
