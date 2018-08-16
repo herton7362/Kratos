@@ -4,6 +4,7 @@ import com.kratos.common.utils.CacheUtils;
 import com.kratos.common.utils.SpringUtils;
 import com.kratos.common.utils.StringUtils;
 import com.kratos.dto.BaseDTO;
+import com.kratos.dto.CascadePersistHelper;
 import com.kratos.entity.BaseEntity;
 import com.kratos.exceptions.BusinessException;
 import com.kratos.module.auth.UserThread;
@@ -80,7 +81,9 @@ public abstract class AbstractDTOCrudService<D extends BaseDTO<D, T>, T extends 
         if(cache.get(id) != null) {
             return (D) cache.get(id);
         }
-        return baseDTO.convertFor(getRepository().findOne(id));
+        T t = getRepository().findOne(id);
+        if(t == null) return null;
+        return baseDTO.convertFor(t);
     }
 
     @Override
@@ -93,8 +96,13 @@ public abstract class AbstractDTOCrudService<D extends BaseDTO<D, T>, T extends 
 
     @Override
     public D save(D d) {
+        if(d == null) {
+            return null;
+        }
         T t = getRepository().save(d.convert());
-        d = d.convertFor(t);
+        d.setId(t.getId());
+        CascadePersistHelper.saveChildren(d);
+        d = baseDTO.convertFor(t);
         cache.set(d.getId(), d);
         return d;
     }
