@@ -26,12 +26,12 @@ public abstract class AbstractDTOCrudController<D extends BaseDTO<D, T>, T exten
      * @return {@link CrudService} 实现类
      */
     @Autowired
-    protected CrudService<T> crudService;
+    protected DTOCrudService<D, T> crudService;
     /**
      * 获取实体的service
-     * @return {@link CrudService} 实现类
+     * @return {@link DTOCrudService} 实现类
      */
-    protected CrudService<T> getService() {
+    protected DTOCrudService<D, T> getService() {
         return this.crudService;
     }
 
@@ -49,10 +49,10 @@ public abstract class AbstractDTOCrudController<D extends BaseDTO<D, T>, T exten
     public ResponseEntity<?> searchPagedList(@ModelAttribute PageParam pageParam, HttpServletRequest request) {
         Map<String, String[]> param = request.getParameterMap();
         if(pageParam.isPageAble()) {
-            PageResult<T> page = getService().findAll(pageParam.getPageRequest(), param);
+            PageResult<D> page = getService().findAll(pageParam.getPageRequest(), param);
             return new ResponseEntity<>(page, HttpStatus.OK);
         }
-        List<T> list = getService().findAll(param);
+        List<D> list = getService().findAll(param);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -61,7 +61,7 @@ public abstract class AbstractDTOCrudController<D extends BaseDTO<D, T>, T exten
      */
     @ApiOperation(value="查询一个")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<? extends T> getOne(@PathVariable String id) {
+    public ResponseEntity<? extends D> getOne(@PathVariable String id) {
         return new ResponseEntity<>(getService().findOne(id), HttpStatus.OK);
     }
 
@@ -70,9 +70,9 @@ public abstract class AbstractDTOCrudController<D extends BaseDTO<D, T>, T exten
      */
     @ApiOperation(value="保存")
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<T> save(@RequestBody T t) {
-        t = getService().save(t);
-        return new ResponseEntity<>(t, HttpStatus.OK);
+    public ResponseEntity<D> save(@RequestBody D d) {
+        d = getService().save(d);
+        return new ResponseEntity<>(d, HttpStatus.OK);
     }
 
     /**
@@ -80,7 +80,7 @@ public abstract class AbstractDTOCrudController<D extends BaseDTO<D, T>, T exten
      */
     @ApiOperation(value="删除默认为逻辑删除")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<T> delete(@PathVariable String id) {
+    public ResponseEntity<D> delete(@PathVariable String id) {
         String[] ids = id.split(",");
         for (String s : ids) {
             getService().delete(s);
